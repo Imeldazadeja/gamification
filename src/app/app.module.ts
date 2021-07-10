@@ -12,6 +12,9 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { MatExpansionModule} from "@angular/material/expansion";
 import { HttpClientModule } from "@angular/common/http";
+import {RouterModule} from "@angular/router";
+import {AppRoutingModule} from "./app-routing.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 // @ts-ignore
 @NgModule({
@@ -27,10 +30,13 @@ import { HttpClientModule } from "@angular/common/http";
     BrowserAnimationsModule,
     MatInputModule,
     MatCardModule,
+    AppRoutingModule,
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
