@@ -13,3 +13,7 @@ mat-spinner {
 .info-text {
   text-align: center;
 }
+
+.mat-paginator {
+  margin-top: 1rem;
+}
