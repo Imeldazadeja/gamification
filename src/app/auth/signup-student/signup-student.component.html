@@ -1,0 +1,107 @@
+<mat-card fxLayout ="column" fxLayoutAlign="center">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form #signupStudentForm="ngForm" (submit)="onSignupStudent(signupStudentForm)" *ngIf="!isLoading">
+    <mat-form-field>
+      <input
+        matInput
+        name="firstName"
+        ngModel
+        type="text"
+        placeholder="First name"
+        #firstName="ngModel"
+        required
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="lastName"
+        ngModel
+        type="text"
+        placeholder="Last name"
+        #lastName="ngModel"
+        required
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="email"
+        ngModel
+        type="email"
+        placeholder="Email"
+        #emailInput="ngModel"
+        required
+        email>
+      <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        name="password"
+        matInput
+        type="password"
+        ngModel
+        #passwordInput="ngModel"
+        placeholder="Password"
+        required
+      >
+      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        name="confirmPassword"
+        matInput
+        type="password"
+        ngModel
+        #confirmPasswordInput="ngModel"
+        placeholder="Confirm password"
+        required
+      >
+      <mat-error *ngIf="confirmPasswordInput.invalid">Please enter a valid password</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        name="faculty"
+        matInput
+        type="text"
+        ngModel
+        #faculty="ngModel"
+        placeholder="Fakulteti"
+        required
+      >
+      <mat-error *ngIf="faculty.invalid">Please enter a valid password</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        name="studyProgramme"
+        matInput
+        type="text"
+        ngModel
+        #studyProgramme="ngModel"
+        placeholder="Programi i Studimit"
+        required
+      >
+      <mat-error *ngIf="studyProgramme.invalid">Please enter a valid password</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Cikli i studimeve</mat-label>
+      <mat-select [(ngModel)]="studyCycle" name="studyCycle">
+        <mat-option
+          *ngFor="let option of studyCycleOptions"
+          [value]="option">{{option}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Viti i regjistrimit</mat-label>
+      <input
+        type="date"
+        matInput
+        name="registrationDate"
+        ngModel
+        #registrationDate="ngModel"
+      >
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Signup</button>
+  </form>
+</mat-card>

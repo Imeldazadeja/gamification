@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {AuthData} from "./auth-data.model";
+import {AuthData, AuthDataLecturer, AuthDataStudent} from "./auth-data.model";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 
@@ -32,27 +32,97 @@ export class AuthService {
     this.http.post("http://localhost:3000/api/user/signup", authData)
       .subscribe(response => {
         console.log(response);
+        this.router.navigate(['/login']);
       });
   }
 
-  async login (email: string, password: string) {
-    const response = await this.http
-      .post<{token: string, expiresIn: number}>(
-        "http://localhost:3000/api/user/login",
-        {email, password}
-      ).toPromise();
-    this.token = response.token;
-    if (this.token) {
-      const expiresInDuration = response.expiresIn;
-      this.setAuthTimer(expiresInDuration);
-      this.isAuthenticated = true;
-      this.authStatusListener.next(true);
-      const now = new Date();
-      const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-      console.log(expirationDate);
-      this.saveAuthData(this.token, expirationDate);
-      this.router.navigate(['/']);
+  createStudent(
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+  faculty: string,
+  studyProgramme: string,
+  studyCycle: string,
+  registrationDate: Date
+  ) {
+    const authDataStudent: AuthDataStudent = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      faculty: faculty,
+      studyProgramme: studyProgramme,
+      studyCycle: studyCycle,
+      registrationDate: registrationDate
     }
+    console.log(authDataStudent);
+    this.http.post("http://localhost:3000/api/user/signup-student", authDataStudent)
+      .subscribe(response => {
+        console.log(response);
+      });
+  }
+
+  createLecturer(
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    faculty: string) {
+    const authDataLecturer: AuthDataLecturer = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      faculty: faculty
+    }
+    console.log(authDataLecturer);
+    this.http.post("http://localhost:3000/api/user/signup-lecturer", authDataLecturer)
+      .subscribe(response => {
+        console.log(response);
+      });
+  }
+
+  // async login (email: string, password: string) {
+  //   const response = await this.http
+  //     .post<{token: string, expiresIn: number}>(
+  //       "http://localhost:3000/api/user/login",
+  //       {email, password}
+  //     ).toPromise();
+  //   this.token = response.token;
+  //   if (this.token) {
+  //     const expiresInDuration = response.expiresIn;
+  //     this.setAuthTimer(expiresInDuration);
+  //     this.isAuthenticated = true;
+  //     this.authStatusListener.next(true);
+  //     const now = new Date();
+  //     const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+  //     console.log(expirationDate);
+  //     this.saveAuthData(this.token, expirationDate);
+  //     this.router.navigate(['/']);
+  //   }
+  // }
+  login(email: string, password: string) {
+    this.http
+      .post<{ token: string; expiresIn: number }>(
+        "http://localhost:3000/api/user/login",
+        { email: email, password: password }
+      )
+      .subscribe(response => {
+        const token = response.token;
+        this.token = token;
+        if (token) {
+          const expiresInDuration = response.expiresIn;
+          this.setAuthTimer(expiresInDuration);
+          this.isAuthenticated = true;
+          this.authStatusListener.next(true);
+          const now = new Date();
+          const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+          console.log(expirationDate);
+          this.saveAuthData(token, expirationDate);
+          this.router.navigate(["/"]);
+        }
+      });
   }
 
   getAuthData() {
@@ -86,9 +156,9 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
-    this.router.navigate(['/']);
-    this.clearAuthData();
     clearTimeout(this.tokenTimer);
+    this.clearAuthData();
+    this.router.navigate(['/']);
   }
 
   private setAuthTimer(duration: number) {

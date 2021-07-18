@@ -19,7 +19,17 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import {AuthInterceptor} from "./auth/auth-interceptor";
-import { NavigatorComponent } from './navigator/navigator.component';
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatIconModule} from "@angular/material/icon";
+import {MatListModule} from "@angular/material/list";
+import { SignupStudentComponent } from './auth/signup-student/signup-student.component';
+import { MatRadioModule} from "@angular/material/radio";
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {FlexModule} from "@angular/flex-layout";
+import { SignupLecturerComponent } from './auth/signup-lecturer/signup-lecturer.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 // @ts-ignore
 @NgModule({
@@ -30,7 +40,8 @@ import { NavigatorComponent } from './navigator/navigator.component';
     PostListComponent,
     LoginComponent,
     SignupComponent,
-    NavigatorComponent
+    SignupStudentComponent,
+    SignupLecturerComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +57,17 @@ import { NavigatorComponent } from './navigator/navigator.component';
     RouterModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    FormsModule
+    FormsModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    FlexModule,
+    MatMenuModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

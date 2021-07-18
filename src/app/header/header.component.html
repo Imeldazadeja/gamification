@@ -17,4 +17,13 @@
       <button mat-button (click)="onLogout()">Logout</button>
     </li>
   </ul>
+    <button *ngIf="userIsAuthenticated" mat-button [matMenuTriggerFor]="register">Rregjistro</button>
+    <mat-menu #register="matMenu">
+      <button mat-menu-item routerLink="/signupStudent" routerLinkActive="mat-accent">
+        Rregjistro Student
+      </button>
+      <button mat-menu-item routerLink="/signupLecturer" routerLinkActive="mat-accent">
+        Rregjistro Pedagog
+      </button>
+    </mat-menu>
 </mat-toolbar>
