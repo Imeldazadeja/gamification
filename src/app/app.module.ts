@@ -30,6 +30,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {FlexModule} from "@angular/flex-layout";
 import { SignupLecturerComponent } from './auth/signup-lecturer/signup-lecturer.component';
 import {MatMenuModule} from "@angular/material/menu";
+import { LecturerListComponent } from './auth/lecturer-list/lecturer-list.component';
+import { StudentListComponent } from './auth/student-list/student-list.component';
+import {MatTableModule} from "@angular/material/table";
 
 // @ts-ignore
 @NgModule({
@@ -41,7 +44,9 @@ import {MatMenuModule} from "@angular/material/menu";
     LoginComponent,
     SignupComponent,
     SignupStudentComponent,
-    SignupLecturerComponent
+    SignupLecturerComponent,
+    LecturerListComponent,
+    StudentListComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +72,8 @@ import {MatMenuModule} from "@angular/material/menu";
     BrowserAnimationsModule,
     MatFormFieldModule,
     FlexModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTableModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

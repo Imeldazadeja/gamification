@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../auth.service";
 import {NgForm} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup-lecturer',
@@ -10,7 +11,7 @@ import {NgForm} from "@angular/forms";
 export class SignupLecturerComponent implements OnInit {
 
   isLoading = false;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }

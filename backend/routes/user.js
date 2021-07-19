@@ -8,6 +8,8 @@ const LecturerData = require("../models/lecturerData");
 const router = express.Router();
 const checkAuth = require("../middleware/check-auth");
 
+/***** Signup admin  ***/
+
 router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -32,6 +34,8 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
+/***** Signup students  ***/
+
 router.post("/signup-student", checkAuth, (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -49,7 +53,7 @@ router.post("/signup-student", checkAuth, (req, res, next) => {
         res.status(200)
           .json({
             message: 'User Created!',
-            result: result
+            studentId: result._id
           });
       }).catch(err => {
         res.status(500)
@@ -59,6 +63,28 @@ router.post("/signup-student", checkAuth, (req, res, next) => {
       });
     });
 });
+
+/***** Get students  ***/
+
+router.get("/signup-student", (req, res, next) => {
+  StudentData.find().then(data => {
+    res.status(200).json({
+      message: "Student fetched successfully!",
+      posts: data
+    });
+  });
+});
+
+/***** Delete students  ***/
+
+router.delete("", (req, res, next) => {
+  StudentData.deleteOne({_id: req.params.id}).then(result => {
+    res.status(200).json({message: "Student deleted!"})
+  });
+});
+
+
+/***** Signup lecturer  ***/
 
 router.post('/signup-lecturer', checkAuth, (req, res, next) => {
   bcrypt.hash(req.body.password, 10)

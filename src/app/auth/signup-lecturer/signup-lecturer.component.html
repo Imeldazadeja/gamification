@@ -1,4 +1,5 @@
 <mat-card fxLayout ="column" fxLayoutAlign="center">
+  <h2>Rregjistro Pedagoget</h2>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form #signupLecturerForm="ngForm" (submit)="onSignupLecturer(signupLecturerForm)" *ngIf="!isLoading">
     <mat-form-field>

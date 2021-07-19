@@ -6,6 +6,7 @@ export interface AuthData {
 }
 
 export interface AuthDataStudent {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;

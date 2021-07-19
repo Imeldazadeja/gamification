@@ -1,14 +1,17 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AuthData, AuthDataLecturer, AuthDataStudent} from "./auth-data.model";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
+import {map, tap} from "rxjs/operators";
 
-@Injectable({ providedIn: "root" })
+@Injectable({providedIn: "root"})
 export class AuthService {
   private isAuthenticated = false;
   private token: string;
   private tokenTimer: any;
+  private dataStudents: AuthDataStudent[] = [];
+  private studentsUpdated = new Subject<AuthDataStudent[]>();
   private authStatusListener = new Subject<boolean>();
 
 
@@ -27,6 +30,10 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
+  getStudentsUpdateListener() {
+    return this.studentsUpdated.asObservable();
+  }
+
   createUser(firstName: string, lastName: string, email: string, password: string) {
     const authData: AuthData = {firstName: firstName, lastName: lastName, email: email, password: password}
     this.http.post("http://localhost:3000/api/user/signup", authData)
@@ -37,16 +44,17 @@ export class AuthService {
   }
 
   createStudent(
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string,
-  faculty: string,
-  studyProgramme: string,
-  studyCycle: string,
-  registrationDate: Date
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    faculty: string,
+    studyProgramme: string,
+    studyCycle: string,
+    registrationDate: Date
   ) {
     const authDataStudent: AuthDataStudent = {
+      id: null,
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -55,12 +63,42 @@ export class AuthService {
       studyProgramme: studyProgramme,
       studyCycle: studyCycle,
       registrationDate: registrationDate
-    }
+    };
     console.log(authDataStudent);
-    this.http.post("http://localhost:3000/api/user/signup-student", authDataStudent)
+    this.http.post<{ message: string, studentId: string }>("http://localhost:3000/api/user/signup-student", authDataStudent)
       .subscribe(response => {
         console.log(response);
+        const id = response.studentId;
+        authDataStudent.id = id;
+        this.dataStudents.push(authDataStudent);
+        this.studentsUpdated.next([...this.dataStudents]);
       });
+  }
+
+  getStudents(): Promise<AuthDataStudent[]> {
+    return this.http.get<{ message: string, posts: any }>(
+      "http://localhost:3000/api/user/signup-student"
+    )
+      .pipe(
+        map((postStudents) => {
+          return postStudents.posts.map(student => {
+            return {
+              firstName: student.firstName,
+              lastName: student.lastName,
+              email: student.email,
+              password: student.password,
+              faculty: student.faculty,
+              studyProgramme: student.studyProgramme,
+              studyCycle: student.studyCycle,
+              id: student._id
+            };
+          });
+        }),
+        tap(students => {
+          this.dataStudents = students;
+          this.studentsUpdated.next([...this.dataStudents]);
+        })
+      ).toPromise();
   }
 
   createLecturer(
@@ -106,7 +144,7 @@ export class AuthService {
     this.http
       .post<{ token: string; expiresIn: number }>(
         "http://localhost:3000/api/user/login",
-        { email: email, password: password }
+        {email: email, password: password}
       )
       .subscribe(response => {
         const token = response.token;
@@ -144,7 +182,7 @@ export class AuthService {
     }
     const now = new Date();
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
-    if(expiresIn > 0) {
+    if (expiresIn > 0) {
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.setAuthTimer(expiresIn / 1000);
@@ -165,7 +203,7 @@ export class AuthService {
     console.log("Setting timer" + duration);
     this.tokenTimer = setTimeout(() => {
       this.logout();
-    },duration * 1000);
+    }, duration * 1000);
   }
 
   private saveAuthData(token: string, expirationDate: Date) {
