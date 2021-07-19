@@ -44,35 +44,27 @@ export class AuthService {
   }
 
   createStudent(
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    faculty: string,
-    studyProgramme: string,
-    studyCycle: string,
-    registrationDate: Date
-  ) {
-    const authDataStudent: AuthDataStudent = {
-      id: null,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      faculty: faculty,
-      studyProgramme: studyProgramme,
-      studyCycle: studyCycle,
-      registrationDate: registrationDate
-    };
-    console.log(authDataStudent);
-    this.http.post<{ message: string, studentId: string }>("http://localhost:3000/api/user/signup-student", authDataStudent)
-      .subscribe(response => {
-        console.log(response);
-        const id = response.studentId;
-        authDataStudent.id = id;
-        this.dataStudents.push(authDataStudent);
-        this.studentsUpdated.next([...this.dataStudents]);
-      });
+    data: {
+      firstName: string,
+      lastName: string,
+      email: string,
+      password: string,
+      faculty: string,
+      studyProgramme: string,
+      studyCycle: string,
+      registrationDate: Date
+    }
+  ): Promise<AuthDataStudent> {
+    return this.http.post<{ message: string, studentId: string }>("http://localhost:3000/api/user/signup-student", data)
+      .pipe(
+        tap(response => {
+          console.log(response);
+          const id = response.studentId;
+          data['id'] = id;
+          this.dataStudents.push(data as any);
+          this.studentsUpdated.next([...this.dataStudents]);
+        })
+      ).toPromise() as any;
   }
 
   getStudents(): Promise<AuthDataStudent[]> {

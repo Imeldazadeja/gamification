@@ -1,7 +1,6 @@
-<mat-card fxLayout ="column" fxLayoutAlign="center">
-  <h2>Rregjisto Studente</h2>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form #signupStudentForm="ngForm" (submit)="onSignupStudent(signupStudentForm)" *ngIf="!isLoading">
+<h2>Rregjisto Studente</h2>
+<form #signupStudentForm="ngForm" (submit)="onSignupStudent(signupStudentForm)">
+  <div mat-dialog-content>
     <mat-form-field>
       <input
         matInput
@@ -103,7 +102,8 @@
         #registrationDate="ngModel"
       >
     </mat-form-field>
-    <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Signup</button>
-  </form>
-</mat-card>
-<app-student-list></app-student-list>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" type="submit">Signup</button>
+  </div>
+</form>

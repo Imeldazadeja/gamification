@@ -8,6 +8,7 @@ import { SignupComponent } from "./auth/signup/signup.component";
 import { AuthGuard } from "./auth/auth.guard";
 import {SignupStudentComponent} from "./auth/signup-student/signup-student.component";
 import {SignupLecturerComponent} from "./auth/signup-lecturer/signup-lecturer.component";
+import {StudentListComponent} from "./auth/student-list/student-list.component";
 
 const routes: Routes = [
   { path: "", component: PostListComponent },
@@ -15,7 +16,7 @@ const routes: Routes = [
   { path: "edit/:postId", component: PostCreateComponent, canActivate: [AuthGuard] },
   { path: "login", component: LoginComponent },
   { path: "signup", component: SignupComponent },
-  { path: "signupStudent", component: SignupStudentComponent, canActivate: [AuthGuard]},
+  { path: "signupStudent", component: StudentListComponent, canActivate: [AuthGuard]},
   { path: "signupLecturer", component: SignupLecturerComponent, canActivate: [AuthGuard]}
 ];
 

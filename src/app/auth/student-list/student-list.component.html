@@ -29,7 +29,7 @@
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef class="actions">
-      <button mat-mini-fab color="accent">
+      <button (click)="openAddStudentDialog()" mat-mini-fab color="accent">
         <mat-icon>add</mat-icon>
       </button>
     </th>
