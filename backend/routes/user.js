@@ -36,32 +36,26 @@ router.post("/signup", (req, res, next) => {
 
 /***** Signup students  ***/
 
-router.post("/signup-student", checkAuth, (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-      const studentUser = new StudentData({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: hash,
-        faculty: req.body.faculty,
-        studyProgramme: req.body.studyProgramme,
-        studyCycle: req.body.studyCycle,
-        registrationDate: req.body.registrationDate
-      });
-      studentUser.save().then(result => {
-        res.status(200)
-          .json({
-            message: 'User Created!',
-            studentId: result._id
-          });
-      }).catch(err => {
-        res.status(500)
-          .json({
-            error: err
-          });
-      });
-    });
+router.post("/signup-student", checkAuth, async (req, res) => {
+  const hash = await bcrypt.hash(req.body.password, 10);
+  const studentUser = new StudentData({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: hash,
+    faculty: req.body.faculty,
+    studyProgramme: req.body.studyProgramme,
+    studyCycle: req.body.studyCycle,
+    registrationDate: req.body.registrationDate
+  });
+
+  studentUser.save().then(result => {
+    const obj = {...result._doc};
+    delete obj.password;
+    res.status(200).json(obj);
+  }).catch(error => {
+    res.status(500).json({error});
+  });
 });
 
 /***** Get students  ***/
@@ -114,15 +108,15 @@ router.post('/signup-lecturer', checkAuth, (req, res, next) => {
 router.post("/login", (req, res, next) => {
   let fetchedUser;
   AdminData.findOne({email: req.body.email})
-    .then( user => {
-    if(!user) {
-      return res.status(401).json({
-        message: "Auth failed"
-      });
-    }
-    fetchedUser = user;
-    return bcrypt.compare(req.body.password, user.password);
-  })
+    .then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: "Auth failed"
+        });
+      }
+      fetchedUser = user;
+      return bcrypt.compare(req.body.password, user.password);
+    })
     .then(result => {
       if (!result) {
         return res.status(401).json({

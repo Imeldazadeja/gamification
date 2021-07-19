@@ -29,6 +29,8 @@ export class StudentListComponent implements OnInit, OnDestroy {
       width: '500px'
     });
     const result = await dialogRef.afterClosed().toPromise();
+    if (!result) return;
+
     await this.authService.createStudent(result);
 
     const students = await this.authService.getStudents();
