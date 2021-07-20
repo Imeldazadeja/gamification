@@ -12,6 +12,8 @@ export class AuthService {
   private tokenTimer: any;
   private dataStudents: AuthDataStudent[] = [];
   private studentsUpdated = new Subject<AuthDataStudent[]>();
+  private dataLecturer: AuthDataLecturer[] = [];
+  private lecturerUpdated = new Subject<AuthDataLecturer[]>();
   private authStatusListener = new Subject<boolean>();
 
 
@@ -75,24 +77,33 @@ export class AuthService {
       ).toPromise();
   }
 
-  createLecturer(
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    faculty: string) {
-    const authDataLecturer: AuthDataLecturer = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      faculty: faculty
-    }
-    console.log(authDataLecturer);
-    this.http.post("http://localhost:3000/api/user/signup-lecturer", authDataLecturer)
-      .subscribe(response => {
-        console.log(response);
-      });
+  createLecturer(data: Omit<AuthDataLecturer, 'id'>
+  ): Promise<AuthDataLecturer> {
+    return this.http.post<AuthDataLecturer>("http://localhost:3000/api/user/signup-lecturer", data).toPromise() as any;
+  }
+
+  getLecturer(): Promise<AuthDataLecturer[]> {
+    return this.http.get<{message: string, posts: any}>(
+      "http://localhost:3000/api/user/signup-lecturer"
+    )
+      .pipe(
+        map(postLecturer => {
+          return postLecturer.posts.map(lecturer => {
+            return {
+              firstName: lecturer.firstName,
+              lastName: lecturer.lastName,
+              email: lecturer.email,
+              password: lecturer.password,
+              faculty: lecturer.faculty,
+              id: lecturer._id
+            };
+          });
+        }),
+        tap(lecturer => {
+          this.dataLecturer = lecturer;
+          this.lecturerUpdated.next([...this.dataLecturer]);
+        })
+      ).toPromise();
   }
 
   // async login (email: string, password: string) {

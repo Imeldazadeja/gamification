@@ -1,77 +1,78 @@
-<mat-card fxLayout ="column" fxLayoutAlign="center">
-  <h2>Rregjistro Pedagoget</h2>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form #signupLecturerForm="ngForm" (submit)="onSignupLecturer(signupLecturerForm)" *ngIf="!isLoading">
-    <mat-form-field>
-      <input
-        matInput
-        name="firstName"
-        ngModel
-        type="text"
-        placeholder="First name"
-        #firstName="ngModel"
-        required
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        name="lastName"
-        ngModel
-        type="text"
-        placeholder="Last name"
-        #lastName="ngModel"
-        required
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        name="email"
-        ngModel
-        type="email"
-        placeholder="Email"
-        #emailInput="ngModel"
-        required
-        email>
-      <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        name="password"
-        matInput
-        type="password"
-        ngModel
-        #passwordInput="ngModel"
-        placeholder="Password"
-        required
-      >
-      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        name="confirmPassword"
-        matInput
-        type="password"
-        ngModel
-        #confirmPasswordInput="ngModel"
-        placeholder="Confirm password"
-        required
-      >
-      <mat-error *ngIf="confirmPasswordInput.invalid">Please enter a valid password</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        name="faculty"
-        matInput
-        type="text"
-        ngModel
-        #faculty="ngModel"
-        placeholder="Fakulteti"
-        required
-      >
-      <mat-error *ngIf="faculty.invalid">Please enter a valid password</mat-error>
-    </mat-form-field>
-    <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Signup</button>
+<h2 xmlns="http://www.w3.org/1999/html">Rregjistro Pedagoget</h2>
+  <form #signupLecturerForm="ngForm" (submit)="onSignupLecturer(signupLecturerForm)">
+    <div mat-dialog-content>
+      <mat-form-field>
+        <input
+          matInput
+          name="firstName"
+          ngModel
+          type="text"
+          placeholder="First name"
+          #firstName="ngModel"
+          required
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          name="lastName"
+          ngModel
+          type="text"
+          placeholder="Last name"
+          #lastName="ngModel"
+          required
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          name="email"
+          ngModel
+          type="email"
+          placeholder="Email"
+          #emailInput="ngModel"
+          required
+          email>
+        <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          name="password"
+          matInput
+          type="password"
+          ngModel
+          #passwordInput="ngModel"
+          placeholder="Password"
+          required
+        >
+        <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          name="confirmPassword"
+          matInput
+          type="password"
+          ngModel
+          #confirmPasswordInput="ngModel"
+          placeholder="Confirm password"
+          required
+        >
+        <mat-error *ngIf="confirmPasswordInput.invalid">Please enter a valid password</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          name="faculty"
+          matInput
+          type="text"
+          ngModel
+          #faculty="ngModel"
+          placeholder="Fakulteti"
+          required
+        >
+        <mat-error *ngIf="faculty.invalid">Please enter a valid password</mat-error>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="accent" type="submit">Signup</button>
+    </div>
   </form>
-</mat-card>

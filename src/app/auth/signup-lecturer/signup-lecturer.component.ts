@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../auth.service";
 import {NgForm} from "@angular/forms";
-import {Router} from "@angular/router";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-signup-lecturer',
@@ -10,25 +9,16 @@ import {Router} from "@angular/router";
 })
 export class SignupLecturerComponent implements OnInit {
 
-  isLoading = false;
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(public dialogRef: MatDialogRef<SignupLecturerComponent>) { }
 
   ngOnInit(): void {
   }
 
-  onSignupLecturer(form: NgForm) {
+  async onSignupLecturer(form: NgForm) {
     if(form.invalid){
       return;
     }
-    this.isLoading = true;
-    this.authService.createLecturer(
-      form.value.firstName,
-      form.value.lastName,
-      form.value.email,
-      form.value.password,
-      form.value.faculty
-    )
     console.log(form);
+    this.dialogRef.close(form.value);
   }
-
 }

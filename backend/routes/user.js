@@ -105,6 +105,16 @@ router.post('/signup-lecturer', checkAuth, (req, res, next) => {
     });
 });
 
+/***** Get Lecturer ****/
+router.get("/signup-lecturer", (req, res, next) => {
+  LecturerData.find().then(data => {
+    res.status(200).json({
+      message: "Lecturer fetched successfully!",
+      posts: data
+    });
+  });
+});
+
 router.post("/login", (req, res, next) => {
   let fetchedUser;
   AdminData.findOne({email: req.body.email})

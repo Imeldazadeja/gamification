@@ -35,6 +35,8 @@ import {StudentListComponent} from './auth/student-list/student-list.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSortHeader, MatSortModule} from "@angular/material/sort";
 
 // @ts-ignore
 @NgModule({
@@ -77,7 +79,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatMenuModule,
     MatTableModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatSortModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

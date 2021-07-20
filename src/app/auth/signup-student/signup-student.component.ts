@@ -20,14 +20,6 @@ export class SignupStudentComponent implements OnInit {
     }
     console.log(form);
     this.dialogRef.close(form.value);
-    // form.value.firstName,
-    // form.value.lastName,
-    // form.value.email,
-    // form.value.password,
-    // form.value.faculty,
-    // form.value.studyProgramme,
-    // form.value.studyCycle,
-    // form.value.registrationDate
   }
 
   ngOnInit(): void {
