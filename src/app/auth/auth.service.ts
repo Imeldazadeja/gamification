@@ -36,13 +36,9 @@ export class AuthService {
     return this.studentsUpdated.asObservable();
   }
 
-  createUser(firstName: string, lastName: string, email: string, password: string) {
-    const authData: AuthData = {firstName: firstName, lastName: lastName, email: email, password: password}
-    this.http.post("http://localhost:3000/api/user/signup", authData)
-      .subscribe(response => {
-        console.log(response);
-        this.router.navigate(['/login']);
-      });
+  createUser(data: Omit<AuthData, 'id'>
+  ): Promise<AuthData> {
+    return this.http.post<AuthData>("http://localhost:3000/api/user/signup", data).toPromise() as any;
   }
 
   createStudent(

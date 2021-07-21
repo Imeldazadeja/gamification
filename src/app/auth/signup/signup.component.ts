@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -10,19 +11,14 @@ import {AuthService} from "../auth.service";
 export class SignupComponent implements OnInit {
   isLoading = false;
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
-  onSignup(form: NgForm) {
+  async onSignup(form: NgForm) {
     if (form.invalid) {
       return
     }
-    this.isLoading = true;
-    this.authService.createUser(
-      form.value.firstName,
-      form.value.lastName,
-      form.value.email,
-      form.value.password
-    )
+    await this.authService.createUser(form.value)
+    this.router.navigate(['/login']);
   }
 
   ngOnInit(): void {
