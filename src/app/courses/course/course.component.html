@@ -1,0 +1,58 @@
+<mat-card>
+  <form>
+    <mat-form-field>
+      <input
+        matInput
+        name="courseName"
+        ngModel
+        type="text"
+        placeholder="Course name"
+        #courseName="ngModel"
+        required
+      >
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>
+        Cikli i studimeve ku zhvillohet
+      </mat-label>
+      <mat-select [(ngModel)]="courseCycle" name="courseCycle">
+        <mat-option
+        *ngFor="let option of studyCycleOptions"
+        [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select students</mat-label>
+      <mat-chip-list #chipList aria-label="Student selected">
+        <mat-chip
+        *ngFor="let student of students"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(student)"
+        >
+          {{student}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+        placeholder="New student..."
+        #studentInput
+        [formControl]="studentCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur">
+      </mat-chip-list>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event)">
+        <mat-option *ngFor="let student of filteredStudents | async" [value]="student">
+          {{student}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</mat-card>

@@ -9,8 +9,9 @@ const studentDataSchema = mongoose.Schema({
   faculty: { type: String, required: true},
   studyProgramme: { type: String, required: true},
   studyCycle: { type: String, required: true},
-  registrationDate: {type: Date, required: true}
-})
+  registrationDate: {type: Date, required: true},
+  course: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true}]
+});
 
 
 studentDataSchema.plugin(uniqueValidator);

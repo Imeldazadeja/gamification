@@ -1,14 +1,11 @@
-//:host {
-//  table {
-//    width: 100%;
-//
-//    td.actions, th.actions {
-//      width: 30px;
-//      cursor: pointer;
-//    }
-//  }
-//}
+:host {
+  table {
+    width: 100%;
 
-table {
-  width: 100%;
+    td.actions, th.actions {
+      width: 30px;
+      cursor: pointer;
+    }
+  }
 }
+

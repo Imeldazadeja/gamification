@@ -10,6 +10,8 @@ import {SignupStudentComponent} from "./auth/signup-student/signup-student.compo
 import {SignupLecturerComponent} from "./auth/signup-lecturer/signup-lecturer.component";
 import {StudentListComponent} from "./auth/student-list/student-list.component";
 import {LecturerListComponent} from "./auth/lecturer-list/lecturer-list.component";
+import {CoursesComponent} from "./courses/courses/courses.component";
+import {CourseComponent} from "./courses/course/course.component";
 
 const routes: Routes = [
   { path: "", component: PostListComponent },
@@ -18,7 +20,8 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "signup", component: SignupComponent },
   { path: "signupStudent", component: StudentListComponent, canActivate: [AuthGuard]},
-  { path: "signupLecturer", component: LecturerListComponent, canActivate: [AuthGuard]}
+  { path: "signupLecturer", component: LecturerListComponent, canActivate: [AuthGuard]},
+  { path: "course", component: CourseComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

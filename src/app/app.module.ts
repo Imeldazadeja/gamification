@@ -37,6 +37,11 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSortHeader, MatSortModule} from "@angular/material/sort";
+import { CoursesComponent } from './courses/courses/courses.component';
+import { CourseComponent } from './courses/course/course.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatOptionModule} from "@angular/material/core";
 
 // @ts-ignore
 @NgModule({
@@ -50,7 +55,9 @@ import {MatSortHeader, MatSortModule} from "@angular/material/sort";
     SignupStudentComponent,
     SignupLecturerComponent,
     LecturerListComponent,
-    StudentListComponent
+    StudentListComponent,
+    CoursesComponent,
+    CourseComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +89,10 @@ import {MatSortHeader, MatSortModule} from "@angular/material/sort";
     MatSnackBarModule,
     MatTooltipModule,
     MatSortModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    MatInputModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
