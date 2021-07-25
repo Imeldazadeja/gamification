@@ -33,7 +33,6 @@ export class CourseComponent implements OnInit {
       startWith(null),
       map((student: string | null) => student ? this._filter(student) :
         this.allStudents.slice()));
-    console.log(this.filteredStudents);
   }
 
 
@@ -45,18 +44,6 @@ export class CourseComponent implements OnInit {
     });
 
   }
-
-  // add(event: MatChipInputEvent): void {
-  //   const value = (event.value || '').trim();
-  //
-  //   if (value) {
-  //     this.students.push(value);
-  //   }
-  //
-  //   event.chipInput!.clear();
-  //
-  //   this.studentCtrl.setValue(null);
-  // }
 
   remove(student: string): void {
     const index = this.students.indexOf(student);

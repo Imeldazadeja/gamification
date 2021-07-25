@@ -49,9 +49,11 @@
       <mat-autocomplete
         #auto="matAutocomplete"
         (optionSelected)="selected($event)">
-        <mat-option *ngFor="let student of filteredStudents | async" [value]="student">
+        <ng-container *ngFor="let student of filteredStudents | async">
+          <mat-option *ngIf="!students.includes(student)" [value]="student">
           {{student}}
-        </mat-option>
+          </mat-option>
+        </ng-container>
       </mat-autocomplete>
     </mat-form-field>
   </form>
