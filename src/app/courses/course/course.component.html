@@ -1,5 +1,5 @@
 <mat-card>
-  <form>
+  <form #createCourses="ngForm">
     <mat-form-field>
       <input
         matInput
@@ -27,15 +27,15 @@
 
     <mat-form-field>
       <mat-label>Select students</mat-label>
-      <mat-chip-list #chipList aria-label="Student selected">
+      <mat-chip-list #chipList aria-label="Student selectedStudent">
         <mat-chip
         *ngFor="let student of students"
-        [selectable]="selectable"
-        [removable]="removable"
-        (removed)="remove(student)"
+        [selectable]="selectableStudent"
+        [removable]="removableStudent"
+        (removed)="removeStudent(student)"
         >
           {{student}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          <mat-icon matChipRemove *ngIf="removableStudent">cancel</mat-icon>
         </mat-chip>
         <input
         placeholder="New student..."
@@ -43,12 +43,12 @@
         [formControl]="studentCtrl"
         [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur">
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodesStudent"
+        [matChipInputAddOnBlur]="addOnBlurStudent">
       </mat-chip-list>
       <mat-autocomplete
         #auto="matAutocomplete"
-        (optionSelected)="selected($event)">
+        (optionSelected)="selectedStudent($event)">
         <ng-container *ngFor="let student of filteredStudents | async">
           <mat-option *ngIf="!students.includes(student)" [value]="student">
           {{student}}
@@ -56,5 +56,38 @@
         </ng-container>
       </mat-autocomplete>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select lecturer</mat-label>
+      <mat-chip-list #chipListLecturer aria-label="Lecturer selectedStudent">
+        <mat-chip
+          *ngFor="let lecturer of lecturers"
+          [selectable]="selectableLecturer"
+          [removable]="removableLecturer"
+          (removed)="removeLecturer(lecturer)"
+        >
+          {{lecturer}}
+          <mat-icon matChipRemove *ngIf="removableLecturer">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="New lecturer..."
+          #lecturerInput
+          [formControl]="lecturerCtrl"
+          [matAutocomplete]="autoLecturer"
+          [matChipInputFor]="chipListLecturer"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodesLecturer"
+          [matChipInputAddOnBlur]="addOnBlurLecturer">
+      </mat-chip-list>
+      <mat-autocomplete
+        #autoLecturer="matAutocomplete"
+        (optionSelected)="selectedLecturer($event)">
+        <ng-container *ngFor="let lecturer of filteredLecturer | async">
+          <mat-option *ngIf="!lecturers.includes(lecturer)" [value]="lecturer">
+            {{lecturer}}
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">Create course</button>
   </form>
 </mat-card>
