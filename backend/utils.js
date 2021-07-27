@@ -25,10 +25,6 @@ function handleWhereFilter(parent, propertyName, value) {
   }
 }
 
-// {studentId: {"oid": 'fasdfdsa'}, age: 20} -> [[studentId, {'oid': '25435234'}], ['age', 20]]
-// {and: [{status: ''}, or: []], status: {}}
-
-
 /**
  * @param {*} filter
  * @returns {Filter}
@@ -63,7 +59,26 @@ function parseFilterFromRequest(request) {
   }
 }
 
-module.exports = {parseFilter, parseFilterFromRequest};
+function executeHandler(handlerFn) {
+  return async (request, response) => {
+    try {
+      const result = await handlerFn({request});
+      if (result) {
+        response.status(200).json(result);
+      } else {
+        response.status(204).send();
+      }
+    } catch (error) {
+      if (error.statusCode) {
+        response.statusCode(error.statusCode).send(error);
+      } else {
+        response.status(500).send('Internal server error');
+      }
+    }
+  };
+}
+
+module.exports = {parseFilter, parseFilterFromRequest, executeHandler};
 
 /**
  * @typedef {Object} Filter
