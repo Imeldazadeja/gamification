@@ -79,22 +79,10 @@ export class AuthService {
   }
 
   getLecturer(): Promise<AuthDataLecturer[]> {
-    return this.http.get<{message: string, posts: any}>(
+    return this.http.get<AuthDataLecturer[]>(
       "http://localhost:3000/api/user/signup-lecturer"
     )
       .pipe(
-        map(postLecturer => {
-          return postLecturer.posts.map(lecturer => {
-            return {
-              firstName: lecturer.firstName,
-              lastName: lecturer.lastName,
-              email: lecturer.email,
-              password: lecturer.password,
-              faculty: lecturer.faculty,
-              id: lecturer._id
-            };
-          });
-        }),
         tap(lecturer => {
           this.dataLecturer = lecturer;
           this.lecturerUpdated.next([...this.dataLecturer]);

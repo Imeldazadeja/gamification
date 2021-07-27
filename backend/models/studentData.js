@@ -10,10 +10,12 @@ const studentDataSchema = mongoose.Schema({
   studyProgramme: { type: String, required: true},
   studyCycle: { type: String, required: true},
   registrationDate: {type: Date, required: true},
-  course: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true}]
+  // course: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true}]
+}, {
+  collection: 'Student'
 });
 
 
 studentDataSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model("StudentData", studentDataSchema);
+module.exports = mongoose.model("Student", studentDataSchema);

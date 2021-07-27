@@ -5,6 +5,8 @@ import {AuthService} from "../../auth/auth.service";
 import {FormControl, NgForm} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {map, startWith} from "rxjs/operators";
+import {CourseService} from "../course.service";
+import {AuthDataLecturer} from "../../auth/auth-data.model";
 
 @Component({
   selector: 'app-course',
@@ -31,19 +33,19 @@ export class CourseComponent implements OnInit {
   lecturerCtrl = new FormControl();
   filteredLecturer: Observable<string[]>;
   lecturers: string[] = [];
-  allLecturer: string[] = [];
+  allLecturer: AuthDataLecturer[] = [];
   selectableLecturer = true;
   removableLecturer = true;
   separatorKeysCodesLecturer: number[] = [ENTER, COMMA];
   addOnBlurLecturer = true;
-
+  lecturer?: AuthDataLecturer;
 
   @ViewChild('studentInput') studentInput: ElementRef<HTMLInputElement>;
   @ViewChild('lecturerInput') lecturerInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private courseService: CourseService) {}
 
 
   ngOnInit(): void {
@@ -53,9 +55,13 @@ export class CourseComponent implements OnInit {
       this.studentCtrl.setValue(null);
     });
 
+    this.courseService.find({where: {lecturerId: {$oid: '60f7d96b4335423050346943'}}}).then(courses => {
+      console.log('filter test:', courses);
+    });
+
     this.authService.getLecturer().then(
       (value: any[]) => {
-        this.allLecturer = value.map(lecturer => lecturer.email);
+        this.allLecturer = value;
         this.lecturerCtrl.setValue(null);
       });
 
@@ -64,10 +70,10 @@ export class CourseComponent implements OnInit {
       map((student: string | null) => student ? this._filterStudent(student) :
         this.allStudents.slice()));
 
-    this.filteredLecturer = this.lecturerCtrl.valueChanges.pipe(
-      startWith(null),
-      map((lecturer: string | null) => lecturer ? this._filterLecturer(lecturer) :
-        this.allLecturer.slice()));
+    // this.filteredLecturer = this.lecturerCtrl.valueChanges.pipe(
+    //   startWith(null),
+    //   map((lecturer: string | null) => lecturer ? this._filterLecturer(lecturer) :
+    //     this.allLecturer.slice()));
   }
 
   removeStudent(student: string): void {
@@ -106,21 +112,23 @@ export class CourseComponent implements OnInit {
       student.toLowerCase().includes(filterValue));
   }
 
-  private _filterLecturer(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allLecturer
-      .filter(lecturer =>
-        lecturer.toLowerCase().includes(filterValue));
-  }
+  // private _filterLecturer(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
   //
-  // onCreateCourse(form: NgForm) {
-  //   if(form.invalid){
-  //     return;
-  //   }
-  //   console.log(form);
-  //   // this.courseService.create().then();
-  //
+  //   // return this.allLecturer
+  //   //   .filter(lecturer =>
+  //   //     lecturer.toLowerCase().includes(filterValue));
   // }
+
+  async onCreateCourse(form: NgForm) {
+    if(form.invalid){
+      return;
+    }
+    console.log(form);
+
+
+    await this.courseService.create({...form.value});
+
+  }
 
 }

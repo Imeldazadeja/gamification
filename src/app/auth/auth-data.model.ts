@@ -18,6 +18,7 @@ export interface AuthDataStudent {
 }
 
 export interface AuthDataLecturer {
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;

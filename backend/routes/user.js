@@ -105,10 +105,7 @@ router.post('/signup-lecturer', checkAuth, (req, res, next) => {
 /***** Get Lecturer ****/
 router.get("/signup-lecturer", (req, res, next) => {
   LecturerData.find().then(data => {
-    res.status(200).json({
-      message: "Lecturer fetched successfully!",
-      posts: data
-    });
+    res.status(200).json(data);
   });
 });
 

@@ -1,35 +1,22 @@
 import {HttpClient} from "@angular/common/http";
 import {map, tap} from "rxjs/operators";
 import {Subject} from "rxjs";
+import {Course} from "./course.model";
+import {Injectable} from "@angular/core";
 
-export interface Course {
-  _id: string;
-  title: string,
-  courseCycle: string,
-  studentIds: string[],
-  lecturerIds: string[],
-}
+@Injectable({providedIn: "root"})
+
 export class CourseService {
   private courses: Course[] = [];
   private courseUpdated = new Subject<Course[]>();
+
   constructor(private http: HttpClient) {
   }
 
-  find(): Promise<Course[]>{
-    return this.http.get<{ message: string, posts: any}>('http://localhost:3000/api/courses')
+  find(filter?): Promise<Course[]> {
+    return this.http.get<Course[]>('http://localhost:3000/api/courses', {params: {filter: filter ? JSON.stringify(filter) : undefined}})
       .pipe(
-        map((findCourses) => {
-          return findCourses.posts.map(course => {
-            return {
-              _id: course._id,
-              title: course.title,
-              courseCycle: course.courseCycle,
-              studentIds: course.studentIds,
-              lecturerIds: course.lecturerIds
-            };
-          });
-        }),
-        tap( courses => {
+        tap(courses => {
           this.courses = courses;
           this.courseUpdated.next([...this.courses]);
         })
