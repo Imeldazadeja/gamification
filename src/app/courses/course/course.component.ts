@@ -69,11 +69,6 @@ export class CourseComponent implements OnInit {
       startWith(null),
       map((student: string | null) => student ? this._filterStudent(student) :
         this.allStudents.slice()));
-
-    // this.filteredLecturer = this.lecturerCtrl.valueChanges.pipe(
-    //   startWith(null),
-    //   map((lecturer: string | null) => lecturer ? this._filterLecturer(lecturer) :
-    //     this.allLecturer.slice()));
   }
 
   removeStudent(student: string): void {
@@ -84,13 +79,6 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  removeLecturer(lecturer: string): void {
-    const index = this.lecturers.indexOf(lecturer);
-
-    if(index >= 0) {
-      this.lecturers.splice(index, 1);
-    }
-  }
 
   selectedStudent(event: MatAutocompleteSelectedEvent): void {
     this.students.push(event.option.viewValue);
@@ -98,11 +86,6 @@ export class CourseComponent implements OnInit {
     this.studentCtrl.setValue(null);
   }
 
-  selectedLecturer(event: MatAutocompleteSelectedEvent): void {
-    this.lecturers.push(event.option.viewValue);
-    this.lecturerInput.nativeElement.value = '';
-    this.lecturerCtrl.setValue(null);
-  }
 
   private _filterStudent(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -111,14 +94,6 @@ export class CourseComponent implements OnInit {
       .filter(student =>
       student.toLowerCase().includes(filterValue));
   }
-
-  // private _filterLecturer(value: string): string[] {
-  //   const filterValue = value.toLowerCase();
-  //
-  //   // return this.allLecturer
-  //   //   .filter(lecturer =>
-  //   //     lecturer.toLowerCase().includes(filterValue));
-  // }
 
   async onCreateCourse(form: NgForm) {
     if(form.invalid){

@@ -6,8 +6,10 @@ const adminDataSchema = mongoose.Schema({
   lastName: { type: String, required: true},
   email: { type: String, required: true, unique: true},
   password: { type: String, required: true}
+}, {
+  collection: 'Admin'
 });
 
 adminDataSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model("AdminData", adminDataSchema);
+module.exports = mongoose.model("Admin", adminDataSchema);
