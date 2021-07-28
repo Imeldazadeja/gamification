@@ -37,11 +37,12 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSortHeader, MatSortModule} from "@angular/material/sort";
-import { CoursesComponent } from './courses/courses/courses.component';
-import { CourseComponent } from './courses/course/course.component';
+import {CoursesComponent} from './courses/courses/courses.component';
+import {CourseComponent} from './courses/course/course.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatOptionModule} from "@angular/material/core";
+import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
 
 // @ts-ignore
 @NgModule({
@@ -92,7 +93,8 @@ import {MatOptionModule} from "@angular/material/core";
     MatChipsModule,
     MatAutocompleteModule,
     MatOptionModule,
-    MatInputModule
+    MatInputModule,
+    AppTooltipModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

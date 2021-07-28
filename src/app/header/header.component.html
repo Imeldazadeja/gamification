@@ -22,14 +22,14 @@
   </ul>
     <button *ngIf="userIsAuthenticated" mat-button [matMenuTriggerFor]="register">Rregjistro</button>
     <mat-menu #register="matMenu">
-      <button mat-menu-item routerLink="/signupStudent" routerLinkActive="mat-accent">
+      <button mat-menu-item routerLink="/studentList" routerLinkActive="mat-accent">
         Rregjistro Student
       </button>
-      <button mat-menu-item routerLink="/signupLecturer" routerLinkActive="mat-accent">
+      <button mat-menu-item routerLink="/lecturerList" routerLinkActive="mat-accent">
         Rregjistro Pedagog
       </button>
-      <button mat-menu-item routerLink="/course" routerLinkActive="mat-accent">
-         Kurset
-      </button>
     </mat-menu>
+    <button *ngIf="userIsAuthenticated" mat-button routerLink="/courses" routerLinkActive="mat-accent">
+    Kurset
+    </button>
 </mat-toolbar>

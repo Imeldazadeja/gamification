@@ -61,10 +61,7 @@ router.post("/signup-student", checkAuth, async (req, res) => {
 
 router.get("/signup-student", (req, res, next) => {
   StudentData.find().then(data => {
-    res.status(200).json({
-      message: "Student fetched successfully!",
-      posts: data
-    });
+    res.status(200).json(data);
   });
 });
 

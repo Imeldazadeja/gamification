@@ -3,6 +3,7 @@ import {map, tap} from "rxjs/operators";
 import {Subject} from "rxjs";
 import {Course} from "./course.model";
 import {Injectable} from "@angular/core";
+import {Filter} from "../utils";
 
 @Injectable({providedIn: "root"})
 
@@ -13,7 +14,7 @@ export class CourseService {
   constructor(private http: HttpClient) {
   }
 
-  find(filter?): Promise<Course[]> {
+  find(filter?: Filter): Promise<Course[]> {
     return this.http.get<Course[]>('http://localhost:3000/api/courses', {params: {filter: filter ? JSON.stringify(filter) : undefined}})
       .pipe(
         tap(courses => {

@@ -35,8 +35,8 @@
           [removable]="removableStudent"
           (removed)="removeStudent(student)"
         >
-          {{student}}
-          <mat-icon matChipRemove *ngIf="removableStudent">cancel</mat-icon>
+          {{student.firstName}} {{student.lastName}}
+          <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <input
           placeholder="New student..."
@@ -45,14 +45,14 @@
           [matAutocomplete]="auto"
           [matChipInputFor]="chipList"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodesStudent"
-          [matChipInputAddOnBlur]="addOnBlurStudent">
+          [matChipInputAddOnBlur]="true">
       </mat-chip-list>
       <mat-autocomplete
         #auto="matAutocomplete"
         (optionSelected)="selectedStudent($event)">
         <ng-container *ngFor="let student of filteredStudents | async">
           <mat-option *ngIf="!students.includes(student)" [value]="student">
-            {{student}}
+            {{student.firstName}} {{student.lastName}}
           </mat-option>
         </ng-container>
       </mat-autocomplete>
@@ -61,7 +61,7 @@
     <mat-form-field>
       <mat-label>Lecturer</mat-label>
       <mat-select [(ngModel)]="selectableLecturer" name="lecturerId">
-        <mat-option *ngFor="let elem of allLecturer" [value]="elem._id">
+        <mat-option *ngFor="let elem of allLecturers" [value]="elem._id">
           {{elem.email}}
         </mat-option>
       </mat-select>

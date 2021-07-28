@@ -48,24 +48,10 @@ export class AuthService {
   }
 
   getStudents(): Promise<AuthDataStudent[]> {
-    return this.http.get<{ message: string, posts: any }>(
+    return this.http.get<AuthDataStudent[]>(
       "http://localhost:3000/api/user/signup-student"
     )
       .pipe(
-        map((postStudents) => {
-          return postStudents.posts.map(student => {
-            return {
-              firstName: student.firstName,
-              lastName: student.lastName,
-              email: student.email,
-              password: student.password,
-              faculty: student.faculty,
-              studyProgramme: student.studyProgramme,
-              studyCycle: student.studyCycle,
-              id: student._id
-            };
-          });
-        }),
         tap(students => {
           this.dataStudents = students;
           this.studentsUpdated.next([...this.dataStudents]);
