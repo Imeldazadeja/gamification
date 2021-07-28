@@ -10,7 +10,7 @@ router.post('/', executeHandler(async ({request}) => {
 
 router.get("/", executeHandler(async ({request}) => {
   const filter = parseFilterFromRequest(request);
-  return CoursesData.find(filter.where).limit(filter.limit).skip(filter.skip);
+  return CoursesData.find(filter.where).limit(filter.limit).skip(filter.skip).populate(filter.populate);
 }));
 
 // router.get('/', )

@@ -39,6 +39,10 @@ function parseFilter(filter) {
   if (!Number.isInteger(filter.skip)) {
     filter.skip = 0;
   }
+
+  if (!Array.isArray(filter.populate)) {
+    filter.populate = [];
+  }
   // if (!Number.isInteger(filter.limit)) {
   //   filter.limit = 0;
   // }
@@ -55,7 +59,7 @@ function parseFilterFromRequest(request) {
     const filter = request.query && request.query.filter ? JSON.parse(decodeURIComponent(request.query.filter)) : {};
     return parseFilter(filter);
   } catch (err) {
-    return {};
+    return {skip: 0, populate: []};
   }
 }
 
@@ -83,6 +87,7 @@ module.exports = {parseFilter, parseFilterFromRequest, executeHandler};
 /**
  * @typedef {Object} Filter
  * @property {*} [where]
- * @property {number} [skip]
+ * @property {number} skip
  * @property {number} [limit]
+ * @property {Array} populate
  */
