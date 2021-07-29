@@ -60,13 +60,13 @@ export class CourseComponent implements OnInit {
     this._init();
   }
 
-  // removeStudent(student: string): void {
-  //   const index = this.students.indexOf(student);
-  //
-  //   if (index >= 0) {
-  //     this.students.splice(index, 1);
-  //   }
-  // }
+  removeStudent(student: AuthDataStudent): void {
+    const index = this.students.indexOf(student);
+
+    if (index >= 0) {
+      this.students.splice(index, 1);
+    }
+  }
 
 
   selectedStudent(event: MatAutocompleteSelectedEvent): void {
@@ -92,7 +92,7 @@ export class CourseComponent implements OnInit {
     console.log(form);
     console.log('students', this.students);
 
-    await this.courseService.create({...form.value, studentIds: this.students.map(e => e._id)});
+    await this.courseService.create({...form.value, studentsId: this.students.map(e => e._id)});
     this.router.navigate(['/courses']);
     // populate
   }

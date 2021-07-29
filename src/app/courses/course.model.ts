@@ -2,6 +2,6 @@ export interface Course {
   _id: string,
   title: string,
   courseCycle: string,
-  studentIds: string[],
+  studentsId: string[],
   lecturerId: string[],
 }
