@@ -1,5 +1,6 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <h2 style="text-align: center">Signup</h2>
   <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <input

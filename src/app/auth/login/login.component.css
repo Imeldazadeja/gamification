@@ -5,3 +5,9 @@ mat-form-field {
 mat-spinner {
   margin: auto;
 }
+
+mat-card {
+  max-width: 500px;
+  padding: 35px;
+  margin: 20px auto;
+}
