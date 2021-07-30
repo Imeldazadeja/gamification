@@ -62,7 +62,7 @@
       <mat-label>Lecturer</mat-label>
       <mat-select [(ngModel)]="selectableLecturer" name="lecturerId">
         <mat-option *ngFor="let elem of allLecturers" [value]="elem._id">
-          {{elem.email}}
+          {{elem.firstName}} {{elem.lastName}}
         </mat-option>
       </mat-select>
     </mat-form-field>
