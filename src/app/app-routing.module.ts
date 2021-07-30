@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: "studentList", component: StudentListComponent, canActivate: [AuthGuard]},
   { path: "lecturerList", component: LecturerListComponent, canActivate: [AuthGuard]},
   { path: "course", component: CourseComponent, canActivate: [AuthGuard]},
-  { path: "courses", component: CoursesComponent},
+  { path: "courses", component: CoursesComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

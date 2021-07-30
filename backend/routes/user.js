@@ -106,9 +106,11 @@ router.get("/signup-lecturer", (req, res, next) => {
   });
 });
 
-router.post("/login", (req, res, next) => {
+/*** Login users  ****/
+
+router.post("/login", async (req, res) => {
   let fetchedUser;
-  AdminData.findOne({email: req.body.email})
+  await AdminData.findOne({email: req.body.email})
     .then(user => {
       if (!user) {
         return res.status(401).json({

@@ -4,7 +4,6 @@ import {MatTableDataSource} from "@angular/material/table";
 import {Course} from "../course.model";
 import {CourseService} from "../course.service";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-courses',
@@ -16,7 +15,6 @@ export class CoursesComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Course>;
   readonly displayedColumns: string[] = ['courseTitle', 'courseCycle', 'students', 'lecturer', 'actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   constructor(private courseService: CourseService) { }
 
   ngOnInit(): void {
