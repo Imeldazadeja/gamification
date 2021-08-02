@@ -10,6 +10,7 @@ import {StudentListComponent} from "./auth/student-list/student-list.component";
 import {LecturerListComponent} from "./auth/lecturer-list/lecturer-list.component";
 import {CoursesComponent} from "./courses/courses/courses.component";
 import {CourseComponent} from "./courses/course/course.component";
+import {QuizCreateComponent} from "./quiz/quiz-create/quiz-create.component";
 
 const routes: Routes = [
   { path: "", component: PostListComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: "lecturerList", component: LecturerListComponent, canActivate: [AuthGuard]},
   { path: "course", component: CourseComponent, canActivate: [AuthGuard]},
   { path: "courses", component: CoursesComponent, canActivate: [AuthGuard]},
+  {path: 'quiz', component: QuizCreateComponent}
 ];
 
 @NgModule({

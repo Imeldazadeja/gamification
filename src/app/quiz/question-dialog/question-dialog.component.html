@@ -1,0 +1,30 @@
+<h2>Create Questions</h2>
+<form #createQuestion="ngForm" (ngSubmit)="onQuestionPost(createQuestion)">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input
+      matInput
+      name="questionTopic"
+      ngModel
+      type="text"
+      placeholder="Question topic"
+      #questionTopic="ngModel"
+      required>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+      matInput
+      rows="3"
+      name="question"
+      ngModel
+      placeholder="Question"
+      #questionInput="ngModel"
+      required
+      >
+      </textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit">Add question</button>
+  </div>
+</form>

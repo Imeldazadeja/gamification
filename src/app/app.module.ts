@@ -43,6 +43,9 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatOptionModule} from "@angular/material/core";
 import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
+import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import { QuestionDialogComponent } from './quiz/question-dialog/question-dialog.component';
 
 // @ts-ignore
 @NgModule({
@@ -59,6 +62,8 @@ import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
     StudentListComponent,
     CoursesComponent,
     CourseComponent,
+    QuizCreateComponent,
+    QuestionDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,7 +99,8 @@ import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
     MatAutocompleteModule,
     MatOptionModule,
     MatInputModule,
-    AppTooltipModule
+    AppTooltipModule,
+    MatStepperModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
