@@ -1,37 +1,20 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
+const {executeHandler} = require('../utils');
+const {model: UserModel, UserType} = require('../models/user');
 const AdminData = require("../models/adminData");
 const StudentData = require("../models/studentData");
 const LecturerData = require("../models/lecturerData");
-const router = express.Router();
+
 const checkAuth = require("../middleware/check-auth");
+const router = express.Router();
+const routerUnauthenticated = express.Router();
+
+router.use('/', checkAuth);
 
 /***** Signup admin  ***/
-
-router.post("/signup", (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-      const adminData = new AdminData({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: hash
-      });
-      adminData.save()
-        .then(result => {
-          const obj = {...result._doc};
-          delete obj.password;
-          res.status(201).json({obj});
-        })
-        .catch(err => {
-          res.status(500).json({
-            error: err
-          });
-        });
-    });
-});
 
 /***** Signup students  ***/
 
@@ -67,12 +50,6 @@ router.get("/signup-student", (req, res, next) => {
 
 /***** Delete students  ***/
 
-router.delete("", (req, res, next) => {
-  StudentData.deleteOne({_id: req.params.id}).then(result => {
-    res.status(200).json({message: "Student deleted!"})
-  });
-});
-
 
 /***** Signup lecturer  ***/
 
@@ -106,43 +83,50 @@ router.get("/signup-lecturer", (req, res, next) => {
   });
 });
 
-/*** Login users  ****/
+router.post("/signup", executeHandler(async ({request, loggedUser}) => {
+  if (loggedUser.type !== UserType.admin) {
+    throw new Error('TODO');
+  }
 
-router.post("/login", async (req, res) => {
-  let fetchedUser;
-  await AdminData.findOne({email: req.body.email})
-    .then(user => {
-      if (!user) {
-        return res.status(401).json({
-          message: "Auth failed"
-        });
-      }
-      fetchedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
-    })
-    .then(result => {
-      if (!result) {
-        return res.status(401).json({
-          message: "Auth failed"
-        });
-      }
+  const hash = await bcrypt.hash(request.body.password, 10);
+  const adminData = new AdminData({
+    firstName: request.body.firstName,
+    lastName: request.body.lastName,
+    email: request.body.email,
+    password: hash
+  });
+  const user = await adminData.save();
 
-      const token = jwt.sign(
-        {email: fetchedUser.email, userId: fetchedUser._id},
-        'secret_this_should_be_longer',
-        {expiresIn: "1h"}
-      );
-      res.status(200).json({
-        token: token,
-        expiresIn: 3600
-      });
+  const obj = {...user._doc};
+  delete obj.password;
+  return obj;
+}));
 
-    })
-    .catch(err => {
-      return res.status(401).json({
-        message: "Auth failed"
-      });
-    });
-});
+router.delete("/", executeHandler(({request, loggedUser}) => {
+  return StudentData.deleteOne({_id: request.params.id}).then(() => null);
+}));
+
+routerUnauthenticated.post('/login', executeHandler(async ({request}) => {
+  const user = await UserModel.findOne({email: request.body.email});
+  if (!user) {
+    const err = new Error('Unauthorized');
+    err.statusCode = 401;
+    throw err;
+  }
+  if (!await bcrypt.compare(request.body.password, user.password)) {
+    const err = new Error('Unauthorized');
+    err.statusCode = 401;
+    throw err;
+  }
+
+  const token = jwt.sign(
+    {email: user.email, userId: user._id},
+    'secret_this_should_be_longer',
+    {expiresIn: "1h"}
+  );
+
+  delete user.password;
+  return {token, expiresIn: 3600, user};
+}));
 
 module.exports = router;

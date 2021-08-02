@@ -9,39 +9,41 @@ const userRoutes = require("./routes/user");
 const coursesRoutes = require("./routes/courses");
 const quizRoutes = require("./routes/quiz");
 
+const UserModel = require('./models/user').model;
+
 const app = express();
 app.use(cors());
 
-mongoose.connect(
-  'mongodb+srv://m001-student:imelda19@sandbox.doso9.mongodb.net/gamificationDatabase',
-  {useNewUrlParser: true})
-  .then(()=> {
-    console.log('Connected to database!');
-  })
-  .catch(() => {
-    console.log('Connection failed!');
-  });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use("/images", express.static(path.join("backend/images")));
-
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-//   );
-//   next();
-// });
 
 app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/courses", coursesRoutes); // POST /courses
 app.use("/api/quiz", quizRoutes);
-module.exports = app;
+
+async function initDb() {
+  const mongooseConnector = await mongoose.connect(
+    'mongodb+srv://m001-student:imelda19@sandbox.doso9.mongodb.net/gamificationDatabase',
+    {useNewUrlParser: true});
+  const db = mongooseConnector.connection.db;
+
+  const models = [UserModel];
+  for (const model of models) {
+    const schemaValidator = model.schema.options && model.schema.options.schemaValidator;
+    if (!schemaValidator) continue;
+
+    await db.createCollection(model.modelName).catch(() => {});
+    await db.command({
+      collMod: model.modelName,
+      validator: schemaValidator,
+    });
+  }
+
+  return mongooseConnector;
+}
+
+module.exports = {app, initDb};
 

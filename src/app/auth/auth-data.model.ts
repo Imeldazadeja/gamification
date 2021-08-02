@@ -25,3 +25,11 @@ export interface AuthDataLecturer {
   password: string;
   faculty: string;
 }
+
+// export interface User {
+//   firstName: string,
+//   lastname: string,
+//   email: string,
+//   password: string,
+//   type: string
+// }

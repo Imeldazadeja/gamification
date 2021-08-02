@@ -4,6 +4,7 @@ import {AuthData, AuthDataLecturer, AuthDataStudent} from "./auth-data.model";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 import {map, tap} from "rxjs/operators";
+import {Filter} from "../utils";
 
 @Injectable({providedIn: "root"})
 export class AuthService {
@@ -76,6 +77,9 @@ export class AuthService {
       ).toPromise();
   }
 
+  // find(filter: Filter): Promise<> {
+  //
+  // }
   // async login (email: string, password: string) {
   //   const response = await this.http
   //     .post<{token: string, expiresIn: number}>(
