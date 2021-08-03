@@ -60,6 +60,14 @@
       >
       <mat-error *ngIf="confirmPasswordInput.invalid">Please enter a valid password</mat-error>
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>Select your position</mat-label>
+      <mat-select [(ngModel)]="userType" name="userType">
+        <mat-option *ngFor="let userType of userTypes" [value]="userType">
+          {{userType}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Signup</button>
   </form>
 </mat-card>

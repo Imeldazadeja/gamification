@@ -1,22 +1,27 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {AuthData, AuthDataLecturer, AuthDataStudent} from "./auth-data.model";
+// import {AuthData, AuthDataLecturer, AuthDataStudent} from "./auth-data.model";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
-import {map, tap} from "rxjs/operators";
-import {Filter} from "../utils";
+import {User, UserType} from "./auth-data.model";
+import {tap} from "rxjs/operators";
 
 @Injectable({providedIn: "root"})
 export class AuthService {
+  private _user?: User;
+  private _init = false;
   private isAuthenticated = false;
   private token: string;
   private tokenTimer: any;
-  private dataStudents: AuthDataStudent[] = [];
-  private studentsUpdated = new Subject<AuthDataStudent[]>();
-  private dataLecturer: AuthDataLecturer[] = [];
-  private lecturerUpdated = new Subject<AuthDataLecturer[]>();
+  // private dataStudents: AuthDataStudent[] = [];
+  // private studentsUpdated = new Subject<AuthDataStudent[]>();
+  // private dataLecturer: AuthDataLecturer[] = [];
+  // private lecturerUpdated = new Subject<AuthDataLecturer[]>();
   private authStatusListener = new Subject<boolean>();
 
+  get isInit(): boolean {
+    return this._init;
+  }
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -24,6 +29,29 @@ export class AuthService {
   getToken() {
     return this.token;
   }
+
+  get user() {
+    return this._user;
+  }
+
+  set User(currentUser: User | undefined) {
+    this._user = currentUser;
+  }
+
+  // userType(): string {
+  //   // let type: string;
+  //   // switch (type){
+  //   //   case 'A':
+  //   //     return this._user.type;
+  //   //   case 'L':
+  //   //     return this._user.type
+  //   //   case 'S':
+  //   //     return this._user.type
+  //   // }
+  //   if(this._user.type === 'Admin'){
+  //
+  //   }
+  // }
 
   getIsAuth() {
     return this.isAuthenticated;
@@ -33,53 +61,98 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
-  getStudentsUpdateListener() {
-    return this.studentsUpdated.asObservable();
-  }
-
-  createUser(data: Omit<AuthData, 'id'>
-  ): Promise<AuthData> {
-    return this.http.post<AuthData>("http://localhost:3000/api/user/signup", data).toPromise() as any;
-  }
-
-  createStudent(
-    data: Omit<AuthDataStudent, 'id'>
-  ): Promise<AuthDataStudent> {
-    return this.http.post<AuthDataStudent>("http://localhost:3000/api/user/signup-student", data).toPromise() as any;
-  }
-
-  getStudents(): Promise<AuthDataStudent[]> {
-    return this.http.get<AuthDataStudent[]>(
-      "http://localhost:3000/api/user/signup-student"
-    )
-      .pipe(
-        tap(students => {
-          this.dataStudents = students;
-          this.studentsUpdated.next([...this.dataStudents]);
-        })
-      ).toPromise();
-  }
-
-  createLecturer(data: Omit<AuthDataLecturer, 'id'>
-  ): Promise<AuthDataLecturer> {
-    return this.http.post<AuthDataLecturer>("http://localhost:3000/api/user/signup-lecturer", data).toPromise() as any;
-  }
-
-  getLecturer(): Promise<AuthDataLecturer[]> {
-    return this.http.get<AuthDataLecturer[]>(
-      "http://localhost:3000/api/user/signup-lecturer"
-    )
-      .pipe(
-        tap(lecturer => {
-          this.dataLecturer = lecturer;
-          this.lecturerUpdated.next([...this.dataLecturer]);
-        })
-      ).toPromise();
-  }
-
-  // find(filter: Filter): Promise<> {
-  //
+  // getStudentsUpdateListener() {
+  //   return this.studentsUpdated.asObservable();
   // }
+  //
+  // createUser(data: Omit<AuthData, 'id'>
+  // ): Promise<AuthData> {
+  //   return this.http.post<AuthData>("http://localhost:3000/api/user/signup", data).toPromise() as any;
+  // }
+  //
+  // createStudent(
+  //   data: Omit<AuthDataStudent, 'id'>
+  // ): Promise<AuthDataStudent> {
+  //   return this.http.post<AuthDataStudent>("http://localhost:3000/api/user/signup-student", data).toPromise() as any;
+  // }
+  //
+  // getStudents(): Promise<AuthDataStudent[]> {
+  //   return this.http.get<AuthDataStudent[]>(
+  //     "http://localhost:3000/api/user/signup-student"
+  //   )
+  //     .pipe(
+  //       tap(students => {
+  //         this.dataStudents = students;
+  //         this.studentsUpdated.next([...this.dataStudents]);
+  //       })
+  //     ).toPromise();
+  // }
+  //
+  // createLecturer(data: Omit<AuthDataLecturer, 'id'>
+  // ): Promise<AuthDataLecturer> {
+  //   return this.http.post<AuthDataLecturer>("http://localhost:3000/api/user/signup-lecturer", data).toPromise() as any;
+  // }
+  //
+  // getLecturer(): Promise<AuthDataLecturer[]> {
+  //   return this.http.get<AuthDataLecturer[]>(
+  //     "http://localhost:3000/api/user/signup-lecturer"
+  //   )
+  //     .pipe(
+  //       tap(lecturer => {
+  //         this.dataLecturer = lecturer;
+  //         this.lecturerUpdated.next([...this.dataLecturer]);
+  //       })
+  //     ).toPromise();
+  // }
+
+  /** Login user ***/
+  async login(data: Omit<User, 'id'>) {
+    const response = await this.http
+      .post<{ token: string, expiresIn: number, user: User }>(
+        "http://localhost:3000/api/user/login", data)
+      .toPromise();
+    this.token = response.token;
+    if (this.token) {
+      this._user = response.user;
+      this._init = true;
+      const expiresInDuration = response.expiresIn;
+      this.setAuthTimer(expiresInDuration);
+      this.isAuthenticated = true;
+      this.authStatusListener.next(true);
+      const now = new Date();
+      const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+      console.log(expirationDate);
+      this.saveAuthData(this.token, expirationDate);
+      await this.router.navigate(['/']);
+    }
+
+    if (this._user.type === UserType.admin) {
+      await this.router.navigate(['/admin']);
+    } else if (this._user.type === UserType.student) {
+      await this.router.navigate(['/student']);
+    } else {
+      await this.router.navigate(['/lecturer'])
+    }
+  }
+
+  /**** Signup user ****/
+  async signup(data: Omit<User, '_id'>): Promise<User> {
+    return await this.http.post('http://localhost:3000/api/user/signup', data).toPromise() as any
+  }
+
+  async getCurrentUser(): Promise<User> {
+    return this.http.get<User>('http://localhost:3000/api/user/current').pipe(tap(user => {
+      this._user = user;
+      this._init = true;
+    })).toPromise();
+  }
+
+  // login -> user -> init: true
+  // login -> get current -> get current
+  // refresh -> get current -> init: true
+
+  // refresh, token, !user, GET /current (1s) -> guard,
+
   // async login (email: string, password: string) {
   //   const response = await this.http
   //     .post<{token: string, expiresIn: number}>(
@@ -99,28 +172,28 @@ export class AuthService {
   //     this.router.navigate(['/']);
   //   }
   // }
-  login(email: string, password: string) {
-    this.http
-      .post<{ token: string; expiresIn: number }>(
-        "http://localhost:3000/api/user/login",
-        {email: email, password: password}
-      )
-      .subscribe(response => {
-        const token = response.token;
-        this.token = token;
-        if (token) {
-          const expiresInDuration = response.expiresIn;
-          this.setAuthTimer(expiresInDuration);
-          this.isAuthenticated = true;
-          this.authStatusListener.next(true);
-          const now = new Date();
-          const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-          console.log(expirationDate);
-          this.saveAuthData(token, expirationDate);
-          this.router.navigate(["/"]);
-        }
-      });
-  }
+  // login(email: string, password: string) {
+  //   this.http
+  //     .post<{ token: string; expiresIn: number }>(
+  //       "http://localhost:3000/api/user/login",
+  //       {email: email, password: password}
+  //     )
+  //     .subscribe(response => {
+  //       const token = response.token;
+  //       this.token = token;
+  //       if (token) {
+  //         const expiresInDuration = response.expiresIn;
+  //         this.setAuthTimer(expiresInDuration);
+  //         this.isAuthenticated = true;
+  //         this.authStatusListener.next(true);
+  //         const now = new Date();
+  //         const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+  //         console.log(expirationDate);
+  //         this.saveAuthData(token, expirationDate);
+  //         this.router.navigate(["/"]);
+  //       }
+  //     });
+  // }
 
   getAuthData() {
     const token = localStorage.getItem("token");

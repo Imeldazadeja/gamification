@@ -6,7 +6,7 @@ import {FormControl, NgForm} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {map, startWith} from "rxjs/operators";
 import {CourseService} from "../course.service";
-import {AuthDataLecturer, AuthDataStudent} from "../../auth/auth-data.model";
+// import {AuthDataLecturer, AuthDataStudent} from "../../auth/auth-data.model";
 import {Router} from "@angular/router";
 
 @Component({
@@ -19,17 +19,17 @@ export class CourseComponent implements OnInit {
   studyCycleOptions: string [] = ['Bachelor', 'Master', 'PhD'];
   courseCycle: string;
 
-  allStudents: AuthDataStudent[] = [];
-  allLecturers: AuthDataLecturer[] = [];
+  // allStudents: AuthDataStudent[] = [];
+  // allLecturers: AuthDataLecturer[] = [];
 
   /*** chips autocomplete for students ***/
   studentCtrl = new FormControl();
   filteredStudents = this.studentCtrl.valueChanges.pipe(map(search => {
     search = (typeof search === 'string' ? search : '').trim().toLowerCase();
-    return this.allStudents.filter(s => s.firstName.toLowerCase().includes(search) || s.lastName.toLowerCase().includes(search));
+    // return this.allStudents.filter(s => s.firstName.toLowerCase().includes(search) || s.lastName.toLowerCase().includes(search));
   }));
 
-  students: AuthDataStudent[] = [];
+  // students: AuthDataStudent[] = [];
 
   selectableStudent = true;
   removableStudent = true;
@@ -42,8 +42,8 @@ export class CourseComponent implements OnInit {
   selectableLecturer = true;
   removableLecturer = true;
   separatorKeysCodesLecturer: number[] = [ENTER, COMMA];
-  addOnBlurLecturer = true;
-  lecturer?: AuthDataLecturer;
+  // addOnBlurLecturer = true;
+  // lecturer?: AuthDataLecturer;
 
   @ViewChild('studentInput') studentInput: ElementRef<HTMLInputElement>;
   @ViewChild('lecturerInput') lecturerInput: ElementRef<HTMLInputElement>;
@@ -57,24 +57,24 @@ export class CourseComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this._init();
+    // this._init();
   }
 
-  removeStudent(student: AuthDataStudent): void {
-    const index = this.students.indexOf(student);
+  // removeStudent(student: AuthDataStudent): void {
+  //   const index = this.students.indexOf(student);
+  //
+  //   if (index >= 0) {
+  //     this.students.splice(index, 1);
+  //   }
+  // }
 
-    if (index >= 0) {
-      this.students.splice(index, 1);
-    }
-  }
-
-
-  selectedStudent(event: MatAutocompleteSelectedEvent): void {
-    this.students.push(event.option.value);
-    console.log('value', event.option.value)
-    this.studentInput.nativeElement.value = '';
-    this.studentCtrl.setValue(null);
-  }
+  //
+  // selectedStudent(event: MatAutocompleteSelectedEvent): void {
+  //   this.students.push(event.option.value);
+  //   console.log('value', event.option.value)
+  //   this.studentInput.nativeElement.value = '';
+  //   this.studentCtrl.setValue(null);
+  // }
 
 
   // private _filterStudent(value: string): string[] {
@@ -85,32 +85,32 @@ export class CourseComponent implements OnInit {
   //       student.toLowerCase().includes(filterValue));
   // }
 
-  async onCreateCourse(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-    console.log(form);
-    console.log('students', this.students);
+  // async onCreateCourse(form: NgForm) {
+  //   if (form.invalid) {
+  //     return;
+  //   }
+  //   console.log(form);
+  //   console.log('students', this.students);
+  //
+  //   await this.courseService.create({...form.value, studentsId: this.students.map(e => e._id)});
+  //   this.router.navigate(['/courses']);
+  //   // populate
+  // }
 
-    await this.courseService.create({...form.value, studentsId: this.students.map(e => e._id)});
-    this.router.navigate(['/courses']);
-    // populate
-  }
-
-  private async _init() {
-    const [allStudents, allLecturers] = await Promise.all([
-      this.authService.getStudents(),
-      this.authService.getLecturer(),
-    ]);
-    this.allStudents = allStudents;
-    this.allLecturers = allLecturers;
-    this.studentCtrl.setValue(null);
-    this.lecturerCtrl.setValue(null);
+  // private async _init() {
+  //   const [allStudents, allLecturers] = await Promise.all([
+  //     this.authService.getStudents(),
+  //     this.authService.getLecturer(),
+  //   ]);
+    // this.allStudents = allStudents;
+    // this.allLecturers = allLecturers;
+    // this.studentCtrl.setValue(null);
+    // this.lecturerCtrl.setValue(null);
 
     // this.studentSearch.subscribe(search => console.log('search:', search));
     // this.filteredStudents = this.studentCtrl.valueChanges.pipe(
     //   startWith(null),
     //   map((student: string | null) => student ? this._filterStudent(student) :
     //     this.allStudents.slice()));
-  }
+  // }
 }

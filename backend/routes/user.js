@@ -12,6 +12,7 @@ const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
 const routerUnauthenticated = express.Router();
 
+router.use(routerUnauthenticated);
 router.use('/', checkAuth);
 
 /***** Signup admin  ***/
@@ -83,27 +84,36 @@ router.get("/signup-lecturer", (req, res, next) => {
   });
 });
 
-router.post("/signup", executeHandler(async ({request, loggedUser}) => {
-  if (loggedUser.type !== UserType.admin) {
-    throw new Error('TODO');
-  }
-
-  const hash = await bcrypt.hash(request.body.password, 10);
-  const adminData = new AdminData({
-    firstName: request.body.firstName,
-    lastName: request.body.lastName,
-    email: request.body.email,
-    password: hash
-  });
-  const user = await adminData.save();
-
-  const obj = {...user._doc};
-  delete obj.password;
-  return obj;
+router.get('/current', executeHandler(({loggedUser}) => {
+  return loggedUser;
 }));
 
 router.delete("/", executeHandler(({request, loggedUser}) => {
-  return StudentData.deleteOne({_id: request.params.id}).then(() => null);
+  return UserModel.deleteOne({_id: request.params.id}).then(() => null);
+}));
+
+routerUnauthenticated.post("/signup", executeHandler(async ({request, loggedUser}) => {
+  // if (loggedUser.type !== UserType.admin) {
+  //   throw new Error('TODO');
+  // }
+
+  const hash = await bcrypt.hash(request.body.password, 10);
+  const user = new UserModel({
+    firstName: request.body.firstName,
+    lastName: request.body.lastName,
+    email: request.body.email,
+    password: hash,
+    type: request.body.type,
+    faculty: request.body.faculty,
+    studyProgramme: request.body.studyProgramme,
+    studyCycle: request.body.studyCycle,
+    registrationDate: request.body.registrationDate
+  });
+  const userData = await user.save();
+
+  const obj = {...userData._doc};
+  delete obj.password;
+  return obj;
 }));
 
 routerUnauthenticated.post('/login', executeHandler(async ({request}) => {

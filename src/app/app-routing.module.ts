@@ -13,16 +13,18 @@ import {CourseComponent} from "./courses/course/course.component";
 import {QuizCreateComponent} from "./quiz/quiz-create/quiz-create.component";
 
 const routes: Routes = [
-  { path: "", component: PostListComponent },
+  { path: "login", component: LoginComponent },
+
+  // {path: '', children: [...], canActivate: [AuthGuard]},
+  { path: "signup", component: SignupComponent },
+  { path: "", component: PostListComponent, canActivate: [AuthGuard] },
   { path: "create", component: PostCreateComponent, canActivate: [AuthGuard] },
   { path: "edit/:postId", component: PostCreateComponent, canActivate: [AuthGuard] },
-  { path: "login", component: LoginComponent },
-  { path: "signup", component: SignupComponent },
   { path: "studentList", component: StudentListComponent, canActivate: [AuthGuard]},
   { path: "lecturerList", component: LecturerListComponent, canActivate: [AuthGuard]},
   { path: "course", component: CourseComponent, canActivate: [AuthGuard]},
   { path: "courses", component: CoursesComponent, canActivate: [AuthGuard]},
-  {path: 'quiz', component: QuizCreateComponent}
+  {path: 'quiz', component: QuizCreateComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    await this.authService.login(form.value.email, form.value.password);
-    this.router.navigate(['']);
+    await this.authService.login({...form.value});
+    await this.router.navigate(['/']);
   }
   ngOnInit(): void {
   }

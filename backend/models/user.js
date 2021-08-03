@@ -27,10 +27,17 @@ const userSchema = mongoose.Schema({
       },
     },
     $or: [
-      {type: {$ne: UserType.student}},
+      {type: UserType.admin},
+      {
+        type: UserType.lecturer,
+        $and: [
+          {faculty: {$type: 'string'}},
+        ]
+      },
       {
         type: UserType.student,
         $and: [
+          {faculty: {$type: 'string'}},
           {studyProgramme: {$type: 'string'}},
           {studyCycle: {$type: 'string'}}
         ]

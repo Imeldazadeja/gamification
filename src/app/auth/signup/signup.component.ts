@@ -10,6 +10,11 @@ import {Router} from "@angular/router";
 })
 export class SignupComponent implements OnInit {
   isLoading = false;
+  userType: string;
+  userTypes: string[] = ['A', 'L', 'S'];
+  // StudentList -> StudentDetail (edit + new) User.save({...studentForm, type: 'S'})
+  // LecturerList -> LecturerDetail (edit + new) User.save({type: 'L'})
+  //
 
   constructor(public authService: AuthService, private router: Router) { }
 
@@ -17,7 +22,7 @@ export class SignupComponent implements OnInit {
     if (form.invalid) {
       return
     }
-    await this.authService.createUser(form.value)
+    await this.authService.signup(form.value);
     this.router.navigate(['/login']);
   }
 

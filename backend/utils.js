@@ -78,7 +78,7 @@ function executeHandler(handlerFn) {
             }
         } catch (error) {
             if (error.statusCode) {
-                response.statusCode(error.statusCode).send(error);
+                response.status(error.statusCode).send(error);
             } else {
                 response.status(500).send('Internal server error');
             }
