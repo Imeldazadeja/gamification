@@ -18,6 +18,8 @@ export class AuthService {
   // private dataLecturer: AuthDataLecturer[] = [];
   // private lecturerUpdated = new Subject<AuthDataLecturer[]>();
   private authStatusListener = new Subject<boolean>();
+  private dataUser: User[] = [];
+  private userUpdated = new Subject<User[]>();
 
   get isInit(): boolean {
     return this._init;
@@ -126,13 +128,13 @@ export class AuthService {
       await this.router.navigate(['/']);
     }
 
-    if (this._user.type === UserType.admin) {
-      await this.router.navigate(['/admin']);
-    } else if (this._user.type === UserType.student) {
-      await this.router.navigate(['/student']);
-    } else {
-      await this.router.navigate(['/lecturer'])
-    }
+    // if (this._user.type === UserType.admin) {
+    //   await this.router.navigate(['/admin']);
+    // } else if (this._user.type === UserType.student) {
+    //   await this.router.navigate(['/student']);
+    // } else {
+    //   await this.router.navigate(['/lecturer'])
+    // }
   }
 
   /**** Signup user ****/
@@ -140,12 +142,26 @@ export class AuthService {
     return await this.http.post('http://localhost:3000/api/user/signup', data).toPromise() as any
   }
 
+  /*** Get current user ***/
+
   async getCurrentUser(): Promise<User> {
     return this.http.get<User>('http://localhost:3000/api/user/current').pipe(tap(user => {
       this._user = user;
       this._init = true;
     })).toPromise();
   }
+
+  /**** Get user ****/
+
+  getUser(): Promise<User[]> {
+    return this.http.get<User[]>('http://localhost:3000/api/user/getUser')
+      .pipe(
+        tap(user => {
+        this.dataUser = user;
+        this.userUpdated.next([...this.dataUser]);
+      })).toPromise();
+  }
+
 
   // login -> user -> init: true
   // login -> get current -> get current

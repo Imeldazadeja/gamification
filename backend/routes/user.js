@@ -17,72 +17,72 @@ router.use('/', checkAuth);
 
 /***** Signup admin  ***/
 
-/***** Signup students  ***/
-
-router.post("/signup-student", checkAuth, async (req, res) => {
-  const hash = await bcrypt.hash(req.body.password, 10);
-  const studentUser = new StudentData({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: hash,
-    faculty: req.body.faculty,
-    studyProgramme: req.body.studyProgramme,
-    studyCycle: req.body.studyCycle,
-    registrationDate: req.body.registrationDate
-  });
-
-  studentUser.save().then(result => {
-    const obj = {...result._doc};
-    delete obj.password;
-    res.status(200).json(obj);
-  }).catch(error => {
-    res.status(500).json({error});
-  });
-});
-
-/***** Get students  ***/
-
-router.get("/signup-student", (req, res, next) => {
-  StudentData.find().then(data => {
-    res.status(200).json(data);
-  });
-});
-
-/***** Delete students  ***/
-
-
-/***** Signup lecturer  ***/
-
-router.post('/signup-lecturer', checkAuth, (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-      const lecturerUser = new LecturerData({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: hash,
-        faculty: req.body.faculty
-      });
-      lecturerUser.save().then(result => {
-        const obj = {...result._doc};
-        delete obj.password;
-        res.status(200).json({obj});
-      }).catch(err => {
-        res.status(500)
-          .json({
-            error: err
-          });
-      });
-    });
-});
-
-/***** Get Lecturer ****/
-router.get("/signup-lecturer", (req, res, next) => {
-  LecturerData.find().then(data => {
-    res.status(200).json(data);
-  });
-});
+// /***** Signup students  ***/
+//
+// router.post("/signup-student", checkAuth, async (req, res) => {
+//   const hash = await bcrypt.hash(req.body.password, 10);
+//   const studentUser = new StudentData({
+//     firstName: req.body.firstName,
+//     lastName: req.body.lastName,
+//     email: req.body.email,
+//     password: hash,
+//     faculty: req.body.faculty,
+//     studyProgramme: req.body.studyProgramme,
+//     studyCycle: req.body.studyCycle,
+//     registrationDate: req.body.registrationDate
+//   });
+//
+//   studentUser.save().then(result => {
+//     const obj = {...result._doc};
+//     delete obj.password;
+//     res.status(200).json(obj);
+//   }).catch(error => {
+//     res.status(500).json({error});
+//   });
+// });
+//
+// /***** Get students  ***/
+//
+// router.get("/signup-student", (req, res, next) => {
+//   StudentData.find().then(data => {
+//     res.status(200).json(data);
+//   });
+// });
+//
+// /***** Delete students  ***/
+//
+//
+// /***** Signup lecturer  ***/
+//
+// router.post('/signup-lecturer', checkAuth, (req, res, next) => {
+//   bcrypt.hash(req.body.password, 10)
+//     .then(hash => {
+//       const lecturerUser = new LecturerData({
+//         firstName: req.body.firstName,
+//         lastName: req.body.lastName,
+//         email: req.body.email,
+//         password: hash,
+//         faculty: req.body.faculty
+//       });
+//       lecturerUser.save().then(result => {
+//         const obj = {...result._doc};
+//         delete obj.password;
+//         res.status(200).json({obj});
+//       }).catch(err => {
+//         res.status(500)
+//           .json({
+//             error: err
+//           });
+//       });
+//     });
+// });
+//
+// /***** Get Lecturer ****/
+// router.get("/signup-lecturer", (req, res, next) => {
+//   LecturerData.find().then(data => {
+//     res.status(200).json(data);
+//   });
+// });
 
 router.get('/current', executeHandler(({loggedUser}) => {
   return loggedUser;
@@ -103,7 +103,7 @@ routerUnauthenticated.post("/signup", executeHandler(async ({request, loggedUser
     lastName: request.body.lastName,
     email: request.body.email,
     password: hash,
-    type: request.body.type,
+    type: request.body.userType,
     faculty: request.body.faculty,
     studyProgramme: request.body.studyProgramme,
     studyCycle: request.body.studyCycle,
@@ -138,5 +138,12 @@ routerUnauthenticated.post('/login', executeHandler(async ({request}) => {
   delete user.password;
   return {token, expiresIn: 3600, user};
 }));
+
+
+router.get("/getUser", (req, res) => {
+  UserModel.find().then(data => {
+    res.status(200).json(data);
+  });
+});
 
 module.exports = router;

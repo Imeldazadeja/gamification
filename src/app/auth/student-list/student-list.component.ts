@@ -6,39 +6,41 @@ import {MatDialog} from "@angular/material/dialog";
 import {SignupStudentComponent} from "../signup-student/signup-student.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatPaginator} from "@angular/material/paginator";
+import {User} from "../auth-data.model";
+import {SignupComponent} from "../signup/signup.component";
 
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss']
 })
+
 export class StudentListComponent implements OnInit, OnDestroy {
-  readonly columns = ['firstName', 'lastName', 'email', 'faculty', 'studyProgramme', 'actions'];
-  // dataSource = new BehaviorSubject<AuthDataStudent[]>([]);
+  readonly columns = ['firstName', 'lastName', 'email', 'type', 'faculty', 'studyProgramme', 'actions'];
+  dataSource = new BehaviorSubject<User[]>([]);
 
   constructor(private authService: AuthService, private dialog: MatDialog, private _snackBar: MatSnackBar) {
   }
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
-    // this.authService.getStudents().then(students => {
-    //   this.dataSource.next(students);
-    // });
+    this.authService.getUser().then(user => {
+      this.dataSource.next(user);
+   });
   }
 
-  async openAddStudentDialog(): Promise<void> {
-    const dialogRef = this.dialog.open(SignupStudentComponent, {
+  async openAddUserDialog(): Promise<void> {
+    const dialogRef = this.dialog.open(SignupComponent, {
       width: '500px'
     });
     const result = await dialogRef.afterClosed().toPromise();
     if (!result) return;
 
-    // await this.authService.createStudent(result);
-    //
-    // const students = await this.authService.getStudents();
-    // this.dataSource.next(students);
-    // this._snackBar.open('Student created successfully!', null, {duration: 3000});
+    await this.authService.signup(result);
 
+    const user = await this.authService.getUser();
+    this.dataSource.next(user);
+    this._snackBar.open('User created successfully!', null, {duration: 3000});
   }
 
   ngOnDestroy() {
