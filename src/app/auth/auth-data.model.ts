@@ -32,10 +32,11 @@ export enum UserType {
 }
 
 export interface User {
+  _id: string
   email: string,
   password: string,
   firstName: string,
-  lastname: string,
+  lastName: string,
   type: UserType,
   faculty?: string,
   studyProgramme?: string,

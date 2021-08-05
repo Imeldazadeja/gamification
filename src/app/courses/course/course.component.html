@@ -1,72 +1,72 @@
 <mat-card>
   <h2 style="text-align: center">Create courses</h2>
-<!--  <form #createCourses="ngForm" (ngSubmit)="onCreateCourse(createCourses)">-->
-<!--    <mat-form-field>-->
-<!--      <input-->
-<!--        matInput-->
-<!--        name="title"-->
-<!--        ngModel-->
-<!--        type="text"-->
-<!--        placeholder="Course name"-->
-<!--        #courseName="ngModel"-->
-<!--        required-->
-<!--      >-->
-<!--    </mat-form-field>-->
+  <form #createCourses="ngForm" (ngSubmit)="onCreateCourse(createCourses)">
+    <mat-form-field>
+      <input
+        matInput
+        name="title"
+        ngModel
+        type="text"
+        placeholder="Course name"
+        #courseName="ngModel"
+        required
+      >
+    </mat-form-field>
 
-<!--    <mat-form-field>-->
-<!--      <mat-label>-->
-<!--        Cikli i studimeve ku zhvillohet-->
-<!--      </mat-label>-->
-<!--      <mat-select [(ngModel)]="courseCycle" name="courseCycle">-->
-<!--        <mat-option-->
-<!--          *ngFor="let option of studyCycleOptions"-->
-<!--          [value]="option">-->
-<!--          {{option}}-->
-<!--        </mat-option>-->
-<!--      </mat-select>-->
-<!--    </mat-form-field>-->
+    <mat-form-field>
+      <mat-label>
+        Cikli i studimeve ku zhvillohet
+      </mat-label>
+      <mat-select [(ngModel)]="courseCycle" name="courseCycle">
+        <mat-option
+          *ngFor="let option of studyCycleOptions"
+          [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-<!--    <mat-form-field>-->
-<!--      <mat-label>Select students</mat-label>-->
-<!--      <mat-chip-list #chipList aria-label="Student selectedStudent">-->
-<!--        <mat-chip-->
-<!--          *ngFor="let student of students"-->
-<!--          [selectable]="selectableStudent"-->
-<!--          [removable]="removableStudent"-->
-<!--          (removed)="removeStudent(student)"-->
-<!--        >-->
-<!--          {{student.firstName}} {{student.lastName}}-->
-<!--          <mat-icon matChipRemove>cancel</mat-icon>-->
-<!--        </mat-chip>-->
-<!--        <input-->
-<!--          placeholder="New student..."-->
-<!--          #studentInput-->
-<!--          [formControl]="studentCtrl"-->
-<!--          [matAutocomplete]="auto"-->
-<!--          [matChipInputFor]="chipList"-->
-<!--          [matChipInputSeparatorKeyCodes]="separatorKeysCodesStudent"-->
-<!--          [matChipInputAddOnBlur]="true">-->
-<!--      </mat-chip-list>-->
-<!--      <mat-autocomplete-->
-<!--        #auto="matAutocomplete"-->
-<!--        (optionSelected)="selectedStudent($event)">-->
-<!--        <ng-container *ngFor="let student of filteredStudents | async">-->
-<!--          <mat-option *ngIf="!students.includes(student)" [value]="student">-->
-<!--            {{student.firstName}} {{student.lastName}}-->
-<!--          </mat-option>-->
-<!--        </ng-container>-->
-<!--      </mat-autocomplete>-->
-<!--    </mat-form-field>-->
+    <mat-form-field>
+      <mat-label>Select students</mat-label>
+      <mat-chip-list #chipList aria-label="Student selectedStudent">
+        <mat-chip
+          *ngFor="let student of students"
+          [selectable]="selectableStudent"
+          [removable]="removableStudent"
+          (removed)="removeStudent(student)"
+        >
+          {{student.firstName}} {{student.lastName}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="New student..."
+          #studentInput
+          [formControl]="studentCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodesStudent"
+          [matChipInputAddOnBlur]="true">
+      </mat-chip-list>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selectedStudent($event)">
+        <ng-container *ngFor="let student of filteredStudents | async">
+          <mat-option *ngIf="!students.includes(student)" [value]="student">
+            {{student.firstName}} {{student.lastName}}
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
+    </mat-form-field>
 
-<!--    <mat-form-field>-->
-<!--      <mat-label>Lecturer</mat-label>-->
-<!--      <mat-select [(ngModel)]="selectableLecturer" name="lecturerId">-->
-<!--        <mat-option *ngFor="let elem of allLecturers" [value]="elem._id">-->
-<!--          {{elem.firstName}} {{elem.lastName}}-->
-<!--        </mat-option>-->
-<!--      </mat-select>-->
-<!--    </mat-form-field>-->
+    <mat-form-field>
+      <mat-label>Lecturer</mat-label>
+      <mat-select [(ngModel)]="selectableLecturer" name="usersId">
+        <mat-option *ngFor="let elem of allLecturers" [value]="elem._id">
+          {{elem.firstName}} {{elem.lastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-<!--    <button mat-raised-button color="accent" type="submit">Create course</button>-->
-<!--  </form>-->
+    <button mat-raised-button color="accent" type="submit">Create course</button>
+  </form>
 </mat-card>
