@@ -13,7 +13,7 @@ import {MatPaginator} from "@angular/material/paginator";
 export class CoursesComponent implements OnInit, AfterViewInit {
   courseData: any = [];
   dataSource: MatTableDataSource<Course>;
-  readonly displayedColumns: string[] = ['courseTitle', 'courseCycle', 'students', 'lecturer', 'actions'];
+  readonly displayedColumns: string[] = ['courseTitle', 'courseCycle', 'students', 'lecturer', 'courseEnter', 'actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private courseService: CourseService) { }
 

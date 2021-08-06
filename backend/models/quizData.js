@@ -7,14 +7,13 @@ const questionDataSchema = new mongoose.Schema({
 })
 const quizDataSchema = new mongoose.Schema({
   title: {type: String, required: true},
-  questionNo: {type: Number, required: true},
-  child: [questionDataSchema]
+  child: [{type: questionDataSchema}]
 }, {
   collection: 'Quiz'
 });
 
 quizDataSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('Quiz', quizDataSchema);
+module.exports = mongoose.model('Quiz', questionDataSchema);
 
 

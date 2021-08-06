@@ -5,6 +5,8 @@ import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 import {User, UserType} from "./auth-data.model";
 import {tap} from "rxjs/operators";
+import {Filter} from "../utils";
+import {Course} from "../courses/course.model";
 
 @Injectable({providedIn: "root"})
 export class AuthService {
@@ -39,21 +41,6 @@ export class AuthService {
   set User(currentUser: User | undefined) {
     this._user = currentUser;
   }
-
-  // userType(): string {
-  //   // let type: string;
-  //   // switch (type){
-  //   //   case 'A':
-  //   //     return this._user.type;
-  //   //   case 'L':
-  //   //     return this._user.type
-  //   //   case 'S':
-  //   //     return this._user.type
-  //   // }
-  //   if(this._user.type === 'Admin'){
-  //
-  //   }
-  // }
 
   getIsAuth() {
     return this.isAuthenticated;
@@ -153,13 +140,18 @@ export class AuthService {
 
   /**** Get user ****/
 
+  find(filter?: Filter): Promise<User[]> {
+    return this.http.get<Course[]>('http://localhost:3000/api/user', {params: {filter: filter ? JSON.stringify(filter) : undefined}})
+      .toPromise() as any;
+  }
+
   getUser(): Promise<User[]> {
     return this.http.get<User[]>('http://localhost:3000/api/user/getUser')
       .pipe(
         tap(user => {
-        this.dataUser = user;
-        this.userUpdated.next([...this.dataUser]);
-      })).toPromise();
+          this.dataUser = user;
+          this.userUpdated.next([...this.dataUser]);
+        })).toPromise();
   }
 
 
@@ -168,48 +160,6 @@ export class AuthService {
   // refresh -> get current -> init: true
 
   // refresh, token, !user, GET /current (1s) -> guard,
-
-  // async login (email: string, password: string) {
-  //   const response = await this.http
-  //     .post<{token: string, expiresIn: number}>(
-  //       "http://localhost:3000/api/user/login",
-  //       {email, password}
-  //     ).toPromise();
-  //   this.token = response.token;
-  //   if (this.token) {
-  //     const expiresInDuration = response.expiresIn;
-  //     this.setAuthTimer(expiresInDuration);
-  //     this.isAuthenticated = true;
-  //     this.authStatusListener.next(true);
-  //     const now = new Date();
-  //     const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-  //     console.log(expirationDate);
-  //     this.saveAuthData(this.token, expirationDate);
-  //     this.router.navigate(['/']);
-  //   }
-  // }
-  // login(email: string, password: string) {
-  //   this.http
-  //     .post<{ token: string; expiresIn: number }>(
-  //       "http://localhost:3000/api/user/login",
-  //       {email: email, password: password}
-  //     )
-  //     .subscribe(response => {
-  //       const token = response.token;
-  //       this.token = token;
-  //       if (token) {
-  //         const expiresInDuration = response.expiresIn;
-  //         this.setAuthTimer(expiresInDuration);
-  //         this.isAuthenticated = true;
-  //         this.authStatusListener.next(true);
-  //         const now = new Date();
-  //         const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-  //         console.log(expirationDate);
-  //         this.saveAuthData(token, expirationDate);
-  //         this.router.navigate(["/"]);
-  //       }
-  //     });
-  // }
 
   getAuthData() {
     const token = localStorage.getItem("token");
@@ -242,6 +192,7 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
+    this._user = null;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.router.navigate(['/']);

@@ -8,7 +8,7 @@ import {map, startWith} from "rxjs/operators";
 import {CourseService} from "../course.service";
 // import {AuthDataLecturer, AuthDataStudent} from "../../auth/auth-data.model";
 import {Router} from "@angular/router";
-import {User} from "../../auth/auth-data.model";
+import {User, UserType} from "../../auth/auth-data.model";
 
 @Component({
   selector: 'app-course',
@@ -98,7 +98,8 @@ export class CourseComponent implements OnInit {
 
   private async _init() {
     const [allStudents, allLecturers] = await Promise.all([
-      this.authService.getUser(),
+      this.authService.find({where: {type: UserType.student}}),
+      this.authService.find({where: {type: UserType.lecturer}}),
     ]);
     this.allStudents = allStudents;
     this.allLecturers = allLecturers;

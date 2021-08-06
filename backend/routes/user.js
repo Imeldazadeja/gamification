@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const {executeHandler} = require('../utils');
+const {executeHandler, parseFilterFromRequest} = require('../utils');
 const {model: UserModel, UserType} = require('../models/user');
 const AdminData = require("../models/adminData");
 const StudentData = require("../models/studentData");
@@ -90,6 +90,11 @@ router.get('/current', executeHandler(({loggedUser}) => {
 
 router.delete("/", executeHandler(({request, loggedUser}) => {
   return UserModel.deleteOne({_id: request.params.id}).then(() => null);
+}));
+
+router.get('/', executeHandler(async ({request}) => {
+  const filter = parseFilterFromRequest(request);
+  return UserModel.find(filter.where).limit(filter.limit).skip(filter.skip).populate(filter.populate);
 }));
 
 routerUnauthenticated.post("/signup", executeHandler(async ({request, loggedUser}) => {

@@ -60,7 +60,7 @@
 
     <mat-form-field>
       <mat-label>Lecturer</mat-label>
-      <mat-select [(ngModel)]="selectableLecturer" name="usersId">
+      <mat-select [(ngModel)]="selectableLecturer" name="lecturerId">
         <mat-option *ngFor="let elem of allLecturers" [value]="elem._id">
           {{elem.firstName}} {{elem.lastName}}
         </mat-option>

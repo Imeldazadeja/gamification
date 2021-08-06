@@ -1,0 +1,52 @@
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.firstFormGroup {
+  max-width: 400px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+:host {
+  table {
+    width: 100%;
+
+    td.actions, th.actions {
+      width: 30px;
+      cursor: pointer;
+    }
+  }
+
+  mat-card {
+    margin-bottom: 1rem;
+  }
+
+  mat-expansion-panel {
+    mat-expansion-panel-header {
+      mat-panel-title {
+        font-weight: 500;
+        .counter {
+          color: lightgrey;
+          width: 45px;
+        }
+      }
+    }
+
+    .action-icon:not(:hover) {
+      opacity: 0.5;
+    }
+
+    &.mat-expanded {
+      .action-icon {
+        opacity: unset;
+      }
+    }
+  }
+}

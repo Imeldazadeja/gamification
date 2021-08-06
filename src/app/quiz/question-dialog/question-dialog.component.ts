@@ -11,15 +11,25 @@ export class QuestionDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<QuestionDialogComponent>) { }
 
+  questions: FormData[] = [];
+  allQuestions: object[];
   ngOnInit(): void {
   }
 
-  onQuestionPost(form: NgForm) {
+   onSaveQuestions(form: NgForm) {
     if(form.invalid) {
       return;
     }
-    console.log(form);
-    this.dialogRef.close(form.value)
+    this.questions.push(form.value);
+    this.dialogRef.close({...form.value})
   }
+
+  // onQuestionPost(form: NgForm) {
+  //   if(form.invalid) {
+  //     return;
+  //   }
+  //   console.log(form);
+  //   this.dialogRef.close(form.value)
+  // }
 
 }

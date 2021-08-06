@@ -1,12 +1,11 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from "../auth.service";
 // import {AuthDataStudent} from "../auth-data.model";
-import {BehaviorSubject, Subscription} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
-import {SignupStudentComponent} from "../signup-student/signup-student.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatPaginator} from "@angular/material/paginator";
-import {User} from "../auth-data.model";
+import {User, UserDescriptions, UserType} from "../auth-data.model";
 import {SignupComponent} from "../signup/signup.component";
 
 @Component({
@@ -16,17 +15,27 @@ import {SignupComponent} from "../signup/signup.component";
 })
 
 export class StudentListComponent implements OnInit, OnDestroy {
-  readonly columns = ['firstName', 'lastName', 'email', 'type', 'faculty', 'studyProgramme', 'actions'];
+  readonly userDescriptions = UserDescriptions;
+  readonly columns = [
+    'firstName',
+    'lastName',
+    'email',
+    'type',
+    'faculty',
+    'studyProgramme',
+    this.authService.user.type === UserType.admin ? 'actions' : null
+  ].filter(e => e);
   dataSource = new BehaviorSubject<User[]>([]);
 
   constructor(private authService: AuthService, private dialog: MatDialog, private _snackBar: MatSnackBar) {
   }
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
     this.authService.getUser().then(user => {
       this.dataSource.next(user);
-   });
+    });
   }
 
   async openAddUserDialog(): Promise<void> {

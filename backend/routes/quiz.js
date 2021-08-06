@@ -6,6 +6,7 @@ const {parseFilterFromRequest, executeHandler} = require("../utils");
 const router = express.Router();
 
 router.post('/', executeHandler(async ({request}) => {
+  console.log('here');
   return await QuizData.create(request.body);
 }));
 

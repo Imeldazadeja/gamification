@@ -62,8 +62,8 @@
       <mat-form-field>
         <mat-label>Select your position</mat-label>
         <mat-select [(ngModel)]="userType" name="userType">
-          <mat-option *ngFor="let userType of userTypes" [value]="userType">
-            {{userType}}
+          <mat-option *ngFor="let userType of userTypes" [value]="userType.id">
+            {{userType.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>

@@ -6,30 +6,40 @@
     </a>
   </span>
   <span class="spacer"></span>
-  <ul>
-    <li *ngIf="userIsAuthenticated">
+  <ul *ngIf="authService.user; else toolbarNotLogged">
+    <li>
       <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>
     </li>
-    <li *ngIf="!userIsAuthenticated">
-      <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
+    <li *ngIf="!isStudent">
+      <button mat-button routerLink="/studentList" routerLinkActive="mat-accent">Register</button>
     </li>
-    <li *ngIf="!userIsAuthenticated">
-      <a mat-button routerLink="/signup" routerLinkActive="mat-accent">Signup</a>
+    <li>
+      <button mat-button routerLink="courses" routerLinkActive="mat-accent">Courses</button>
     </li>
-    <li *ngIf="userIsAuthenticated">
+    <li>
       <button mat-button (click)="onLogout()">Logout</button>
     </li>
   </ul>
-    <button *ngIf="userIsAuthenticated" mat-button [matMenuTriggerFor]="register">Rregjistro</button>
-    <mat-menu #register="matMenu">
-      <button mat-menu-item routerLink="/studentList" routerLinkActive="mat-accent">
-        Rregjistro Student
-      </button>
-      <button mat-menu-item routerLink="/lecturerList" routerLinkActive="mat-accent">
-        Rregjistro Pedagog
-      </button>
-    </mat-menu>
-    <button *ngIf="userIsAuthenticated" mat-button routerLink="/courses" routerLinkActive="mat-accent">
-    Kurset
-    </button>
+  <ng-template #toolbarNotLogged>
+    <ul>
+      <li>
+        <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
+      </li>
+      <li>
+        <a mat-button routerLink="/signup" routerLinkActive="mat-accent">Signup</a>
+      </li>
+    </ul>
+  </ng-template>
+<!--    <button *ngIf="userIsAuthenticated" mat-button [matMenuTriggerFor]="register">Rregjistro</button>-->
+<!--    <mat-menu #register="matMenu">-->
+<!--      <button mat-menu-item routerLink="/studentList" routerLinkActive="mat-accent">-->
+<!--        Rregjistro Student-->
+<!--      </button>-->
+<!--      <button mat-menu-item routerLink="/lecturerList" routerLinkActive="mat-accent">-->
+<!--        Rregjistro Pedagog-->
+<!--      </button>-->
+<!--    </mat-menu>-->
+<!--    <button *ngIf="userIsAuthenticated" mat-button routerLink="/courses" routerLinkActive="mat-accent">-->
+<!--    Kurset-->
+<!--    </button>-->
 </mat-toolbar>

@@ -5,17 +5,17 @@ const courseDataSchema = new mongoose.Schema({
   title: {type: String, required: true},
   courseCycle: {type: String, required: true,},
   usersId: [{type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}],
-  // lecturerId: {type: mongoose.Schema.Types.ObjectId, ref: 'Lecturer', required: true},
+  lecturerId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
 }, {
   collection: 'Course', toJSON: {virtuals: true}, toObject: {virtuals: true}
 });
 
-// courseDataSchema.virtual('lecturer', {
-//   ref: 'Lecturer',
-//   localField: 'lecturerId',
-//   foreignField: '_id',
-//   justOne: true,
-// });
+courseDataSchema.virtual('lecturer', {
+  ref: 'User',
+  localField: 'lecturerId',
+  foreignField: '_id',
+  justOne: true,
+});
 courseDataSchema.virtual('user', {
   ref: 'User',
   localField: 'usersId',

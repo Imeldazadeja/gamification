@@ -31,6 +31,12 @@ export enum UserType {
   lecturer = 'L'
 }
 
+export const UserDescriptions = {
+  [UserType.admin]: 'Admin',
+  [UserType.student]: 'Student',
+  [UserType.lecturer]: 'Lecturer',
+};
+
 export interface User {
   _id: string
   email: string,
