@@ -19,7 +19,11 @@ router.get("/", executeHandler(async ({request, loggedUser}) => {
     });
     filter.where = {$and: conditions};
   } else if (loggedUser.type === UserType.student) {
-    //
+    const conditions = Object.entries(filter.where || {}).map(([propertyName, value]) => ({[propertyName] : value}));
+    conditions.push({
+      usersId: loggedUser._id
+    });
+    filter.where = {$and: conditions};
   }
 
   return CoursesData.find(filter.where).limit(filter.limit).skip(filter.skip).populate(filter.populate);
