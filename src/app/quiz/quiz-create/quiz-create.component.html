@@ -74,8 +74,13 @@
   <mat-card-header>
     <mat-card-title>
       Create quiz
-      <mat-icon (click)="save()">save</mat-icon>
     </mat-card-title>
+    <mat-icon
+      matTooltip="Save quiz"
+      (click)="save()"
+      class="save-icon">
+      save
+    </mat-icon>
   </mat-card-header>
   <mat-card-content>
     <form>

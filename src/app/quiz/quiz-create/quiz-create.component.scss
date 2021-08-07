@@ -26,6 +26,15 @@
 
   mat-card {
     margin-bottom: 1rem;
+    mat-card-header {
+      .save-icon {
+        position: relative;
+        display: flex;
+        left: 1020px;
+        font-size: 28px;
+        cursor: pointer;
+      }
+    }
   }
 
   mat-expansion-panel {

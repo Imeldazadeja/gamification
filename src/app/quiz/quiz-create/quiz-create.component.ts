@@ -52,6 +52,7 @@ export class QuizCreateComponent implements OnInit {
       title: this.title,
       child: this.dataSource.value,
     });
+    this.snackbar.open('Quiz saved!', null, {duration: 3000});
   }
 
   ngOnInit(): void {
