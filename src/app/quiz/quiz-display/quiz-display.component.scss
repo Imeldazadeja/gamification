@@ -1,0 +1,35 @@
+mat-card{
+  margin: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: whitesmoke;
+  mat-card-header{
+    mat-card-title{
+      color: darkblue;
+    }
+  }
+}
+
+div{
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  span {
+    font-size: 18px;
+    color: darkblue;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    :hover {
+      background-color: rgba(0,0,0,.1);
+    }
+    .action-icon {
+      vertical-align: middle;
+      font-size: 26px;
+      padding: 8px;
+    }
+  }
+}

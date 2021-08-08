@@ -7,6 +7,7 @@ import {QuestionDialogComponent} from "../question-dialog/question-dialog.compon
 import {MatTableDataSource} from "@angular/material/table";
 import {NgForm} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-quiz-create',
@@ -16,9 +17,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class QuizCreateComponent implements OnInit {
   dataSource = new BehaviorSubject<QuestionDataSchema[]>([]);
   title: string;
-  // readonly displayedColumns: string[] = ['questionTopic', 'question', 'actions'];
 
-  constructor(private quizService: QuizService, private dialog: MatDialog, private snackbar: MatSnackBar) {
+  constructor(private quizService: QuizService,
+              private dialog: MatDialog,
+              private snackbar: MatSnackBar,
+              private router: Router) {
   }
 
   async openAddQuestionDialog(): Promise<void> {
@@ -53,6 +56,7 @@ export class QuizCreateComponent implements OnInit {
       child: this.dataSource.value,
     });
     this.snackbar.open('Quiz saved!', null, {duration: 3000});
+    this.router.navigate(['quiz-display']);
   }
 
   ngOnInit(): void {
