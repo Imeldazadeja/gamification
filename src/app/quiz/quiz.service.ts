@@ -23,14 +23,14 @@ export class QuizService {
   }
 
   create(data: Omit<Quiz, '_id'>): Promise<Quiz> {
-    return this.http.post('http://localhost:3000/api/quiz', data).toPromise() as any;
+    return this.http.post<Quiz>('http://localhost:3000/api/quiz', data).toPromise() as any;
   }
 
   update(data: Omit<Quiz, '_id'>): Promise<Quiz> {
-    return this.http.put('http://localhost:3000/api/quiz', data).toPromise() as any;
+    return this.http.put<Quiz>('http://localhost:3000/api/quiz', data).toPromise() as any;
   }
 
-  findById(_id: string): Promise<Quiz> {
-    return this.http.get('http://localhost:3000/api/quiz' + _id).toPromise() as any;
+  findById(_id: string): Promise<Quiz[]> {
+    return this.http.get<Quiz[]>('http://localhost:3000/api/quiz' + _id).toPromise() as any;
   }
 }
