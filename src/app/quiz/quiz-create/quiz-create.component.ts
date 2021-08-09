@@ -5,9 +5,9 @@ import {QuizService} from "../quiz.service";
 import {MatDialog} from "@angular/material/dialog";
 import {QuestionDialogComponent} from "../question-dialog/question-dialog.component";
 import {MatTableDataSource} from "@angular/material/table";
-import {NgForm} from "@angular/forms";
+import {FormGroup, NgForm} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Router} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 
 @Component({
   selector: 'app-quiz-create',
@@ -17,11 +17,16 @@ import {Router} from "@angular/router";
 export class QuizCreateComponent implements OnInit {
   dataSource = new BehaviorSubject<QuestionDataSchema[]>([]);
   title: string;
+  private mode = 'quiz';
+  private quizId: string;
+  quiz: Quiz;
+  form: FormGroup;
 
   constructor(private quizService: QuizService,
               private dialog: MatDialog,
               private snackbar: MatSnackBar,
-              private router: Router) {
+              private router: Router,
+              public route: ActivatedRoute) {
   }
 
   async openAddQuestionDialog(): Promise<void> {
@@ -51,10 +56,18 @@ export class QuizCreateComponent implements OnInit {
   }
 
   async save() {
-    const quiz = await this.quizService.create({
-      title: this.title,
-      child: this.dataSource.value,
-    });
+    if (this.mode === 'quiz') {
+      const quiz = await this.quizService.create({
+        title: this.title,
+        child: this.dataSource.value,
+      });
+    } else {
+      const quiz = await this.quizService.update({
+        _id: this.quizId,
+        title: this.title,
+        child: this.dataSource.value
+      });
+    }
     this.snackbar.open('Quiz saved!', null, {duration: 3000});
     this.router.navigate(['quiz-display']);
   }
@@ -63,5 +76,22 @@ export class QuizCreateComponent implements OnInit {
       // this.quizService.find().then(question => {
       //   this.dataSource.next(question);
       // });
-    }
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if(paramMap.has("quizId")) {
+        this.mode = 'quizEdit';
+        this.quizId = paramMap.get("quizId");
+        this.quizService.findById(this.quizId).then(quizData => {
+          this.quiz = {
+            _id: quizData._id,
+            title: quizData.title,
+            child: quizData.child
+          };
+          console.log(quizData);
+        });
+      } else {
+        this.mode = 'quiz';
+        this.quizId = null;
+      }
+    });
+  }
 }

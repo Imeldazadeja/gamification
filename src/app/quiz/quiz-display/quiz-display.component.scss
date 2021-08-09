@@ -8,6 +8,11 @@ mat-card{
     mat-card-title{
       color: darkblue;
     }
+    mat-icon{
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
   }
 }
 

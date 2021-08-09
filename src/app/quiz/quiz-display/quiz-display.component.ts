@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {QuizService} from "../quiz.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import { Quiz} from "../quiz.model";
+import {filter} from "rxjs/operators";
 
 
 @Component({
@@ -12,7 +13,6 @@ import { Quiz} from "../quiz.model";
 
 export class QuizDisplayComponent implements OnInit {
   dataSource = new BehaviorSubject<Quiz[]>([]);
-
   constructor(private quizService: QuizService) { }
 
   // async getQuiz() {
@@ -24,6 +24,12 @@ export class QuizDisplayComponent implements OnInit {
     this.dataSource.next(quiz);
 
     // this.quizTitle = quiz.map(question => question.child.map(el => el.questionTopic))
+  }
+
+     async delete(quizId: string) {
+      this.quizService.delete(quizId).then(() => {
+       this.quizService.find();
+     });
   }
 
 }

@@ -14,5 +14,26 @@ router.get("/", executeHandler(async ({request}) => {
   return QuizData.find(filter.where).limit(filter.limit).skip(filter.skip);
 }));
 
+
+// router.get('/:id', (req, res, next)=> {
+//   QuizData.findById(req.params.id).then(quiz => {
+//     if(quiz) {
+//       res.status(200).json(quiz);
+//     } else {
+//       res.status(404).json({ message: "Quiz not found!" })
+//     }
+//   });
+// });
+
+router.get('/:id', executeHandler( async ({request}) => {
+  const filter = await parseFilterFromRequest(request);
+  return QuizData.findById(request.params.id).limit(filter.limit).skip(filter.skip);
+}));
+
+router.delete("/:id", executeHandler(async ({request})=> {
+  const filter = await parseFilterFromRequest(request);
+  return QuizData.deleteOne({_id: request.params.id}).limit(filter.limit).skip(filter.skip);
+}));
+
 module.exports = router;
 

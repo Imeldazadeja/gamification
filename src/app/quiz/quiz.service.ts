@@ -26,11 +26,16 @@ export class QuizService {
     return this.http.post<Quiz>('http://localhost:3000/api/quiz', data).toPromise() as any;
   }
 
-  update(data: Omit<Quiz, '_id'>): Promise<Quiz> {
+  update(data: Partial<Quiz>): Promise<Quiz> {
     return this.http.put<Quiz>('http://localhost:3000/api/quiz', data).toPromise() as any;
   }
 
-  findById(_id: string): Promise<Quiz[]> {
-    return this.http.get<Quiz[]>('http://localhost:3000/api/quiz' + _id).toPromise() as any;
+  findById(id: string): Promise<Quiz> {
+    return this.http.get<Quiz>('http://localhost:3000/api/quiz/' + id).toPromise() as any;
+  }
+
+  delete(_id: string): Promise<Quiz> {
+    return this.http
+      .delete<Quiz>('http://localhost:3000/api/quiz/' + _id).toPromise() as any;
   }
 }
