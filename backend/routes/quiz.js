@@ -35,5 +35,11 @@ router.delete("/:id", executeHandler(async ({request})=> {
   return QuizData.deleteOne({_id: request.params.id}).limit(filter.limit).skip(filter.skip);
 }));
 
+router.put('/:id', executeHandler(async ({request}) => {
+  const filter = await parseFilterFromRequest(request);
+  const quiz = new QuizData(request.body);
+  return QuizData.updateOne({_id: request.params.id}, quiz).limit(filter.limit).skip(filter.skip);
+}));
+
 module.exports = router;
 

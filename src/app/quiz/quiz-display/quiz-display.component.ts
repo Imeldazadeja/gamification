@@ -26,10 +26,9 @@ export class QuizDisplayComponent implements OnInit {
     // this.quizTitle = quiz.map(question => question.child.map(el => el.questionTopic))
   }
 
-     async delete(quizId: string) {
-      this.quizService.delete(quizId).then(() => {
-       this.quizService.find();
-     });
-  }
+   async delete(quizId: string): Promise<void> {
+      const quiz = await this.quizService.delete(quizId);
+      return this.dataSource.next(this.dataSource.value.filter(item => item._id !== quizId));
+   }
 
 }
