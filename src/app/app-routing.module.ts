@@ -18,17 +18,17 @@ const routes: Routes = [
 
   // {path: '', children: [...], canActivate: [AuthGuard]},
   { path: "signup", component: SignupComponent },
+  { path: "userList", component: UserListDetailsComponent, canActivate: [AuthGuard]},
   { path: "", component: PostListComponent, canActivate: [AuthGuard] },
   { path: "create", component: PostCreateComponent, canActivate: [AuthGuard] },
   { path: "edit/:postId", component: PostCreateComponent, canActivate: [AuthGuard] },
-  { path: "userList", component: UserListDetailsComponent, canActivate: [AuthGuard]},
-  { path: "lecturerList", component: LecturerListComponent, canActivate: [AuthGuard]},
+  // { path: "lecturerList", component: LecturerListComponent, canActivate: [AuthGuard]},
   { path: "course", component: CourseComponent, canActivate: [AuthGuard]},
   { path: "courses", component: CoursesComponent, canActivate: [AuthGuard]},
   {path: 'quiz', component: QuizCreateComponent, canActivate: [AuthGuard]},
   {path: 'quiz-display', component: QuizDisplayComponent},
-  {path: 'quizEdit/:quizId', component: QuizCreateComponent},
-  {path: 'editUser/:userId', component: SignupComponent}
+  // {path: 'editUser/:userId', component: SignupComponent},
+  // {path: 'quizEdit/:quizId', component: QuizCreateComponent}
 ];
 
 @NgModule({

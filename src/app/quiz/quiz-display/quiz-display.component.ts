@@ -3,6 +3,7 @@ import {QuizService} from "../quiz.service";
 import {BehaviorSubject, Subject} from "rxjs";
 import { Quiz} from "../quiz.model";
 import {filter} from "rxjs/operators";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -13,12 +14,9 @@ import {filter} from "rxjs/operators";
 
 export class QuizDisplayComponent implements OnInit {
   dataSource = new BehaviorSubject<Quiz[]>([]);
-  constructor(private quizService: QuizService) { }
+  constructor(private quizService: QuizService,
+              private snackbar: MatSnackBar) { }
 
-  // async getQuiz() {
-  //   const question = await this.quizService.find();
-  //   this.dataSource.next(question);
-  // }
   async ngOnInit(): Promise<void> {
     const quiz = await this.quizService.find();
     this.dataSource.next(quiz);
@@ -28,7 +26,7 @@ export class QuizDisplayComponent implements OnInit {
 
    async delete(quizId: string): Promise<void> {
       const quiz = await this.quizService.delete(quizId);
-      return this.dataSource.next(this.dataSource.value.filter(item => item._id !== quizId));
+      this.dataSource.next(this.dataSource.value.filter(item => item._id !== quizId));
+      this.snackbar.open('Quiz deleted successfully!', null, {duration: 3000});
    }
-
 }

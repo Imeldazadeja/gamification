@@ -47,6 +47,11 @@ const userSchema = mongoose.Schema({
   },
 });
 
+userSchema.pre('remove', async function(next) {
+  await this.model('Course').remove({usersId: this._id}, next);
+  console.log('hey');
+});
+
 module.exports = {
   model: mongoose.model("User", userSchema), UserType
 };

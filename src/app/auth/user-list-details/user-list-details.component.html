@@ -34,7 +34,7 @@
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let element">
 <!--      <mat-icon class="icon-actions" [routerLink]="['/editUser', element._id]">edit</mat-icon>-->
-      <mat-icon class="icon-actions" (click)="delete(element._id)">delete</mat-icon>
+      <mat-icon matTooltip="Delete user" class="icon-actions" (click)="delete(element._id)">delete</mat-icon>
     </td>
   </ng-container>
 

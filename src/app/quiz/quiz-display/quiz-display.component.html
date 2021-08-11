@@ -10,6 +10,6 @@
       {{quiz.title}}
     </mat-card-title>
     <mat-icon [routerLink]="['/quizEdit', quiz._id]">edit</mat-icon>
-    <mat-icon (click)="delete(quiz._id)">delete</mat-icon>
+    <mat-icon matTooltip="Delete quiz" (click)="delete(quiz._id)">delete</mat-icon>
   </mat-card-header>
 </mat-card>
