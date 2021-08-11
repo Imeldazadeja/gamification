@@ -31,7 +31,7 @@ import {FlexModule} from "@angular/flex-layout";
 import {SignupLecturerComponent} from './auth/signup-lecturer/signup-lecturer.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {LecturerListComponent} from './auth/lecturer-list/lecturer-list.component';
-import {StudentListComponent} from './auth/student-list/student-list.component';
+import {UserListDetailsComponent} from './auth/user-list-details/user-list-details.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -61,7 +61,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
     SignupStudentComponent,
     SignupLecturerComponent,
     LecturerListComponent,
-    StudentListComponent,
+    UserListDetailsComponent,
     CoursesComponent,
     CourseComponent,
     QuizCreateComponent,

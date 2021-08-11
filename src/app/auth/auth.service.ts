@@ -15,10 +15,6 @@ export class AuthService {
   private isAuthenticated = false;
   private token: string;
   private tokenTimer: any;
-  // private dataStudents: AuthDataStudent[] = [];
-  // private studentsUpdated = new Subject<AuthDataStudent[]>();
-  // private dataLecturer: AuthDataLecturer[] = [];
-  // private lecturerUpdated = new Subject<AuthDataLecturer[]>();
   private authStatusListener = new Subject<boolean>();
   private dataUser: User[] = [];
   private userUpdated = new Subject<User[]>();
@@ -49,50 +45,6 @@ export class AuthService {
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
-
-  // getStudentsUpdateListener() {
-  //   return this.studentsUpdated.asObservable();
-  // }
-  //
-  // createUser(data: Omit<AuthData, 'id'>
-  // ): Promise<AuthData> {
-  //   return this.http.post<AuthData>("http://localhost:3000/api/user/signup", data).toPromise() as any;
-  // }
-  //
-  // createStudent(
-  //   data: Omit<AuthDataStudent, 'id'>
-  // ): Promise<AuthDataStudent> {
-  //   return this.http.post<AuthDataStudent>("http://localhost:3000/api/user/signup-student", data).toPromise() as any;
-  // }
-  //
-  // getStudents(): Promise<AuthDataStudent[]> {
-  //   return this.http.get<AuthDataStudent[]>(
-  //     "http://localhost:3000/api/user/signup-student"
-  //   )
-  //     .pipe(
-  //       tap(students => {
-  //         this.dataStudents = students;
-  //         this.studentsUpdated.next([...this.dataStudents]);
-  //       })
-  //     ).toPromise();
-  // }
-  //
-  // createLecturer(data: Omit<AuthDataLecturer, 'id'>
-  // ): Promise<AuthDataLecturer> {
-  //   return this.http.post<AuthDataLecturer>("http://localhost:3000/api/user/signup-lecturer", data).toPromise() as any;
-  // }
-  //
-  // getLecturer(): Promise<AuthDataLecturer[]> {
-  //   return this.http.get<AuthDataLecturer[]>(
-  //     "http://localhost:3000/api/user/signup-lecturer"
-  //   )
-  //     .pipe(
-  //       tap(lecturer => {
-  //         this.dataLecturer = lecturer;
-  //         this.lecturerUpdated.next([...this.dataLecturer]);
-  //       })
-  //     ).toPromise();
-  // }
 
   /** Login user ***/
   async login(data: Omit<User, 'id'>) {
@@ -154,7 +106,18 @@ export class AuthService {
         })).toPromise();
   }
 
+  delete(_id: string): Promise<User> {
+    return this.http
+      .delete<User>('http://localhost:3000/api/user/' + _id).toPromise() as any;
+  }
 
+  update(data: Partial<User>): Promise<User>{
+    return this.http.put<User>('http://localhost:3000/api/user', data).toPromise() as any;
+  }
+
+  findById(id: string): Promise<User> {
+    return this.http.get<User>('http://localhost:3000/api/user/' + id).toPromise() as any;
+  }
   // login -> user -> init: true
   // login -> get current -> get current
   // refresh -> get current -> init: true

@@ -151,4 +151,20 @@ router.get("/getUser", (req, res) => {
   });
 });
 
+router.get('/:id', executeHandler(async ({request}) => {
+  const filter = await parseFilterFromRequest(request);
+  return UserModel.findById(request.params.id).limit(filter.limit).skip(filter.skip)
+}));
+
+router.put('/:id', executeHandler(async ({request}) => {
+  const filter = await parseFilterFromRequest(request);
+  const user = new UserModel(request.body);
+  return UserModel.updateOne({_id: request.params.id}, user).limit(filter.limit).skip(filter.skip)
+}));
+
+router.delete("/:id", executeHandler(async ({request}) => {
+  const filter = await parseFilterFromRequest(request);
+  return UserModel.deleteOne({_id: request.params.id}).limit(filter.limit).skip(filter.skip);
+}));
+
 module.exports = router;

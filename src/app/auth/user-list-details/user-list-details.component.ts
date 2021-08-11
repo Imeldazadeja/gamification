@@ -10,11 +10,11 @@ import {SignupComponent} from "../signup/signup.component";
 
 @Component({
   selector: 'app-student-list',
-  templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.scss']
+  templateUrl: './user-list-details.component.html',
+  styleUrls: ['./user-list-details.component.scss']
 })
 
-export class StudentListComponent implements OnInit, OnDestroy {
+export class UserListDetailsComponent implements OnInit, OnDestroy {
   readonly userDescriptions = UserDescriptions;
   readonly columns = [
     'firstName',
@@ -23,7 +23,8 @@ export class StudentListComponent implements OnInit, OnDestroy {
     'type',
     'faculty',
     'studyProgramme',
-    this.authService.user.type === UserType.admin ? 'actions' : null
+    this.authService.user.type === UserType.admin ? 'modify' : null,
+    this.authService.user.type === UserType.admin ? 'actions' : null,
   ].filter(e => e);
   dataSource = new BehaviorSubject<User[]>([]);
 
@@ -50,6 +51,12 @@ export class StudentListComponent implements OnInit, OnDestroy {
     const user = await this.authService.getUser();
     this.dataSource.next(user);
     this._snackBar.open('User created successfully!', null, {duration: 3000});
+  }
+
+  async delete(userId: string): Promise<void> {
+    const user = await this.authService.delete(userId);
+    this.dataSource.next(this.dataSource.value.filter(user => user._id !== userId));
+    this._snackBar.open('User deleted successfully!', null, {duration: 3000});
   }
 
   ngOnDestroy() {

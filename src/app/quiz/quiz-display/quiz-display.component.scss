@@ -4,11 +4,14 @@ mat-card{
   justify-content: center;
   flex-wrap: wrap;
   background-color: whitesmoke;
-  mat-card-header{
-    mat-card-title{
+  mat-card-header {
+    mat-card-title {
+      margin: 10px;
       color: darkblue;
     }
     mat-icon{
+      margin: 10px;
+      cursor: pointer;
       display: flex;
       justify-content: flex-end;
       flex-wrap: wrap;

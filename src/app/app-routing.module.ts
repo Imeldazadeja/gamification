@@ -6,7 +6,7 @@ import { PostCreateComponent } from "./posts/post-create/post-create.component";
 import { LoginComponent } from "./auth/login/login.component";
 import { SignupComponent } from "./auth/signup/signup.component";
 import { AuthGuard } from "./auth/auth.guard";
-import {StudentListComponent} from "./auth/student-list/student-list.component";
+import {UserListDetailsComponent} from "./auth/user-list-details/user-list-details.component";
 import {LecturerListComponent} from "./auth/lecturer-list/lecturer-list.component";
 import {CoursesComponent} from "./courses/courses/courses.component";
 import {CourseComponent} from "./courses/course/course.component";
@@ -21,13 +21,14 @@ const routes: Routes = [
   { path: "", component: PostListComponent, canActivate: [AuthGuard] },
   { path: "create", component: PostCreateComponent, canActivate: [AuthGuard] },
   { path: "edit/:postId", component: PostCreateComponent, canActivate: [AuthGuard] },
-  { path: "studentList", component: StudentListComponent, canActivate: [AuthGuard]},
+  { path: "userList", component: UserListDetailsComponent, canActivate: [AuthGuard]},
   { path: "lecturerList", component: LecturerListComponent, canActivate: [AuthGuard]},
   { path: "course", component: CourseComponent, canActivate: [AuthGuard]},
   { path: "courses", component: CoursesComponent, canActivate: [AuthGuard]},
   {path: 'quiz', component: QuizCreateComponent, canActivate: [AuthGuard]},
   {path: 'quiz-display', component: QuizDisplayComponent},
   {path: 'quizEdit/:quizId', component: QuizCreateComponent},
+  {path: 'editUser/:userId', component: SignupComponent}
 ];
 
 @NgModule({
