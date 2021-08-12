@@ -1,0 +1,52 @@
+$cardWidth : 200px;
+$cardHeight : 150px;
+
+.container {
+  display: inline-grid;
+  grid-template-columns: repeat(auto-fit, 160px);
+  grid-gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+  /* transform: rotateY(180deg); */
+}
+
+.card-wrapper {
+  perspective: 800px;
+}
+
+.card {
+  margin: 10px;
+  border-radius: 8px;
+  position: relative;
+  height: 200px;
+  width: 150px;
+  transform-style: preserve-3d;
+}
+
+.card-title {
+  backface-visibility: hidden;
+  height: 100%;
+  position: absolute;
+  text-align: center;
+  border-radius: 8px;
+  color: darkblue;
+  user-select: none;
+  cursor: pointer;
+  line-height: 100px;
+  font-size:30px;
+  transform-style: preserve-3d;
+  transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+
+  &:hover {
+    transform: rotatey(45deg) translatex(0px) translatey(0px);
+  }
+}
+
+.front {
+  background-color: #d5c9df;
+}
+
+.back {
+  background-color: #bbded3;
+  transform: rotateY(180deg);
+}

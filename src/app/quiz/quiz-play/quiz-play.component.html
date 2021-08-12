@@ -1,0 +1,12 @@
+<div class="container">
+  <div *ngFor="let card of cards; let i=index" #cardDiv class="cardholder">
+    <div class="card" (click)="playGame(card)" [@flipCard]="card.isFlipped">
+				<span class="card-title front">
+					{{card.name}} Front <!-- put your images here instead -->
+				</span>
+      <span class="card-title back">
+					{{card.name}} Back <!-- put your images here instead -->
+				</span>
+    </div>
+  </div>
+</div>
