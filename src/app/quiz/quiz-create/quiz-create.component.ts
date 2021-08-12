@@ -3,8 +3,6 @@ import {BehaviorSubject} from "rxjs";
 import {QuestionDataSchema, Quiz} from "../quiz.model";
 import {QuizService} from "../quiz.service";
 import {MatDialog} from "@angular/material/dialog";
-import {QuestionDialogComponent} from "../question-dialog/question-dialog.component";
-import {MatTableDataSource} from "@angular/material/table";
 import {FormGroup, NgForm} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
@@ -27,21 +25,6 @@ export class QuizCreateComponent implements OnInit {
               private snackbar: MatSnackBar,
               private router: Router,
               public route: ActivatedRoute) {
-  }
-
-  async openAddQuestionDialog(): Promise<void> {
-    const dialogRef = this.dialog.open(QuestionDialogComponent, {
-      width: '500px'
-    });
-    const result = await dialogRef.afterClosed().toPromise();
-    if(!result) return;
-    console.log('result', result);
-    this.dataSource.next([...this.dataSource.value, result]);
-
-    // await this.quizService.create(result);
-    //
-    // const quiz = await this.quizService.find();
-    // this.dataSource.next(quiz);
   }
 
   addQuestion(form: NgForm) {

@@ -45,7 +45,7 @@ import {MatOptionModule} from "@angular/material/core";
 import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
 import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
 import {MatStepperModule} from "@angular/material/stepper";
-import { QuestionDialogComponent } from './quiz/question-dialog/question-dialog.component';
+import { QuizPlayComponent } from './quiz/quiz-play/quiz-play.component';
 import { QuizDisplayComponent } from './quiz/quiz-display/quiz-display.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 
@@ -65,7 +65,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
     CoursesComponent,
     CourseComponent,
     QuizCreateComponent,
-    QuestionDialogComponent,
+    QuizPlayComponent,
     QuizDisplayComponent,
   ],
   imports: [
