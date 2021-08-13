@@ -29,6 +29,22 @@ router.get("/", executeHandler(async ({request, loggedUser}) => {
   return CoursesData.find(filter.where).limit(filter.limit).skip(filter.skip).populate(filter.populate);
 }));
 
+router.get('/:id', executeHandler(async ({request}) => {
+  const filter = await parseFilterFromRequest(request);
+  return CoursesData.findById(request.params.id).limit(filter.limit).skip(filter.skip);
+}));
+
+router.put('/:id', executeHandler(async ({request}) => {
+  const filter = await parseFilterFromRequest(request);
+  const course = new CoursesData(request.body);
+  return CoursesData.updateOne({_id: request.params.id}, course).limit(filter.limit).skip(filter.skip);
+}));
+
+router.delete("/:id", executeHandler(async ({request})=> {
+  const filter = await parseFilterFromRequest(request);
+  return CoursesData.deleteOne({_id: request.params.id}).limit(filter.limit).skip(filter.skip);
+}));
+
 // router.get('/', )
 // GET /courses?filter={"studentId": {"oid": "543534256362363463"}}
 

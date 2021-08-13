@@ -20,6 +20,7 @@ export class CoursesComponent implements OnInit, AfterViewInit {
     'courseCycle',
     'students',
     'lecturer',
+    'modify',
     'courseEnter',
     this.authService.user.type === UserType.admin? 'actions' : null
     ].filter(e => e);

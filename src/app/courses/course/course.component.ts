@@ -6,7 +6,7 @@ import {FormControl, NgForm} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {map, startWith} from "rxjs/operators";
 import {CourseService} from "../course.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {User, UserType} from "../../auth/auth-data.model";
 
 @Component({
@@ -52,7 +52,22 @@ export class CourseComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private courseService: CourseService,
-              private router: Router) {
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
+    //
+    // const inserting = activatedRoute.snapshot.data.inserting;
+    // this.courseState = inserting ? 'addCourse' : 'editCourse';
+    // if(!inserting) {
+    //   const element = this.router.getCurrentNavigation()?.extras.state?.element;
+    //   if(element) {
+    //     this.course = element;
+    //   } else {
+    //     const id = this.activatedRoute.snapshot.params.id;
+    //     this.courseService.findById(id).then(course => {
+    //       this.course = course;
+    //     })
+    //   }
+    // }
   }
 
 

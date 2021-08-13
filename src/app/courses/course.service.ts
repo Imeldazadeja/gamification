@@ -29,8 +29,16 @@ export class CourseService {
       .toPromise() as any;
   }
 
-  findById(): Promise<Course[]> {
-    return this.http.get('http://localhost:3000/api/courses').toPromise() as any
+  findById(_id: string): Promise<Course> {
+    return this.http.get<Course>('http://localhost:3000/api/courses/' + _id).toPromise() as any;
+  }
+
+  delete(_id: string): Promise<Course> {
+    return this.http.delete<Course>('http://localhost:3000/api/courses/' + _id).toPromise() as any;
+  }
+
+  update(data: Partial<Course>): Promise<Course> {
+    return this.http.put<Course>('http://localhost:3000/api/courses', data).toPromise() as any
   }
 
   create(data: Omit<Course, '_id'>): Promise<Course> {
