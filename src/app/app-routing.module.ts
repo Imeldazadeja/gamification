@@ -28,9 +28,9 @@ const routes: Routes = [
   { path: "courses", component: CoursesComponent, canActivate: [AuthGuard]},
   {path: 'quiz', component: QuizCreateComponent, canActivate: [AuthGuard]},
   {path: 'quiz-display', component: QuizDisplayComponent},
-  {path: 'quiz-play', component: QuizPlayComponent}
+  {path: 'quiz-play', component: QuizPlayComponent},
   // {path: 'editUser/:userId', component: SignupComponent},
-  // {path: 'quizEdit/:quizId', component: QuizCreateComponent}
+  {path: 'quizEdit/:quizId', component: QuizCreateComponent}
 ];
 
 @NgModule({

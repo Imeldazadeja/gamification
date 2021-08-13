@@ -35,11 +35,12 @@ $cardHeight : 150px;
   line-height: 100px;
   font-size:30px;
   transform-style: preserve-3d;
+  transform: rotatey(0deg) translatex(0px) translatey(0px);
   transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
 
-  &:hover {
-    transform: rotatey(45deg) translatex(0px) translatey(0px);
-  }
+  //&:hover {
+  //  transform: rotatey(45deg) translatex(0px) translatey(0px);
+  //}
 }
 
 .front {
@@ -48,5 +49,7 @@ $cardHeight : 150px;
 
 .back {
   background-color: #bbded3;
-  transform: rotateY(180deg);
+  transform: rotateY(-180deg) translateX(0px) translateY(0px);
+  width: 1.5 * $cardWidth;
+  height: 1.5 * $cardHeight;
 }

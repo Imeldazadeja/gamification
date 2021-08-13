@@ -6,7 +6,6 @@ import {FormControl, NgForm} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {map, startWith} from "rxjs/operators";
 import {CourseService} from "../course.service";
-// import {AuthDataLecturer, AuthDataStudent} from "../../auth/auth-data.model";
 import {Router} from "@angular/router";
 import {User, UserType} from "../../auth/auth-data.model";
 
@@ -30,7 +29,7 @@ export class CourseComponent implements OnInit {
     return this.allStudents.filter(s => s.firstName.toLowerCase().includes(search) || s.lastName.toLowerCase().includes(search));
   }));
 
-  students: User[] = [];
+  users: User[] = [];
 
   selectableStudent = true;
   removableStudent = true;
@@ -62,36 +61,29 @@ export class CourseComponent implements OnInit {
   }
 
   removeStudent(student: User): void {
-    const index = this.students.indexOf(student);
+    const index = this.users.indexOf(student);
 
     if (index >= 0) {
-      this.students.splice(index, 1);
+      this.users.splice(index, 1);
     }
   }
 
 
   selectedStudent(event: MatAutocompleteSelectedEvent): void {
-    this.students.push(event.option.value);
+    this.users.push(event.option.value);
     console.log('value', event.option.value)
     this.studentInput.nativeElement.value = '';
     this.studentCtrl.setValue(null);
   }
-
-
-  // private _filterStudent(value: string): string[] {
-  //   const filterValue = value.toLowerCase();
-  //
-  //   return this.allStudents.filter(student => student.toLowerCase().includes(filterValue));
-  // }
 
   async onCreateCourse(form: NgForm) {
     if (form.invalid) {
       return;
     }
     console.log(form);
-    console.log('students', this.students);
+    console.log('students', this.users);
 
-    await this.courseService.create({...form.value, usersId: this.students.map(e => e._id)});
+    await this.courseService.create({...form.value, usersId: this.users.map(e => e._id)});
     this.router.navigate(['/courses']);
     // populate
   }
@@ -105,11 +97,5 @@ export class CourseComponent implements OnInit {
     this.allLecturers = allLecturers;
     this.studentCtrl.setValue(null);
     this.lecturerCtrl.setValue(null);
-
-    // this.studentSearch.subscribe(search => console.log('search:', search));
-    // this.filteredStudents = this.studentCtrl.valueChanges.pipe(
-    //   startWith(null),
-    //   map((student: string | null) => student ? this._filterStudent(student) :
-    //     this.allStudents.slice()));
   }
 }

@@ -30,7 +30,7 @@
       <mat-label>Select students</mat-label>
       <mat-chip-list #chipList aria-label="Student selectedStudent">
         <mat-chip
-          *ngFor="let student of students"
+          *ngFor="let student of users"
           [selectable]="selectableStudent"
           [removable]="removableStudent"
           (removed)="removeStudent(student)"
@@ -51,7 +51,7 @@
         #auto="matAutocomplete"
         (optionSelected)="selectedStudent($event)">
         <ng-container *ngFor="let student of filteredStudents | async">
-          <mat-option *ngIf="!students.includes(student)" [value]="student">
+          <mat-option *ngIf="!users.includes(student)" [value]="student">
             {{student.firstName}} {{student.lastName}}
           </mat-option>
         </ng-container>
