@@ -41,7 +41,7 @@ export class UserListDetailsComponent implements OnInit, OnDestroy {
 
   async openAddUserDialog(): Promise<void> {
     const dialogRef = this.dialog.open(SignupComponent, {
-      width: '500px'
+      width: '450px'
     });
     const result = await dialogRef.afterClosed().toPromise();
     if (!result) return;

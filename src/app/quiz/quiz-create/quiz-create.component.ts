@@ -39,18 +39,19 @@ export class QuizCreateComponent implements OnInit {
   }
 
   async save() {
-    if (this.mode === 'quiz') {
+    // if (this.mode === 'quiz') {
       const quiz = await this.quizService.create({
         title: this.title,
         child: this.dataSource.value,
       });
-    } else {
-      const quiz = await this.quizService.update({
-        _id: this.quizId,
-        title: this.title,
-        child: this.dataSource.value
-      });
-    }
+    // }
+    // else {
+    //   const quiz = await this.quizService.update({
+    //     _id: this.quizId,
+    //     title: this.title,
+    //     child: this.dataSource.value
+    //   });
+    // }
     this.snackbar.open('Quiz saved!', null, {duration: 3000});
     this.router.navigate(['quiz-display']);
   }
@@ -59,22 +60,22 @@ export class QuizCreateComponent implements OnInit {
       // this.quizService.find().then(question => {
       //   this.dataSource.next(question);
       // });
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if(paramMap.has("quizId")) {
-        this.mode = 'quizEdit';
-        this.quizId = paramMap.get("quizId");
-        this.quizService.findById(this.quizId).then(quizData => {
-          this.quiz = {
-            _id: quizData._id,
-            title: quizData.title,
-            child: quizData.child
-          };
-          console.log(quizData);
-        });
-      } else {
-        this.mode = 'quiz';
-        this.quizId = null;
-      }
-    });
+    // this.route.paramMap.subscribe((paramMap: ParamMap) => {
+    //   if(paramMap.has("quizId")) {
+    //     this.mode = 'quizEdit';
+    //     this.quizId = paramMap.get("quizId");
+    //     this.quizService.findById(this.quizId).then(quizData => {
+    //       this.quiz = {
+    //         _id: quizData._id,
+    //         title: quizData.title,
+    //         child: quizData.child
+    //       };
+    //       console.log(quizData);
+    //     });
+    //   } else {
+    //     this.mode = 'quiz';
+    //     this.quizId = null;
+    //   }
+    // });
   }
 }

@@ -13,6 +13,8 @@ import {MatDialogRef} from "@angular/material/dialog";
 export class SignupComponent implements OnInit {
   isLoading = false;
   userType: string;
+  hidePass = true;
+  hideRepeatPass = true;
   userTypes = Object.entries(UserDescriptions).filter(([id]) => id !== UserType.admin).map(([id, name]) => ({
     id,
     name

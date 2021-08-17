@@ -34,8 +34,8 @@ export class QuizService {
     return this.http.get<Quiz>('http://localhost:3000/api/quiz/' + id).toPromise() as any;
   }
 
-  delete(_id: string): Promise<Quiz> {
+  delete(id: string): Promise<Quiz> {
     return this.http
-      .delete<Quiz>('http://localhost:3000/api/quiz/' + _id).toPromise() as any;
+      .delete<Quiz>('http://localhost:3000/api/quiz/' + id).toPromise() as any;
   }
 }

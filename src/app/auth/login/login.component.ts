@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
   isLoading = false;
+  hide = true;
 
   constructor(public authService: AuthService, public router: Router) { }
 
