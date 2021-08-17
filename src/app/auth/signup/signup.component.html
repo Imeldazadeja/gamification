@@ -42,7 +42,7 @@
           type="password"
           ngModel
           [type]="hidePass ? 'password' : 'text'"
-          #passwordInput="ngModel"
+          #passwordControl="ngModel"
           placeholder="Password"
           required
         >
@@ -55,7 +55,7 @@
             {{hidePass ? 'visibility_off' : 'visibility'}}
           </mat-icon>
         </button>
-        <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
+        <mat-error *ngIf="passwordControl.invalid">Please enter a valid password</mat-error>
       </mat-form-field>
       <mat-form-field>
         <input
@@ -64,7 +64,8 @@
           type="password"
           ngModel
           [type]="hideRepeatPass ? 'password' : 'text'"
-          #confirmPasswordInput="ngModel"
+          #confirmPasswordControl="ngModel"
+          (ngModelChange)="onConfirmPassword()"
           placeholder="Confirm password"
           required
         >
@@ -77,7 +78,8 @@
             {{hideRepeatPass ? 'visibility_off' : 'visibility'}}
           </mat-icon>
         </button>
-        <mat-error *ngIf="confirmPasswordInput.invalid">Please enter a valid password</mat-error>
+        <mat-error *ngIf="confirmPasswordControl.touched && confirmPasswordControl.invalid">
+          {{getConfirmPasswordErrorDescription(confirmPasswordControl)}}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Select your position</mat-label>

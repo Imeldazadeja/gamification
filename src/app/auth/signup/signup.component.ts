@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {NgForm} from "@angular/forms";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NgForm, NgModel} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
 import {UserDescriptions, UserType} from "../auth-data.model";
@@ -15,6 +15,8 @@ export class SignupComponent implements OnInit {
   userType: string;
   hidePass = true;
   hideRepeatPass = true;
+  @ViewChild('signupForm') signupForm!: NgForm;
+  @ViewChild('passwordControl', {read: NgModel}) passwordControl?: NgModel;
   userTypes = Object.entries(UserDescriptions).filter(([id]) => id !== UserType.admin).map(([id, name]) => ({
     id,
     name
@@ -37,6 +39,22 @@ export class SignupComponent implements OnInit {
     // this.router.navigate(['/login']);
     this.dialogRef.close(form.value);
   }
+
+  onConfirmPassword() {
+    if(this.signupForm.form.value.password !== this.signupForm.form.value.confirmPassword) {
+      this.signupForm.controls['confirmPassword']?.setErrors({'notEqual': true});
+    }
+  }
+
+  getConfirmPasswordErrorDescription(passwordControl: NgModel): string {
+    if(passwordControl.errors?.notEqual){
+      return 'Password and confirm password must be the same field!'
+    } else {
+      return 'This is a required field!'
+    }
+  }
+
+
 
   ngOnInit(): void {
   }

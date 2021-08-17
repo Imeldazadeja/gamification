@@ -20,7 +20,7 @@
         type="password"
         ngModel
         [type]="hide ? 'password' : 'text'"
-        #passwordInput="ngModel"
+        #passwordControl="ngModel"
         placeholder="Password"
         required
       >
@@ -33,7 +33,7 @@
           {{hide ? 'visibility_off' : 'visibility'}}
         </mat-icon>
       </button>
-      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
+      <mat-error *ngIf="passwordControl.invalid">Please enter a valid password</mat-error>
     </mat-form-field>
     <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Login</button>
   </form>
