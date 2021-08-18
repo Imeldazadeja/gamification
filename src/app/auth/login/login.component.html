@@ -1,6 +1,14 @@
+<div class="showError"
+     *ngIf="authService.loginError"
+     fxLayout="row"
+     fxLayoutAlign="start center">
+  <mat-icon>error_outline</mat-icon>
+  <span style="margin-left: 10px">Username or password are incorrect</span>
+</div>
+
 <mat-card>
   <h2 style="text-align: center">Login</h2>
-  <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+  <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
     <mat-form-field>
       <input
         matInput
@@ -35,6 +43,11 @@
       </button>
       <mat-error *ngIf="passwordControl.invalid">Please enter a valid password</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Login</button>
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit"
+      [disabled]="loginForm.invalid"
+    >Login</button>
   </form>
 </mat-card>

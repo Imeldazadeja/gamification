@@ -18,6 +18,7 @@ export class AuthService {
   private authStatusListener = new Subject<boolean>();
   private dataUser: User[] = [];
   private userUpdated = new Subject<User[]>();
+  public loginError: boolean = false;
 
   get isInit(): boolean {
     return this._init;
@@ -47,33 +48,30 @@ export class AuthService {
   }
 
   /** Login user ***/
-  async login(data: Omit<User, 'id'>) {
-    const response = await this.http
-      .post<{ token: string, expiresIn: number, user: User }>(
-        "http://localhost:3000/api/user/login", data)
-      .toPromise();
-    this.token = response.token;
-    if (this.token) {
-      this._user = response.user;
-      this._init = true;
-      const expiresInDuration = response.expiresIn;
-      this.setAuthTimer(expiresInDuration);
-      this.isAuthenticated = true;
-      this.authStatusListener.next(true);
-      const now = new Date();
-      const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-      console.log(expirationDate);
-      this.saveAuthData(this.token, expirationDate);
-      await this.router.navigate(['/']);
+  async login(data: Omit<User, 'id'>): Promise<void> {
+    try {
+      const response = await this.http
+        .post<{ token: string, expiresIn: number, user: User }>(
+          "http://localhost:3000/api/user/login", data)
+        .toPromise();
+      this.token = response.token;
+      if (this.token) {
+        this._user = response.user;
+        this._init = true;
+        const expiresInDuration = response.expiresIn;
+        this.setAuthTimer(expiresInDuration);
+        this.isAuthenticated = true;
+        this.authStatusListener.next(true);
+        const now = new Date();
+        const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+        console.log(expirationDate);
+        this.saveAuthData(this.token, expirationDate);
+        await this.router.navigate(['/']);
+      }
     }
-
-    // if (this._user.type === UserType.admin) {
-    //   await this.router.navigate(['/admin']);
-    // } else if (this._user.type === UserType.student) {
-    //   await this.router.navigate(['/student']);
-    // } else {
-    //   await this.router.navigate(['/lecturer'])
-    // }
+    catch (error) {
+      this.loginError = true;
+    }
   }
 
   /**** Signup user ****/
@@ -156,6 +154,7 @@ export class AuthService {
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
     this._user = null;
+    this.loginError = false;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.router.navigate(['/']);

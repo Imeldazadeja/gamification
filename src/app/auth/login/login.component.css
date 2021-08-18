@@ -2,8 +2,13 @@ mat-form-field {
   width: 100%;
 }
 
-mat-spinner {
+.showError {
   margin: auto;
+  width: 500px;
+  color: white;
+  background-color: red;
+  height: 40px;
+  padding: 5px 8px;
 }
 
 mat-card {

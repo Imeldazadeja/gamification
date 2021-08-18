@@ -19,10 +19,13 @@ export class LoginComponent implements OnInit {
       console.log('invalid form');
       return;
     }
-    this.isLoading = true;
     await this.authService.login({...form.value});
-    await this.router.navigate(['/']);
   }
+
+  setErrorFalse() {
+    this.authService.loginError = false;
+  }
+
   ngOnInit(): void {
   }
 
