@@ -34,7 +34,7 @@ export class SignupComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    console.log(form.value);
+    // console.log(form.value);
     // await this.authService.signup(form.value);
     // this.router.navigate(['/login']);
     this.dialogRef.close(form.value);

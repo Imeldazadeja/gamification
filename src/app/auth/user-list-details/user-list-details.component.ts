@@ -40,17 +40,22 @@ export class UserListDetailsComponent implements OnInit, OnDestroy {
   }
 
   async openAddUserDialog(): Promise<void> {
-    const dialogRef = this.dialog.open(SignupComponent, {
-      width: '450px'
-    });
-    const result = await dialogRef.afterClosed().toPromise();
-    if (!result) return;
+    try {
+      const dialogRef = this.dialog.open(SignupComponent, {
+        width: '450px'
+      });
+      const result = await dialogRef.afterClosed().toPromise();
+      if (!result) return;
 
-    await this.authService.signup(result);
+      await this.authService.signup(result);
 
-    const user = await this.authService.getUser();
-    this.dataSource.next(user);
-    this._snackBar.open('User created successfully!', null, {duration: 3000});
+      const user = await this.authService.getUser();
+      this.dataSource.next(user);
+      this._snackBar.open('User created successfully!', null, {duration: 3000});
+    }
+    catch (error) {
+      this._snackBar.open('User is already registered!', null, {duration: 3000});
+    }
   }
 
   async delete(userId: string): Promise<void> {
