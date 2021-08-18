@@ -6,6 +6,8 @@ import {CourseService} from "../course.service";
 import {MatPaginator} from "@angular/material/paginator";
 import {AuthService} from "../../auth/auth.service";
 import {UserType} from "../../auth/auth-data.model";
+import {BehaviorSubject} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-courses',
@@ -14,7 +16,8 @@ import {UserType} from "../../auth/auth-data.model";
 })
 export class CoursesComponent implements OnInit, AfterViewInit {
   courseData: any = [];
-  dataSource: MatTableDataSource<Course>;
+  // dataSource: MatTableDataSource<Course>;
+  dataSource = new BehaviorSubject<Course[]>([]);
   readonly displayedColumns: string[] = [
     'courseTitle',
     'courseCycle',
@@ -25,17 +28,20 @@ export class CoursesComponent implements OnInit, AfterViewInit {
     this.authService.user.type === UserType.admin? 'actions' : null
     ].filter(e => e);
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private courseService: CourseService, private authService: AuthService) { }
+  constructor(private courseService: CourseService,
+              private authService: AuthService,
+              private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.courseService.find({
       populate: [{path: 'lecturer'}, {path: 'students'}]
     }).then(data => {
       this.courseData = data;
-      this.dataSource = new MatTableDataSource<Course>(this.courseData);
-      setTimeout(() => {
-        this.dataSource.paginator = this.paginator;
-      }, 0);
+      this.dataSource.next(this.courseData);
+      // this.dataSource = new MatTableDataSource<Course>(this.courseData);
+      // setTimeout(() => {
+      //   this.dataSource.paginator = this.paginator;
+      // }, 0);
     });
   }
   // lecturerId, lecturer
@@ -49,5 +55,11 @@ export class CoursesComponent implements OnInit, AfterViewInit {
       return `${course.lecturer.firstName} ${course.lecturer.lastName}`;
     }
     return '-';
+  }
+
+  async delete(courseId: string): Promise<void> {
+    const course = await this.courseService.delete(courseId);
+    this.dataSource.next(this.dataSource.value.filter(item => item._id !== courseId));
+    this.snackbar.open(`Course deleted successfully!`, null, {duration: 3000});
   }
 }
