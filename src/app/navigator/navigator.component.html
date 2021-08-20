@@ -1,0 +1,89 @@
+<!--<mat-toolbar color="primary">-->
+<!--  <span>-->
+<!--    <a routerLink="/">-->
+<!--      <mat-icon>school</mat-icon>-->
+<!--      <span style="margin: 15px">Creative learning</span>-->
+<!--    </a>-->
+<!--  </span>-->
+<!--  <span class="spacer"></span>-->
+<!--  <ul *ngIf="authService.user; else toolbarNotLogged">-->
+<!--    <li *ngIf="!isStudent">-->
+<!--      <button mat-button routerLink="/userList" routerLinkActive="mat-accent">Register</button>-->
+<!--    </li>-->
+<!--    <li>-->
+<!--      <button mat-button routerLink="courses" routerLinkActive="mat-accent">Courses</button>-->
+<!--    </li>-->
+<!--    <li>-->
+<!--      <button mat-button (click)="onLogout()">Logout</button>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--  <ng-template #toolbarNotLogged>-->
+<!--    <ul>-->
+<!--      <li>-->
+<!--        <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <a mat-button routerLink="/signup" routerLinkActive="mat-accent">Signup</a>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </ng-template>-->
+<!--    <button *ngIf="userIsAuthenticated" mat-button [matMenuTriggerFor]="register">Rregjistro</button>-->
+<!--    <mat-menu #register="matMenu">-->
+<!--      <button mat-menu-item routerLink="/studentList" routerLinkActive="mat-accent">-->
+<!--        Rregjistro Student-->
+<!--      </button>-->
+<!--      <button mat-menu-item routerLink="/lecturerList" routerLinkActive="mat-accent">-->
+<!--        Rregjistro Pedagog-->
+<!--      </button>-->
+<!--    </mat-menu>-->
+<!--    <button *ngIf="userIsAuthenticated" mat-button routerLink="/courses" routerLinkActive="mat-accent">-->
+<!--    Kurset-->
+<!--    </button>-->
+<!--</mat-toolbar>-->
+
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer fixedInViewport="false"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    opened>
+    <mat-toolbar fxLayout="row" fxLayoutAlign="start center" class="top-toolbar">
+      <mat-icon class="logo">school</mat-icon>
+      <span class="app-name">Creative learning</span>
+    </mat-toolbar>
+    <mat-nav-list *ngIf="authService.user">
+      <a mat-list-item routerLink="/userList" *ngIf="!isStudent">
+        <mat-icon>person_add</mat-icon>
+        Register
+      </a>
+      <a mat-list-item routerLink="courses">
+        <mat-icon>groups</mat-icon>
+        Courses
+      </a>
+    </mat-nav-list>
+    <div class="footer-logout">
+      <div class="logout-button" (click)="onLogout()" style="cursor: pointer">
+        <mat-divider class="divider"></mat-divider>
+        <mat-icon class="logout-icon">logout</mat-icon>
+        <a style="position: fixed; margin:3px; font-size: 18px; font-weight: 500">
+          logout
+        </a>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer?.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="app-content">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

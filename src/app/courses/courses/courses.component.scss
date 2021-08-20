@@ -1,10 +1,16 @@
-:host {
-  table {
-    width: 100%;
+.mat-elevation-z4 {
+  width: 90%;
+  margin: 30px auto;
 
-    td.actions, th.actions {
-      width: 30px;
-      cursor: pointer;
+  :host {
+    table {
+      width: 100%;
+      table-layout: auto;
+
+      td.actions, th.actions {
+        width: 30px;
+        cursor: pointer;
+      }
     }
   }
 }

@@ -10,20 +10,24 @@ import {CourseComponent} from "./courses/course/course.component";
 import {QuizCreateComponent} from "./quiz/quiz-create/quiz-create.component";
 import {QuizDisplayComponent} from "./quiz/quiz-display/quiz-display.component";
 import {QuizPlayComponent} from "./quiz/quiz-play/quiz-play.component";
+import {CoreComponent} from "./core/core.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
+  { path: '', component: CoreComponent, children: [
+      { path: "signup", component: SignupComponent },
+      { path: "userList", component: UserListDetailsComponent},
+      { path: "course", component: CourseComponent},
+      { path: "courses", component: CoursesComponent},
+      {path: 'quiz', component: QuizCreateComponent},
+      {path: 'quiz-display', component: QuizDisplayComponent},
+    ], canActivate: [AuthGuard]
+  }
 
   // {path: '', children: [...], canActivate: [AuthGuard]},
-  { path: "signup", component: SignupComponent },
-  { path: "userList", component: UserListDetailsComponent, canActivate: [AuthGuard]},
-  { path: "course", component: CourseComponent, canActivate: [AuthGuard]},
-  { path: "courses", component: CoursesComponent, canActivate: [AuthGuard]},
-  {path: 'quiz', component: QuizCreateComponent, canActivate: [AuthGuard]},
-  {path: 'quiz-display', component: QuizDisplayComponent},
   // {path: 'quiz-play/:quizId', component: QuizPlayComponent},
   // {path: 'editUser/:userId', component: SignupComponent},
-  {path: 'quizEdit/:quizId', component: QuizCreateComponent}
+  // {path: 'quizEdit/:quizId', component: QuizCreateComponent}
 ];
 
 @NgModule({

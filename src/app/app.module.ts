@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input'
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
-import {HeaderComponent} from './header/header.component';
+import {NavigatorComponent} from './navigator/navigator.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
@@ -43,12 +43,13 @@ import {MatStepperModule} from "@angular/material/stepper";
 import { QuizPlayComponent } from './quiz/quiz-play/quiz-play.component';
 import { QuizDisplayComponent } from './quiz/quiz-display/quiz-display.component';
 import {MatGridListModule} from "@angular/material/grid-list";
+import { CoreComponent } from './core/core.component';
 
 // @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
+    NavigatorComponent,
     LoginComponent,
     SignupComponent,
     UserListDetailsComponent,
@@ -57,6 +58,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
     QuizCreateComponent,
     QuizPlayComponent,
     QuizDisplayComponent,
+    CoreComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,18 +1,32 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {UserType} from "../auth/auth-data.model";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {map, shareReplay} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  templateUrl: './navigator.component.html',
+  styleUrls: ['./navigator.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class NavigatorComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
   userIsAuthenticated = false;
 
-  constructor(public authService: AuthService) {
+
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
+
+  constructor(
+    public authService: AuthService,
+    private breakpointObserver: BreakpointObserver,
+    private router: Router
+    ) {
   }
 
   get isStudent(): boolean {
@@ -30,6 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logout();
+    this.router.navigate(['/login'])
   }
 
   ngOnDestroy() {
