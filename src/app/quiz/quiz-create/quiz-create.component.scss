@@ -1,11 +1,6 @@
-.mat-stepper-horizontal {
-  margin-top: 8px;
-}
 
-.mat-form-field {
-  margin-top: 16px;
-  width: 100%;
-}
+
+
 
 .firstFormGroup {
   max-width: 400px;
@@ -14,23 +9,18 @@
   flex-wrap: wrap;
 }
 
-:host {
-  table {
-    width: 100%;
-
-    td.actions, th.actions {
-      width: 30px;
-      cursor: pointer;
-    }
-  }
-
   mat-card {
-    margin-bottom: 1rem;
+    width: 90%;
+    margin: 1rem;
+    .mat-form-field {
+      margin-top: 16px;
+      width: 100%;
+    }
     mat-card-header {
       .save-icon {
         position: relative;
         display: flex;
-        left: 1020px;
+        left: 1000px;
         font-size: 28px;
         cursor: pointer;
       }
@@ -38,6 +28,12 @@
   }
 
   mat-expansion-panel {
+
+    mat-form-field{
+      width: 100%;
+    }
+    margin-left: 20px;
+    width: 90%;
     mat-expansion-panel-header {
       mat-panel-title {
         font-weight: 500;
@@ -58,4 +54,3 @@
       }
     }
   }
-}
