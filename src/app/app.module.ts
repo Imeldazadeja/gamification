@@ -45,6 +45,7 @@ import { QuizDisplayComponent } from './quiz/quiz-display/quiz-display.component
 import {MatGridListModule} from "@angular/material/grid-list";
 import { CoreComponent } from './core/core.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 
 // @ts-ignore
 @NgModule({
@@ -61,6 +62,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     QuizDisplayComponent,
     CoreComponent,
     UserProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

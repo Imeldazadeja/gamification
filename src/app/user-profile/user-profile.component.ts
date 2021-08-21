@@ -35,4 +35,8 @@ export class UserProfileComponent implements OnInit {
     this.user = {...this.authService.user!};
   }
 
+  onChangePassword() {
+    this.router.navigate(['change-password']);
+  }
+
 }

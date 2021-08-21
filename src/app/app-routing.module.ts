@@ -12,6 +12,7 @@ import {QuizDisplayComponent} from "./quiz/quiz-display/quiz-display.component";
 import {QuizPlayComponent} from "./quiz/quiz-play/quiz-play.component";
 import {CoreComponent} from "./core/core.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
+import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
       {path: 'quiz', component: QuizCreateComponent},
       {path: 'quiz-display', component: QuizDisplayComponent},
       {path: 'user-profile', component: UserProfileComponent},
+      {path: 'change-password', component: ChangePasswordComponent, data: {exist: 'backButton'}}
     ], canActivate: [AuthGuard]
   }
 

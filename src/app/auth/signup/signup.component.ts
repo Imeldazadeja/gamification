@@ -48,7 +48,7 @@ export class SignupComponent implements OnInit {
 
   getConfirmPasswordErrorDescription(passwordControl: NgModel): string {
     if(passwordControl.errors?.notEqual){
-      return 'Password and confirm password must be the same field!'
+      return 'Passwords must match!'
     } else {
       return 'This is a required field!'
     }
