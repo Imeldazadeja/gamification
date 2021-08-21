@@ -157,7 +157,6 @@ export class AuthService {
     this.loginError = false;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this.router.navigate(['/']);
   }
 
   private setAuthTimer(duration: number) {
