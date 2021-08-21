@@ -1,0 +1,45 @@
+.profileUser {
+  width: 100%;
+
+  mat-card {
+    width: 580px;
+    min-height: 300px;
+    margin-top: 10px;
+
+    mat-card-header {
+      margin: 10px 0 0 0;
+
+      .title{
+        font-size: 24px;
+        color: dimgrey;
+        margin-top: 10px;
+      }
+      .iconProfile {
+        margin: 0 40px 20px 10px;
+        font-size: 45px;
+        color: cadetblue;
+      }
+    }
+
+    mat-card-content {
+      width: 100%;
+      form {
+        width: 100%;
+        margin: 20px 50px;
+
+        mat-form-field {
+          width: 100%;
+        }
+        mat-label{
+          font-size: 16px;
+        }
+      }
+    }
+    .user-profile-button {
+      text-decoration: underline;
+      border: none;
+      padding: 0 0;
+      color: #5A79B5;
+    }
+  }
+}

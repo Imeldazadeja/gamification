@@ -1,0 +1,84 @@
+<div fxLayoutAlign="center center" fxLayout="column" class="profileUser">
+  <mat-card>
+    <mat-card-header
+      fxLayout="row"
+      fxLayoutAlign="start">
+      <mat-icon class="iconProfile material-icons-outlined">account_circle</mat-icon>
+      <div class="title">User Profile</div>
+    </mat-card-header>
+    <mat-card-content fxLayoutAlign="start">
+      <form fxLayout="column" fxLayoutAlign="space-around start" #profileForm="ngForm">
+        <mat-form-field>
+          <mat-label>First Name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="firstname"
+            [(ngModel)]="user.firstName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="lastname"
+            [(ngModel)]="user.lastName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            email
+            type="email"
+            name="email"
+            [(ngModel)]="user.email">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="secondProfileCard" *ngIf="isStudent || isLecturer">
+    <mat-card-header
+      fxLayout="row"
+      fxLayoutAlign="start">
+      <mat-icon class="iconProfile">school</mat-icon>
+      <div class="title">User Details</div>
+    </mat-card-header>
+    <mat-card-content fxLayoutAlign="start">
+      <form fxLayout="column" fxLayoutAlign="space-between center" #detailsForm="ngForm">
+        <mat-form-field>
+          <mat-label>Faculty</mat-label>
+          <input
+            matInput
+            type="text"
+            name="faculty"
+            [(ngModel)]="user.faculty">
+        </mat-form-field>
+        <mat-form-field *ngIf="!isLecturer">
+          <mat-label>Study Cycle</mat-label>
+          <input
+            matInput
+            type="text"
+            name="studyCycle"
+            [(ngModel)]="user.studyCycle">
+        </mat-form-field>
+        <mat-form-field *ngIf="!isLecturer">
+          <mat-label>Study programme</mat-label>
+          <input
+            matInput
+            type="text"
+            name="studyProgramme"
+            [(ngModel)]="user.studyProgramme">
+        </mat-form-field>
+        <mat-form-field *ngIf="!isLecturer">
+          <mat-label>Registration date</mat-label>
+          <input
+            matInput
+            type="text"
+            name="registrationDate"
+            [(ngModel)]="user.registrationDate">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

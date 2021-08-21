@@ -11,6 +11,7 @@ import {QuizCreateComponent} from "./quiz/quiz-create/quiz-create.component";
 import {QuizDisplayComponent} from "./quiz/quiz-display/quiz-display.component";
 import {QuizPlayComponent} from "./quiz/quiz-play/quiz-play.component";
 import {CoreComponent} from "./core/core.component";
+import {UserProfileComponent} from "./user-profile/user-profile.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: "courses", component: CoursesComponent},
       {path: 'quiz', component: QuizCreateComponent},
       {path: 'quiz-display', component: QuizDisplayComponent},
+      {path: 'user-profile', component: UserProfileComponent},
     ], canActivate: [AuthGuard]
   }
 
