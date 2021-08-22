@@ -89,8 +89,8 @@ export class AuthService {
 
   /**** Get user ****/
 
-  find(filter?: Filter): Promise<User[]> {
-    return this.http.get<Course[]>('http://localhost:3000/api/user', {params: {filter: filter ? JSON.stringify(filter) : undefined}})
+  async find(filter?: Filter): Promise<User[]> {
+    return await this.http.get<Course[]>('http://localhost:3000/api/user', {params: {filter: filter ? JSON.stringify(filter) : undefined}})
       .toPromise() as any;
   }
 
@@ -115,6 +115,11 @@ export class AuthService {
   findById(id: string): Promise<User> {
     return this.http.get<User>('http://localhost:3000/api/user/' + id).toPromise() as any;
   }
+
+  async changePassword(newPassword: string): Promise<User> {
+    return await this.http.put<User>('http://localhost:3000/api/user/'+ this._user._id, {password: newPassword}).toPromise();
+  }
+
   // login -> user -> init: true
   // login -> get current -> get current
   // refresh -> get current -> init: true

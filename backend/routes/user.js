@@ -72,6 +72,16 @@ routerUnauthenticated.post('/login', executeHandler(async ({request}) => {
   return {token, expiresIn: 3600, user};
 }));
 
+/*** Change password router ***/
+router.put('/:id', executeHandler(async ({request}) => {
+  const filter = await parseFilterFromRequest(request);
+  const hashedPassword = await bcrypt.hash(request.body.password, 10);
+  const updateUser = {
+    $set: {password: hashedPassword}
+  }
+  return UserModel.updateOne({_id: request.params.id}, updateUser).limit(filter.limit).skip(filter.skip);
+}));
+
 
 router.get("/getUser", (req, res) => {
   UserModel.find().then(data => {

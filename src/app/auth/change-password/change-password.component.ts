@@ -1,5 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormControl, NgForm, NgModel} from "@angular/forms";
+import {AuthService} from "../auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-change-password',
@@ -21,7 +23,10 @@ export class ChangePasswordComponent implements OnInit {
   // Min. 8 chars, 1 between !$%&?@#, 1 num and 1 capital letter
   passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\S)(?=.*[!$%&?@#])([\S!$%&?@#]{8,})$/;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
@@ -38,6 +43,18 @@ export class ChangePasswordComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  async onSubmit(form: NgForm) {
+    if(this.expiredPassword.invalid) {
+      return;
+    }
+    await this.authService.changePassword(form.value.newPassword);
+    await this.router.navigate(['/login']);
+  }
+
+  onExit() {
+    this.router.navigate(['/user-profile']);
   }
 
 }
