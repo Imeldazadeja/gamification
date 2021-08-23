@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {QuizService} from "../quiz.service";
 import {BehaviorSubject, Subject} from "rxjs";
-import { Quiz} from "../quiz.model";
+import {Quiz} from "../quiz.model";
 import {filter} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -14,19 +15,24 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 export class QuizDisplayComponent implements OnInit {
   dataSource = new BehaviorSubject<Quiz[]>([]);
+
   constructor(private quizService: QuizService,
-              private snackbar: MatSnackBar) { }
+              private snackbar: MatSnackBar,
+              private route: ActivatedRoute) {
+  }
 
   async ngOnInit(): Promise<void> {
-    const quiz = await this.quizService.find();
-    this.dataSource.next(quiz);
+    this.route.params.subscribe(async params => {
+      const quiz = await this.quizService.find({where: {courseId: params.id}});
+      this.dataSource.next(quiz);
+    })
 
     // this.quizTitle = quiz.map(question => question.child.map(el => el.questionTopic))
   }
 
-   async delete(quizId: string): Promise<void> {
-      const quiz = await this.quizService.delete(quizId);
-      this.dataSource.next(this.dataSource.value.filter(item => item._id !== quizId));
-      this.snackbar.open('Quiz deleted successfully!', null, {duration: 3000});
-   }
+  async delete(quizId: string): Promise<void> {
+    const quiz = await this.quizService.delete(quizId);
+    this.dataSource.next(this.dataSource.value.filter(item => item._id !== quizId));
+    this.snackbar.open('Quiz deleted successfully!', null, {duration: 3000});
+  }
 }

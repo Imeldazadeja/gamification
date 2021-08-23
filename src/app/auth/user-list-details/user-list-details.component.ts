@@ -7,6 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatPaginator} from "@angular/material/paginator";
 import {User, UserDescriptions, UserType} from "../auth-data.model";
 import {SignupComponent} from "../signup/signup.component";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-student-list',
@@ -61,7 +62,8 @@ export class UserListDetailsComponent implements OnInit, OnDestroy {
   async delete(userId: string): Promise<void> {
     const user = await this.authService.delete(userId);
     this.dataSource.next(this.dataSource.value.filter(user => user._id !== userId));
-    this._snackBar.open('User deleted successfully!', null, {duration: 3000});
+    const index = this.dataSource.value.findIndex(item => item._id === userId);
+    this._snackBar.open(`User ${this.dataSource.value[index].firstName} ${this.dataSource.value[index].lastName} deleted successfully!`, null, {duration: 3000});
   }
 
   ngOnDestroy() {

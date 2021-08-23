@@ -9,11 +9,11 @@
       <span class="app-name">Creative learning</span>
     </mat-toolbar>
     <mat-nav-list *ngIf="authService.user">
-      <a mat-list-item routerLink="/userList" *ngIf="!isStudent">
+      <a mat-list-item routerLink="/users" *ngIf="!isStudent">
         <mat-icon>person_add</mat-icon>
         Register
       </a>
-      <a mat-list-item routerLink="courses">
+      <a mat-list-item routerLink="/courses">
         <mat-icon>groups</mat-icon>
         Courses
       </a>

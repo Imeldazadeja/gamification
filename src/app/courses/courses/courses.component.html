@@ -37,7 +37,7 @@
   <ng-container matColumnDef="courseEnter">
     <th mat-header-cell *matHeaderCellDef class="courseEnter">Enter Course</th>
     <td mat-cell *matCellDef="let element">
-      <button routerLink="/quiz-display">
+      <button [routerLink]="['/courses', element.id]">
         <mat-icon>login</mat-icon>
       </button>
     </td>
@@ -45,7 +45,7 @@
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef class="actions">
-      <button matTooltip="Add course" [routerLink]="['/course']" mat-mini-fab color="primary">
+      <button matTooltip="Add course" [routerLink]="['/courses/new']" mat-mini-fab color="primary">
         <mat-icon>add</mat-icon>
       </button>
     </th>

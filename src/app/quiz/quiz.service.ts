@@ -3,23 +3,24 @@ import {HttpClient} from "@angular/common/http";
 import {Quiz} from "./quiz.model";
 import {filter, tap} from "rxjs/operators";
 import {Filter} from "../utils";
-import { Subject} from "rxjs";
+import {Subject} from "rxjs";
 
 @Injectable({providedIn: "root"})
 export class QuizService {
   private quizzes: Quiz[] = [];
   private quizUpdate = new Subject<Quiz[]>();
+
   constructor(private http: HttpClient) {
   }
 
   find(filter?: Filter): Promise<Quiz[]> {
-    return this.http.get<Quiz[]>('http://localhost:3000/api/quiz')
+    return this.http.get<Quiz[]>('http://localhost:3000/api/quiz', {params: {filter: filter ? JSON.stringify(filter) : undefined}})
       .pipe(
-      tap(quizzes => {
-        this.quizzes = quizzes;
-        this.quizUpdate.next([...this.quizzes]);
-      })
-    ).toPromise() as any
+        tap(quizzes => {
+          this.quizzes = quizzes;
+          this.quizUpdate.next([...this.quizzes]);
+        })
+      ).toPromise() as any
   }
 
   create(data: Omit<Quiz, '_id'>): Promise<Quiz> {

@@ -43,6 +43,7 @@ export class QuizCreateComponent implements OnInit {
       const quiz = await this.quizService.create({
         title: this.title,
         child: this.dataSource.value,
+        courseId: this.route.snapshot.params.id,
       });
     // }
     // else {
