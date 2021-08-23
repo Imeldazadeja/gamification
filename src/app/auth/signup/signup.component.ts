@@ -27,7 +27,10 @@ export class SignupComponent implements OnInit {
   // LecturerList -> LecturerDetail (edit + new) User.save({type: 'L'})
   //
 
-  constructor(public authService: AuthService, public dialogRef: MatDialogRef<SignupComponent>) {
+  constructor(
+    public authService: AuthService,
+    public dialogRef: MatDialogRef<SignupComponent>,
+    private router: Router) {
   }
 
   async onSignup(form: NgForm) {

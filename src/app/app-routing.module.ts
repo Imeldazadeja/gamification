@@ -24,7 +24,7 @@ const routes: Routes = [
       {path: 'quiz', component: QuizCreateComponent},
       {path: 'quiz-display', component: QuizDisplayComponent},
       {path: 'user-profile', component: UserProfileComponent},
-      {path: 'change-password', component: ChangePasswordComponent, data: {exist: 'backButton'}}
+      {path: 'change-password', component: ChangePasswordComponent}
     ], canActivate: [AuthGuard]
   }
 
