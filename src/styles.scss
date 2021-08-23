@@ -9,3 +9,15 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #ebecfb;
 }
+
+tr[mat-row] {
+  .show-on-hover {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .show-on-hover {
+      visibility: visible;
+    }
+  }
+}

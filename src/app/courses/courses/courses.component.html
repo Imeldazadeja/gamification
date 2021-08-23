@@ -26,30 +26,21 @@
     <td mat-cell *matCellDef="let element">{{lecturer(element)}}</td>
   </ng-container>
 
-  <ng-container matColumnDef="modify">
-    <th mat-header-cell *matHeaderCellDef>Course action</th>
-    <td mat-cell *matCellDef="let element">
-<!--      <mat-icon [routerLink]="['/editCourse', element._id]">edit</mat-icon>-->
-      <mat-icon matTooltip="Delete course" (click)="delete(element._id)">delete</mat-icon>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="courseEnter">
-    <th mat-header-cell *matHeaderCellDef class="courseEnter">Enter Course</th>
-    <td mat-cell *matCellDef="let element">
-      <button [routerLink]="['/courses', element.id]">
-        <mat-icon>login</mat-icon>
-      </button>
-    </td>
-  </ng-container>
-
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef class="actions">
-      <button matTooltip="Add course" [routerLink]="['/courses/new']" mat-mini-fab color="primary">
+    <th width="100px" mat-header-cell *matHeaderCellDef>
+      <button *ngIf="isAdmin" matTooltip="Add course" [routerLink]="['/courses/new']" mat-mini-fab color="primary">
         <mat-icon>add</mat-icon>
       </button>
     </th>
-    <td mat-cell *matCellDef="let element" class="actions"></td>
+    <td width="100px" mat-cell *matCellDef="let element">
+      <div class="actions">
+        <mat-icon [style.visibility]="isAdmin ? 'visible' : 'hidden'" matTooltip="Delete course"
+                  (click)="delete(element._id)" class="show-on-hover">
+          delete
+        </mat-icon>
+        <mat-icon [routerLink]="['/courses', element.id]" matTooltip="Open">chevron_right</mat-icon>
+      </div>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

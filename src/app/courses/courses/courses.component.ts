@@ -23,14 +23,18 @@ export class CoursesComponent implements OnInit, AfterViewInit {
     'courseCycle',
     'students',
     'lecturer',
-    'modify',
-    'courseEnter',
-    this.authService.user.type === UserType.admin? 'actions' : null
-    ].filter(e => e);
+    'actions',
+  ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(private courseService: CourseService,
               private authService: AuthService,
-              private snackbar: MatSnackBar) { }
+              private snackbar: MatSnackBar) {
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.user.type === UserType.admin;
+  }
 
   ngOnInit(): void {
     this.courseService.find({
@@ -44,6 +48,7 @@ export class CoursesComponent implements OnInit, AfterViewInit {
       // }, 0);
     });
   }
+
   // lecturerId, lecturer
 
   ngAfterViewInit() {

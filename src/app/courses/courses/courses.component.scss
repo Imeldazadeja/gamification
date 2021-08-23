@@ -1,19 +1,26 @@
 .mat-elevation-z4 {
   width: 90%;
   margin: 30px auto;
+}
 
-  :host {
-    table {
-      width: 100%;
-      table-layout: auto;
+:host {
+  table {
+    //width: 100%;
+    //table-layout: auto;
 
-      td.actions, th.actions {
-        width: 30px;
-        cursor: pointer;
-      }
+    //td.actions, th.actions {
+    //  width: 30px;
+    //  cursor: pointer;
+    //}
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 7px;
     }
   }
 }
+
 mat-icon {
   cursor: pointer;
 }
