@@ -34,12 +34,13 @@ const routes: Routes = [
       {path: 'quiz-display', component: QuizDisplayComponent},
 
       {path: 'user-profile', component: UserProfileComponent},
-      {path: 'change-password', component: ChangePasswordComponent}
+      {path: 'change-password', component: ChangePasswordComponent},
+      {path: 'quiz-play/:quizId', component: QuizPlayComponent},
     ], canActivate: [AuthGuard]
   }
 
   // {path: '', children: [...], canActivate: [AuthGuard]},
-  // {path: 'quiz-play/:quizId', component: QuizPlayComponent},
+  // {path: 'quiz-play/:id', component: QuizPlayComponent},
   // {path: 'editUser/:userId', component: SignupComponent},
   // {path: 'quizEdit/:quizId', component: QuizCreateComponent}
 ];

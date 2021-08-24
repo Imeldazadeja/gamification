@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {BehaviorSubject} from "rxjs";
 import {QuestionDataSchema, Quiz} from "../quiz.model";
@@ -60,7 +60,8 @@ export class QuizPlayComponent implements OnInit {
   quiz: Quiz;
 
   constructor(private quizService: QuizService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute) {
+  }
 
   playGame(card) {
     card.isFlipped = !card.isFlipped;
@@ -69,12 +70,13 @@ export class QuizPlayComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      if(paramMap.has('quizId')) {
+      if (paramMap.has('quizId')) {
         this.quizId = paramMap.get("quizId");
         this.quizService.findById(this.quizId).then(quizData => {
           // console.log(quizData);
           console.log(quizData);
-          this.dataSource.next(quizData.child);
+          // this.dataSource.next(quizData.child);
+          this.dataSource.next([...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child]);
         });
       }
     });
