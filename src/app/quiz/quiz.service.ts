@@ -28,15 +28,15 @@ export class QuizService {
   }
 
   update(data: Partial<Quiz>): Promise<Quiz> {
-    return this.http.put<Quiz>('http://localhost:3000/api/quiz', data).toPromise() as any;
+    return this.http.put<Quiz>(`http://localhost:3000/api/quiz/${data._id}`, data).toPromise() as any;
   }
 
   findById(id: string): Promise<Quiz> {
-    return this.http.get<Quiz>('http://localhost:3000/api/quiz/' + id).toPromise() as any;
+    return this.http.get<Quiz>(`http://localhost:3000/api/quiz/${id}`).toPromise() as any;
   }
 
   delete(id: string): Promise<Quiz> {
     return this.http
-      .delete<Quiz>('http://localhost:3000/api/quiz/' + id).toPromise() as any;
+      .delete<Quiz>(`http://localhost:3000/api/quiz/${id}`).toPromise() as any;
   }
 }

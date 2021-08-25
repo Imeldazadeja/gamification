@@ -20,7 +20,7 @@
           matInput
           name="quizTitle"
           type="text"
-          [(ngModel)]="title"
+          [(ngModel)]="quiz.title"
           #quizTitle="ngModel"
           placeholder="Quiz title"
           required>
@@ -72,7 +72,7 @@
   <mat-expansion-panel *ngFor="let question of dataSource | async; index as i" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <span class="counter">#{{i}}</span>
+        <span class="counter">#{{i + 1}}</span>
         {{question.question}}
       </mat-panel-title>
       <mat-panel-description style="justify-content: flex-end">

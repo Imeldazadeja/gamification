@@ -38,16 +38,15 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatOptionModule} from "@angular/material/core";
 import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
-import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
+import {QuizDetailComponent} from './quiz/quiz-detail/quiz-detail.component';
 import {MatStepperModule} from "@angular/material/stepper";
-import { QuizPlayComponent } from './quiz/quiz-play/quiz-play.component';
-import { QuizDisplayComponent } from './quiz/quiz-display/quiz-display.component';
+import {QuizPlayComponent} from './quiz/quiz-play/quiz-play.component';
+import {QuizDisplayComponent} from './quiz/quiz-display/quiz-display.component';
 import {MatGridListModule} from "@angular/material/grid-list";
-import { CoreComponent } from './core/core.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import {CoreComponent} from './core/core.component';
+import {UserProfileComponent} from './user-profile/user-profile.component';
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import { QuizViewComponent } from './quiz/quiz-view/quiz-view.component';
 
 // @ts-ignore
 @NgModule({
@@ -59,53 +58,52 @@ import { QuizViewComponent } from './quiz/quiz-view/quiz-view.component';
     UserListDetailsComponent,
     CoursesComponent,
     CourseComponent,
-    QuizCreateComponent,
+    QuizDetailComponent,
     QuizPlayComponent,
     QuizDisplayComponent,
     CoreComponent,
     UserProfileComponent,
     ChangePasswordComponent,
-    QuizViewComponent
   ],
-    imports: [
-        BrowserModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        MatInputModule,
-        MatCardModule,
-        AppRoutingModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatExpansionModule,
-        HttpClientModule,
-        RouterModule,
-        MatProgressSpinnerModule,
-        MatPaginatorModule,
-        FormsModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        FlexModule,
-        MatMenuModule,
-        MatTableModule,
-        MatDialogModule,
-        MatSnackBarModule,
-        MatTooltipModule,
-        MatSortModule,
-        MatChipsModule,
-        MatAutocompleteModule,
-        MatOptionModule,
-        MatInputModule,
-        AppTooltipModule,
-        MatStepperModule,
-        MatGridListModule,
-        MatProgressBarModule
-    ],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatCardModule,
+    AppRoutingModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatExpansionModule,
+    HttpClientModule,
+    RouterModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    FormsModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    FlexModule,
+    MatMenuModule,
+    MatTableModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatSortModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    MatInputModule,
+    AppTooltipModule,
+    MatStepperModule,
+    MatGridListModule,
+    MatProgressBarModule
+  ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

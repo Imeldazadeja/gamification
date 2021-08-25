@@ -9,7 +9,9 @@
     <mat-card-title>
       {{quiz.title}}
     </mat-card-title>
-    <mat-icon [routerLink]="['/quiz-view', quiz._id]">edit</mat-icon>
-    <mat-icon matTooltip="Delete quiz" (click)="delete(quiz._id)">delete</mat-icon>
+    <mat-icon [routerLink]="['./', quiz._id]">edit</mat-icon>
+    <button mat-mini-fab matTooltip="Delete quiz" (click)="delete(quiz._id)">
+      <mat-icon>delete</mat-icon>
+    </button>
   </mat-card-header>
 </mat-card>

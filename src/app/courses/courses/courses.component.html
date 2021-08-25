@@ -34,11 +34,23 @@
     </th>
     <td width="100px" mat-cell *matCellDef="let element">
       <div class="actions">
-        <mat-icon [style.visibility]="isAdmin ? 'visible' : 'hidden'" matTooltip="Delete course"
-                  (click)="delete(element._id)" class="show-on-hover">
-          delete
-        </mat-icon>
-        <mat-icon [routerLink]="['/courses', element.id]" matTooltip="Open">chevron_right</mat-icon>
+
+        <!--        <mat-icon  matTooltip="Delete course"-->
+        <!--                  (click)="delete(element._id)" class="show-on-hover">-->
+        <!--          delete-->
+        <!--        </mat-icon>-->
+        <button mat-icon-button [matMenuTriggerFor]="actionsMenu" [style.visibility]="isAdmin ? 'visible' : 'hidden'">
+          <mat-icon>more_vert</mat-icon>
+          <mat-menu #actionsMenu>
+            <button mat-menu-item (click)="delete(element._id)">
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+          </mat-menu>
+        </button>
+        <button mat-icon-button [routerLink]="['/courses', element.id]" matTooltip="Open">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
       </div>
     </td>
   </ng-container>
