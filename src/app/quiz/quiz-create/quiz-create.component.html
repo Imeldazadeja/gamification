@@ -1,14 +1,16 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      Create quiz
+      <span>Create quiz</span>
+      <button mat-mini-fab color="primary">
+        <mat-icon
+          matTooltip="Save quiz"
+          (click)="save()"
+          class="save-icon">
+          save
+        </mat-icon>
+      </button>
     </mat-card-title>
-    <mat-icon
-      matTooltip="Save quiz"
-      (click)="save()"
-      class="save-icon">
-      save
-    </mat-icon>
   </mat-card-header>
   <mat-card-content>
     <form>
@@ -70,14 +72,14 @@
   <mat-expansion-panel *ngFor="let question of dataSource | async; index as i" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <span class="counter">#{{i + 1}}</span>
+        <span class="counter">#{{i}}</span>
         {{question.question}}
       </mat-panel-title>
       <mat-panel-description style="justify-content: flex-end">
-<!--        <div style="display: flex; flex-direction: column; justify-content: center">-->
-<!--          <mat-icon>arrow_drop_up</mat-icon>-->
-<!--          <mat-icon>arrow_drop_down</mat-icon>-->
-<!--        </div>-->
+        <!--        <div style="display: flex; flex-direction: column; justify-content: center">-->
+        <!--          <mat-icon>arrow_drop_up</mat-icon>-->
+        <!--          <mat-icon>arrow_drop_down</mat-icon>-->
+        <!--        </div>-->
         <mat-icon class="action-icon" (click)="removeQuestion(i)">delete</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -87,8 +89,8 @@
   </mat-expansion-panel>
 
   <!-- TODO remove test -->
-<!--  <mat-expansion-panel hideToggle>-->
-<!--    <mat-expansion-panel-navigator>Test 2</mat-expansion-panel-navigator>-->
-<!--    Content-->
-<!--  </mat-expansion-panel>-->
+  <!--  <mat-expansion-panel hideToggle>-->
+  <!--    <mat-expansion-panel-navigator>Test 2</mat-expansion-panel-navigator>-->
+  <!--    Content-->
+  <!--  </mat-expansion-panel>-->
 </mat-accordion>

@@ -5,48 +5,61 @@
   flex-wrap: wrap;
 }
 
-  mat-card {
-    width: 90%;
-    margin: 1rem;
-    .mat-form-field {
-      margin-top: 16px;
-      width: 100%;
+mat-card {
+  width: 90%;
+  margin: 1rem;
+
+  .mat-form-field {
+    margin-top: 16px;
+    width: 100%;
+  }
+
+  mat-card-header {
+    display: block;
+  }
+
+  mat-card-title {
+    display: flex;
+    & > span {
+      flex: 1 0 auto;
     }
-    mat-card-header {
-      .save-icon {
-        position: relative;
-        display: flex;
-        left: 965px;
-        font-size: 28px;
-        cursor: pointer;
+    //.save-icon {
+    //  position: relative;
+    //  display: flex;
+    //  left: 965px;
+    //  font-size: 28px;
+    //  cursor: pointer;
+    //}
+  }
+}
+
+mat-expansion-panel {
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  margin-left: 20px;
+  width: 90%;
+
+  mat-expansion-panel-header {
+    mat-panel-title {
+      font-weight: 500;
+
+      .counter {
+        color: lightgrey;
+        width: 45px;
       }
     }
   }
 
-  mat-expansion-panel {
+  .action-icon:not(:hover) {
+    opacity: 0.5;
+  }
 
-    mat-form-field{
-      width: 100%;
-    }
-    margin-left: 20px;
-    width: 90%;
-    mat-expansion-panel-header {
-      mat-panel-title {
-        font-weight: 500;
-        .counter {
-          color: lightgrey;
-          width: 45px;
-        }
-      }
-    }
-
-    .action-icon:not(:hover) {
-      opacity: 0.5;
-    }
-
-    &.mat-expanded {
-      .action-icon {
-        opacity: unset;
-      }
+  &.mat-expanded {
+    .action-icon {
+      opacity: unset;
     }
   }
+}

@@ -2,16 +2,18 @@ mat-card{
   width: 90%;
   margin: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   background-color: whitesmoke;
+
   mat-card-header {
     mat-card-title {
       margin: 10px;
       color: darkblue;
     }
-    mat-icon{
-      margin: 10px;
+    .action-icons {
+      width: 100%;
+      margin-right: 10px;
       cursor: pointer;
       display: flex;
       justify-content: flex-end;
@@ -20,7 +22,7 @@ mat-card{
   }
 }
 
-div{
+div {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
