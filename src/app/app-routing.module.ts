@@ -13,6 +13,7 @@ import {QuizPlayComponent} from "./quiz/quiz-play/quiz-play.component";
 import {CoreComponent} from "./core/core.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
+import {QuizViewComponent} from "./quiz/quiz-view/quiz-view.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -36,6 +37,7 @@ const routes: Routes = [
       {path: 'user-profile', component: UserProfileComponent},
       {path: 'change-password', component: ChangePasswordComponent},
       {path: 'quiz-play/:quizId', component: QuizPlayComponent},
+      {path: 'quiz-view/:quizId', component: QuizViewComponent}
     ], canActivate: [AuthGuard]
   }
 

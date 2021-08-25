@@ -25,37 +25,8 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 
 export class QuizPlayComponent implements OnInit {
   dataSource = new BehaviorSubject<QuestionDataSchema[]>([]);
-  title: string = "the tech memory game";
-  tagline: string = "Time to sharpen up those memory cells!";
-  // cards = [
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card2", isFlipped: false },
-  //   { name: "Card3", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  //   { name: "Card1", isFlipped: false },
-  // ];
-  total_cards_count: number = 3;
   prevCard = null;
   isProcessing: boolean = false;
-  flippedCouplesCount: number = 0;
   private quizId: string;
   quiz: Quiz;
 

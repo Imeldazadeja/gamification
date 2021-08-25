@@ -1,3 +1,7 @@
+<div>
+  <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+</div>
+
 <div class="container">
   <div class="row gx-3 gy-3">
     <div
@@ -12,7 +16,17 @@
       <ng-template #openCardTemplate>
         <div class="card">
           <span class="card-title">{{question.questionTopic}}</span>
-          dsafads
+          <span class="card-title">{{question.question}}</span>
+          <span>
+            <textarea
+              matInput
+              ngModel
+              name="answerQuestion"
+              required
+              [matAutosizeMinRows]="3"
+              [matTextareaAutosize]="true"
+          ></textarea>
+          </span>
         </div>
       </ng-template>
     </div>
