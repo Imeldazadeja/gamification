@@ -24,7 +24,7 @@ export class UserListDetailsComponent implements OnInit, OnDestroy {
     'type',
     'faculty',
     'studyProgramme',
-    this.authService.user.type === UserType.admin ? 'modify' : null,
+    // this.authService.user.type === UserType.admin ? 'modify' : null,
     this.authService.user.type === UserType.admin ? 'actions' : null,
   ].filter(e => e);
   dataSource = new BehaviorSubject<User[]>([]);
