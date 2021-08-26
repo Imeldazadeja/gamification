@@ -1,45 +1,19 @@
-mat-card{
+.mat-elevation-z4 {
   width: 90%;
-  margin: 20px;
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  background-color: whitesmoke;
-
-  mat-card-header {
-    mat-card-title {
-      margin: 10px;
-      color: darkblue;
-    }
-    .action-icons {
-      width: 100%;
-      margin-right: 10px;
-      cursor: pointer;
-      display: flex;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-  }
+  margin: 30px auto;
 }
 
-div {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  span {
-    font-size: 18px;
-    color: darkblue;
-    box-sizing: border-box;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px;
-    cursor: pointer;
-    :hover {
-      background-color: rgba(0,0,0,.1);
-    }
-    .action-icon {
-      vertical-align: middle;
-      font-size: 26px;
+:host {
+  table {
+    .actions {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      mat-icon {
+        cursor: pointer;
+      }
     }
   }
 }

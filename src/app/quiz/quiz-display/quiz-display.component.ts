@@ -15,6 +15,10 @@ import {ActivatedRoute} from "@angular/router";
 
 export class QuizDisplayComponent implements OnInit {
   dataSource = new BehaviorSubject<Quiz[]>([]);
+  readonly displayedColumns: string[] = [
+    'quizTitle',
+    'actions',
+  ];
 
   constructor(private quizService: QuizService,
               private snackbar: MatSnackBar,
