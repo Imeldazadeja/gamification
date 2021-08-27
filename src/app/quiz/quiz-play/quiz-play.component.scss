@@ -66,10 +66,18 @@ $cardStripeColor: #eaeaef;
     background-position: 50px 50px;
   }
 
-  &-title {
+  &-front {
     font-size: 1.5rem;
     font-weight: 500;
     color: #668;
+  }
+
+  &-title {
+    font-size: 1.2rem;
+    font-weight: 550;
+    color: dimgray;
+
+    //color: #668;
     //backface-visibility: hidden;
     //height: 100%;
     //position: absolute;
@@ -88,6 +96,32 @@ $cardStripeColor: #eaeaef;
     //  transform: rotatey(45deg) translatex(0px) translatey(0px);
     //}
   }
+
+  &-question {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #666688;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &-text {
+    justify-content: center;
+    form {
+      width: 90%;
+      margin-top: 10px;
+      position: absolute;
+      bottom: 0;
+      mat-form-field {
+        width: 100%;
+        textarea {
+        }
+      }
+    }
+  }
+
+
 }
 
 

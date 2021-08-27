@@ -29,12 +29,12 @@ export class CourseService {
       .toPromise() as any;
   }
 
-  findById(_id: string): Promise<Course> {
-    return this.http.get<Course>('http://localhost:3000/api/courses/' + _id).toPromise() as any;
+  findById(id: string): Promise<Course> {
+    return this.http.get<Course>(`http://localhost:3000/api/courses/${id}`).toPromise() as any;
   }
 
-  delete(_id: string): Promise<Course> {
-    return this.http.delete<Course>('http://localhost:3000/api/courses/' + _id).toPromise() as any;
+  delete(id: string): Promise<Course> {
+    return this.http.delete<Course>(`http://localhost:3000/api/courses/${id}`).toPromise() as any;
   }
 
   update(data: Partial<Course>): Promise<Course> {

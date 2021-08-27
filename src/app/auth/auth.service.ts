@@ -103,9 +103,9 @@ export class AuthService {
         })).toPromise();
   }
 
-  delete(_id: string): Promise<User> {
+  delete(id: string): Promise<User> {
     return this.http
-      .delete<User>('http://localhost:3000/api/user/' + _id).toPromise() as any;
+      .delete<User>(`http://localhost:3000/api/user/${id}`).toPromise() as any;
   }
 
   update(data: Partial<User>): Promise<User>{
@@ -113,11 +113,12 @@ export class AuthService {
   }
 
   findById(id: string): Promise<User> {
-    return this.http.get<User>('http://localhost:3000/api/user/' + id).toPromise() as any;
+    return this.http.get<User>(`http://localhost:3000/api/user/${id}`).toPromise() as any;
   }
 
   async changePassword(newPassword: string): Promise<User> {
-    return await this.http.put<User>('http://localhost:3000/api/user/'+ this._user._id, {password: newPassword}).toPromise();
+    return await this.http
+      .put<User>(`http://localhost:3000/api/user/${this._user._id}`, {password: newPassword}).toPromise();
   }
 
   // login -> user -> init: true

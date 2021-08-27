@@ -10,25 +10,31 @@
       class="col-12 col-sm-6 col-md-4 col-lg-3">
 
       <div *ngIf="i % 3 === 0; else openCardTemplate" class="card not-open" (click)="question['open'] = true">
-        <span class="card-title">{{question.questionTopic}}</span>
+        <span class="card-front">{{question.questionTopic}}</span>
       </div>
 
       <ng-template #openCardTemplate>
         <div class="card">
           <span class="card-title">{{question.questionTopic}}</span>
-          <span class="card-title">{{question.question}}</span>
-          <span>
-            <textarea
-              matInput
-              ngModel
-              name="answerQuestion"
-              required
-              [matAutosizeMinRows]="3"
-              [matTextareaAutosize]="true"
-          ></textarea>
+          <span class="card-question">{{question.question}}</span>
+          <span class="card-text">
+            <form>
+              <mat-form-field appearance="fill">
+                <mat-label>Answer question</mat-label>
+                <textarea
+                  matInput
+                  ngModel
+                  name="answerQuestion"
+                  required
+                  [matAutosizeMinRows]="3"
+                  [matTextareaAutosize]="true"
+              ></textarea>
+              </mat-form-field>
+            </form>
           </span>
         </div>
       </ng-template>
     </div>
+    <button>Submit Answers</button>
   </div>
 </div>
