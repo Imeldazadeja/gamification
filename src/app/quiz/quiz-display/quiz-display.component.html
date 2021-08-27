@@ -12,7 +12,7 @@
     </th>
 
     <td width="100px" mat-cell *matCellDef="let element">
-      <div>
+      <div class="actions">
         <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
           <mat-icon>more_vert</mat-icon>
           <mat-menu #actionsMenu>
@@ -25,6 +25,9 @@
               Edit
             </button>
           </mat-menu>
+        </button>
+        <button mat-icon-button [routerLink]="['/quiz-play', element._id]" matTooltip="Play quiz">
+          <mat-icon>chevron_right</mat-icon>
         </button>
       </div>
     </td>
