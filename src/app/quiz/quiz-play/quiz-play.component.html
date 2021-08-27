@@ -8,33 +8,41 @@
       *ngFor="let question of dataSource | async; index as i"
       (click)="playGame(question)"
       class="col-12 col-sm-6 col-md-4 col-lg-3">
-
-      <div *ngIf="i % 3 === 0; else openCardTemplate" class="card not-open" (click)="question['open'] = true">
+      <div *ngIf="!question.opened; else openCardTemplate" class="card not-open" (click)="openQuestion(i)">
         <span class="card-front">{{question.questionTopic}}</span>
       </div>
 
       <ng-template #openCardTemplate>
-        <div class="card">
+        <div class="card" tabindex="-1" [class.focus]="isFocused(textAreaElement)">
           <span class="card-title">{{question.questionTopic}}</span>
           <span class="card-question">{{question.question}}</span>
+
+          <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button class="send-btn">
+            <mat-icon>send</mat-icon>
+          </button>
+
           <span class="card-text">
-            <form>
+            <form #submitAnswer="ngForm" (ngSubmit)="addAnswer(submitAnswer)">
               <mat-form-field appearance="fill">
                 <mat-label>Answer question</mat-label>
                 <textarea
                   matInput
-                  ngModel
-                  name="answerQuestion"
+                  [(ngModel)]="question.answerText"
+                  [name]="'answerQuestion' + i"
                   required
                   [matAutosizeMinRows]="3"
                   [matTextareaAutosize]="true"
-              ></textarea>
+                  [disabled]="question.finished"
+                  #textAreaElement
+                ></textarea>
               </mat-form-field>
+              <!--              <mat-action-row>-->
+              <!--                <button mat-button color="primary" type="submit">Submit Answer</button>-->
+              <!--              </mat-action-row>-->
             </form>
           </span>
         </div>
       </ng-template>
     </div>
-    <button>Submit Answers</button>
   </div>
 </div>

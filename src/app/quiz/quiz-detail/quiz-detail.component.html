@@ -30,7 +30,7 @@
 </mat-card>
 
 <mat-accordion>
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel hideToggle #addQuestionExpansionPanel>
     <mat-expansion-panel-header>
       <mat-panel-title>Add new question</mat-panel-title>
       <mat-panel-description style="justify-content: flex-end">
@@ -73,7 +73,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>
         <span class="counter">#{{i + 1}}</span>
-        {{question.question}}
+        {{question.questionTopic}}
       </mat-panel-title>
       <mat-panel-description style="justify-content: flex-end">
         <!--        <div style="display: flex; flex-direction: column; justify-content: center">-->
@@ -84,7 +84,7 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-      {{question.questionTopic}}
+      {{question.question}}
     </ng-template>
   </mat-expansion-panel>
 

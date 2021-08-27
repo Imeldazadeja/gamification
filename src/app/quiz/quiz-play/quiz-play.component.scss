@@ -2,6 +2,7 @@ $cardWidth: 200px;
 $cardHeight: 150px;
 $cardBackgroundColor: #f6f6fc;
 $cardStripeColor: #eaeaef;
+$sendButtonColor: #5A79B5;
 
 :host {
   display: block;
@@ -45,6 +46,32 @@ $cardStripeColor: #eaeaef;
 
   justify-content: flex-start;
   align-items: flex-start;
+
+  .send-btn {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    transform: rotate(-45deg);
+
+    mat-icon {
+      position: relative;
+      bottom: 2px;
+      left: 2px;
+      color: lightgrey;
+    }
+
+    &:hover, &:active {
+      mat-icon {
+        color: $sendButtonColor;
+      }
+    }
+  }
+
+  &:focus, &.focus {
+    .send-btn mat-icon {
+      color: $sendButtonColor;
+    }
+  }
 
   &.not-open {
     justify-content: center;

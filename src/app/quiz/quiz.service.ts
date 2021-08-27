@@ -23,7 +23,7 @@ export class QuizService {
       ).toPromise() as any
   }
 
-  create(data: Omit<Quiz, '_id'>): Promise<Quiz> {
+  create(data: Partial<Quiz>): Promise<Quiz> {
     return this.http.post<Quiz>('http://localhost:3000/api/quiz', data).toPromise() as any;
   }
 
@@ -38,5 +38,13 @@ export class QuizService {
   delete(id: string): Promise<Quiz> {
     return this.http
       .delete<Quiz>(`http://localhost:3000/api/quiz/${id}`).toPromise() as any;
+  }
+
+  openQuestion(args: { quizId: string; questionId: string }): Promise<void> {
+    return this.http.post<void>(`http://localhost:3000/api/quiz/${args.quizId}/${args.questionId}/open`, {}).toPromise();
+  }
+
+  postAnswer(args: { quizId: string; questionId: string; answer: string }): Promise<void> {
+    return this.http.post<void>(`http://localhost:3000/api/quiz/${args.quizId}/${args.questionId}/answer`, {answer: args.answer}).toPromise();
   }
 }

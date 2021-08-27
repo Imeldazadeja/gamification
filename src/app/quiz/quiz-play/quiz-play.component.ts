@@ -1,9 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {BehaviorSubject} from "rxjs";
-import {QuestionDataSchema, Quiz} from "../quiz.model";
+import {AnswerQuestion, QuestionDataSchema, Quiz} from "../quiz.model";
 import {QuizService} from "../quiz.service";
 import {ActivatedRoute, ParamMap} from "@angular/router";
+import {NgForm} from "@angular/forms";
+import {AuthService} from "../../auth/auth.service";
+
+type QuestionProgress = QuestionDataSchema & { answerText?: string; opened?: boolean; finished?: boolean };
 
 @Component({
   selector: 'app-question-dialog',
@@ -24,13 +28,14 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 })
 
 export class QuizPlayComponent implements OnInit {
-  dataSource = new BehaviorSubject<QuestionDataSchema[]>([]);
+  dataSource = new BehaviorSubject<Array<QuestionProgress>>([]);
   prevCard = null;
   isProcessing: boolean = false;
   private quizId: string;
-  quiz: Quiz;
+  quiz: Partial<Quiz> = {};
 
   constructor(private quizService: QuizService,
+              private userService: AuthService,
               private activatedRoute: ActivatedRoute) {
   }
 
@@ -43,11 +48,24 @@ export class QuizPlayComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('quizId')) {
         this.quizId = paramMap.get("quizId");
-        this.quizService.findById(this.quizId).then(quizData => {
-          // console.log(quizData);
-          console.log(quizData);
-          // this.dataSource.next(quizData.child);
-          this.dataSource.next([...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child, ...quizData.child]);
+        this.quizService.findById(this.quizId).then(quiz => {
+          this.quiz = quiz;
+          this.dataSource.next(quiz.child);
+
+          const myAnswers = quiz.answers?.[this.userService.user._id] || {};
+          for (const [questionId, answer] of Object.entries(myAnswers)) {
+            const question = this.dataSource.value.find(e => e._id === questionId);
+            if (question) {
+              question.opened = true;
+              if (answer) {
+                question.answerText = answer;
+                question.finished = true;
+              }
+            }
+          }
+
+          // const ;'#
+          // this.dataSource.next([...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child]);
         });
       }
     });
@@ -55,4 +73,34 @@ export class QuizPlayComponent implements OnInit {
     //  this.dataSource.next(quiz.child);
   }
 
+  async addAnswer(form: NgForm) {
+    //  const answer = {...form.value};
+    // form.resetForm();
+    // this.dataSource.next([...this.dataSource.value, answer]);
+    // const answers = await this.quizService.create({
+    //   child: [this.quiz],
+    // });
+    // this.quiz = answers;
+  }
+
+  async openQuestion(questionIndex: number): Promise<void> {
+    const question = this.dataSource.value[questionIndex];
+    await this.quizService.openQuestion({quizId: this.quiz._id, questionId: question._id});
+    question.opened = true;
+  }
+
+  async postAnswer(questionIndex: number): Promise<void> {
+    const question = this.dataSource.value[questionIndex];
+    const answer = question.answerText?.trim()
+    if (!answer) {
+      // TODO
+    }
+
+    await this.quizService.postAnswer({quizId: this.quiz._id, questionId: question._id, answer});
+    question.finished = true;
+  }
+
+  isFocused(element: HTMLElement): boolean {
+    return document.activeElement === element;
+  }
 }

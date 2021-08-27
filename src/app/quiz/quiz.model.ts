@@ -1,6 +1,12 @@
+export interface AnswerQuestion {
+  answer: string;
+}
+
 export interface QuestionDataSchema {
+  _id: string;
   questionTopic: string;
   question: string;
+  answer: AnswerQuestion[];
 }
 
 export interface Quiz {
@@ -8,4 +14,5 @@ export interface Quiz {
   title: string;
   child: QuestionDataSchema[];
   courseId: string;
+  answers?: { [studentId: string]: { [questionId: string]: null | string } };
 }

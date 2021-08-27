@@ -10,6 +10,7 @@ const coursesRoutes = require("./routes/courses");
 const quizRoutes = require("./routes/quiz");
 
 const UserModel = require('./models/user').model;
+const QuizModel = require('./models/quizData');
 
 const app = express();
 app.use(cors());
@@ -27,7 +28,7 @@ async function initDb() {
     {useNewUrlParser: true});
   const db = mongooseConnector.connection.db;
 
-  const models = [UserModel];
+  const models = [UserModel, QuizModel];
   for (const model of models) {
     const schemaValidator = model.schema.options && model.schema.options.schemaValidator;
     if (!schemaValidator) continue;
