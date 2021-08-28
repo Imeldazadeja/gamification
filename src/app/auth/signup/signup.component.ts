@@ -8,13 +8,17 @@ import {MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
   isLoading = false;
   userType: string;
   hidePass = true;
   hideRepeatPass = true;
+
+  // Min. 8 chars, 1 between !$%&?@#, 1 num and 1 capital letter
+  passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\S)(?=.*[!$%&?@#])([\S!$%&?@#]{8,})$/;
+
   @ViewChild('signupForm') signupForm!: NgForm;
   @ViewChild('passwordControl', {read: NgModel}) passwordControl?: NgModel;
   userTypes = Object.entries(UserDescriptions).filter(([id]) => id !== UserType.admin).map(([id, name]) => ({
@@ -31,6 +35,7 @@ export class SignupComponent implements OnInit {
     public authService: AuthService,
     public dialogRef: MatDialogRef<SignupComponent>,
     private router: Router) {
+    dialogRef.disableClose = true;
   }
 
   async onSignup(form: NgForm) {

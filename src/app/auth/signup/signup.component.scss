@@ -1,0 +1,16 @@
+form {
+  max-width: 500px;
+  mat-form-field {
+    width: 100%;
+  }
+
+  .button {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    button {
+      width: 100px;
+    }
+  }
+}

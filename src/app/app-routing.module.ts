@@ -8,7 +8,7 @@ import {UserListDetailsComponent} from "./auth/user-list-details/user-list-detai
 import {CoursesComponent} from "./courses/courses/courses.component";
 import {CourseComponent} from "./courses/course/course.component";
 import {QuizDetailComponent} from "./quiz/quiz-detail/quiz-detail.component";
-import {QuizDisplayComponent} from "./quiz/quiz-display/quiz-display.component";
+import {QuizListComponent} from "./quiz/quiz-list/quiz-list.component";
 import {QuizPlayComponent} from "./quiz/quiz-play/quiz-play.component";
 import {CoreComponent} from "./core/core.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
@@ -25,14 +25,14 @@ const routes: Routes = [
         children: [
           {path: 'new', component: CourseComponent},
           {path: '', component: CoursesComponent},
-          {path: ':id', component: QuizDisplayComponent},
+          {path: ':id', component: QuizListComponent},
           {path: ':id/new', component: QuizDetailComponent},
           {path: ':id/:quizId', component: QuizDetailComponent},
           {path: '**', redirectTo: ''},
         ],
       },
-      {path: 'quiz', component: QuizDetailComponent},
-      {path: 'quiz-display', component: QuizDisplayComponent},
+      // {path: 'quiz', component: QuizDetailComponent},
+      {path: 'quiz-list', component: QuizListComponent},
 
       {path: 'user-profile', component: UserProfileComponent},
       {path: 'change-password', component: ChangePasswordComponent},

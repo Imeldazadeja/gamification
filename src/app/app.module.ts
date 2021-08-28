@@ -41,7 +41,7 @@ import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
 import {QuizDetailComponent} from './quiz/quiz-detail/quiz-detail.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {QuizPlayComponent} from './quiz/quiz-play/quiz-play.component';
-import {QuizDisplayComponent} from './quiz/quiz-display/quiz-display.component';
+import {QuizListComponent} from './quiz/quiz-list/quiz-list.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {CoreComponent} from './core/core.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
@@ -60,7 +60,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     CourseComponent,
     QuizDetailComponent,
     QuizPlayComponent,
-    QuizDisplayComponent,
+    QuizListComponent,
     CoreComponent,
     UserProfileComponent,
     ChangePasswordComponent,

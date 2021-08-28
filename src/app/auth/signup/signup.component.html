@@ -42,6 +42,7 @@
           type="password"
           ngModel
           [type]="hidePass ? 'password' : 'text'"
+          [pattern]="passwordPattern"
           #passwordControl="ngModel"
           placeholder="Password"
           required
@@ -55,7 +56,12 @@
             {{hidePass ? 'visibility_off' : 'visibility'}}
           </mat-icon>
         </button>
-        <mat-error *ngIf="passwordControl.invalid">Please enter a valid password</mat-error>
+        <mat-error *ngIf="passwordControl.hasError('pattern')">
+          Min. 8 chars, 1 between !$%&?@#, 1 num and 1 capital letter
+        </mat-error>
+        <mat-hint>
+          Min. 8 chars, 1 between !$%&?@#, 1 num and 1 capital letter
+        </mat-hint>
       </mat-form-field>
       <mat-form-field>
         <input
@@ -64,6 +70,7 @@
           type="password"
           ngModel
           [type]="hideRepeatPass ? 'password' : 'text'"
+          [pattern]="passwordPattern"
           #confirmPasswordControl="ngModel"
           (ngModelChange)="onConfirmPassword()"
           placeholder="Confirm password"
@@ -99,7 +106,6 @@
           placeholder="Faculty"
           required
         >
-        <mat-error *ngIf="faculty.invalid">Please enter a valid password</mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="userType==='S'">
         <input
@@ -111,7 +117,6 @@
           placeholder="Study programme"
           required
         >
-        <mat-error *ngIf="studyProgramme.invalid">Please enter a valid password</mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="userType==='S'">
         <mat-label>Cikli i studimeve</mat-label>
@@ -133,7 +138,7 @@
         >
       </mat-form-field>
     </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Signup</button>
+    <div mat-dialog-actions class="button">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">Signup</button>
     </div>
   </form>

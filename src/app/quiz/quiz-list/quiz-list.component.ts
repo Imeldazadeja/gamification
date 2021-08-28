@@ -9,11 +9,11 @@ import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-quiz-display',
-  templateUrl: './quiz-display.component.html',
-  styleUrls: ['./quiz-display.component.scss']
+  templateUrl: './quiz-list.component.html',
+  styleUrls: ['./quiz-list.component.scss']
 })
 
-export class QuizDisplayComponent implements OnInit {
+export class QuizListComponent implements OnInit {
   dataSource = new BehaviorSubject<Quiz[]>([]);
   readonly displayedColumns: string[] = [
     'quizTitle',
