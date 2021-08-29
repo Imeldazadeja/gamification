@@ -5,6 +5,7 @@ import {UserType} from "../auth/auth-data.model";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {CoreService} from "../core/core.service";
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,8 @@ export class NavigatorComponent implements OnInit, OnDestroy {
   constructor(
     public authService: AuthService,
     private breakpointObserver: BreakpointObserver,
-    private router: Router
+    private router: Router,
+    public coreService: CoreService
     ) {
   }
 

@@ -12,7 +12,7 @@ import {User, UserType} from "../../auth/auth-data.model";
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
-  styleUrls: ['./course.component.css']
+  styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit {
   visible = true;

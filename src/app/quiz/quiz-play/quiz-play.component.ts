@@ -63,24 +63,11 @@ export class QuizPlayComponent implements OnInit {
               }
             }
           }
-
-          // const ;'#
-          // this.dataSource.next([...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child, ...quiz.child]);
         });
       }
     });
     // const quiz = await this.quizService.findById(this.quizId);
     //  this.dataSource.next(quiz.child);
-  }
-
-  async addAnswer(form: NgForm) {
-    //  const answer = {...form.value};
-    // form.resetForm();
-    // this.dataSource.next([...this.dataSource.value, answer]);
-    // const answers = await this.quizService.create({
-    //   child: [this.quiz],
-    // });
-    // this.quiz = answers;
   }
 
   async openQuestion(questionIndex: number): Promise<void> {

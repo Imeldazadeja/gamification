@@ -13,13 +13,14 @@ import {QuizPlayComponent} from "./quiz/quiz-play/quiz-play.component";
 import {CoreComponent} from "./core/core.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
+import {transferArrayItem} from "@angular/cdk/drag-drop";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {
     path: '', component: CoreComponent, children: [
       {path: 'signup', component: SignupComponent},
-      {path: 'users', component: UserListDetailsComponent},
+      {path: 'users', component: UserListDetailsComponent, data: {title: 'Register'}},
       {
         path: 'courses',
         children: [
@@ -30,20 +31,16 @@ const routes: Routes = [
           {path: ':id/:quizId', component: QuizDetailComponent},
           {path: '**', redirectTo: ''},
         ],
+        data: {title: 'Courses'},
       },
       // {path: 'quiz', component: QuizDetailComponent},
-      {path: 'quiz-list', component: QuizListComponent},
-
-      {path: 'user-profile', component: UserProfileComponent},
-      {path: 'change-password', component: ChangePasswordComponent},
       {path: 'quiz-play/:quizId', component: QuizPlayComponent},
+      // {path: 'quiz-list', component: QuizListComponent},
+
+      {path: 'user-profile', component: UserProfileComponent, data: {title: 'User Profile'}},
+      {path: 'change-password', component: ChangePasswordComponent},
     ], canActivate: [AuthGuard]
   }
-
-  // {path: '', children: [...], canActivate: [AuthGuard]},
-  // {path: 'quiz-play/:id', component: QuizPlayComponent},
-  // {path: 'editUser/:userId', component: SignupComponent},
-  // {path: 'quizEdit/:quizId', component: QuizDetailComponent}
 ];
 
 @NgModule({
