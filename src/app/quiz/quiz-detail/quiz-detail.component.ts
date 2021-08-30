@@ -44,6 +44,7 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
   }
 
   addQuestion(form: NgForm) {
+    if (form.invalid) return;
     const question = {...form.value};
     form.resetForm();
     this.dataSource.next([...this.dataSource.value, question]);

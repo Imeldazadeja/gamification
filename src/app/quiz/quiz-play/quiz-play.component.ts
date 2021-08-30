@@ -33,6 +33,9 @@ export class QuizPlayComponent implements OnInit {
   isProcessing: boolean = false;
   private quizId: string;
   quiz: Partial<Quiz> = {};
+  answersNo: number = 0;
+  totalQuestion: number;
+  completed: number;
 
   constructor(private quizService: QuizService,
               private userService: AuthService,
@@ -78,6 +81,7 @@ export class QuizPlayComponent implements OnInit {
 
   async postAnswer(questionIndex: number): Promise<void> {
     const question = this.dataSource.value[questionIndex];
+    this.totalQuestion = this.dataSource.value.length;
     const answer = question.answerText?.trim()
     if (!answer) {
       // TODO
@@ -85,6 +89,8 @@ export class QuizPlayComponent implements OnInit {
 
     await this.quizService.postAnswer({quizId: this.quiz._id, questionId: question._id, answer});
     question.finished = true;
+    this.answersNo ++;
+    this.completed = (this.answersNo / this.totalQuestion) * 100;
   }
 
   isFocused(element: HTMLElement): boolean {
