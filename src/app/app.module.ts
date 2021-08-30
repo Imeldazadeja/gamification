@@ -47,6 +47,7 @@ import {CoreComponent} from './core/core.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { HomeComponent } from './home/home.component';
 
 // @ts-ignore
 @NgModule({
@@ -64,6 +65,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     CoreComponent,
     UserProfileComponent,
     ChangePasswordComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,12 +13,13 @@ import {QuizPlayComponent} from "./quiz/quiz-play/quiz-play.component";
 import {CoreComponent} from "./core/core.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
-import {transferArrayItem} from "@angular/cdk/drag-drop";
+import {HomeComponent} from "./home/home.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {
     path: '', component: CoreComponent, children: [
+      {path: '', component: HomeComponent, data: {title: 'Home'}},
       {path: 'signup', component: SignupComponent},
       {path: 'users', component: UserListDetailsComponent, data: {title: 'Register'}},
       {
