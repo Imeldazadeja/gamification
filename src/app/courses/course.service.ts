@@ -30,7 +30,7 @@ export class CourseService {
   }
 
   findById(id: string): Promise<Course> {
-    return this.http.get<Course>(`http://localhost:3000/api/courses/${id}`).toPromise() as any;
+    return this.http.get<Course>(`http://localhost:3000/api/courses/${id}`).toPromise().catch(() => null) as any;
   }
 
   delete(id: string): Promise<Course> {

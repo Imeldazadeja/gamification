@@ -34,10 +34,11 @@ const routes: Routes = [
             children: [
               {path: '', component: QuizListComponent, data: {title: null}},
               {path: 'new', component: QuizDetailComponent, data: {title: 'New quiz'}},
-              {path: ':quizId', component: QuizDetailComponent, data: {title: '{{quizName}}'}}
+              {path: ':quizId', component: QuizDetailComponent, data: {title: '{{quizName}}'}},
+              {path: 'play/:quizId', component: QuizPlayComponent, data: {title: '{{quizName}}'}}
             ],
           },
-          {path: '**', redirectTo: '', data: {}},
+          {path: '**', redirectTo: ''},
         ],
       },
       {path: 'quiz-play/:quizId', component: QuizPlayComponent},

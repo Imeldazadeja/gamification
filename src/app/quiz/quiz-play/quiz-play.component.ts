@@ -3,9 +3,11 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {BehaviorSubject} from "rxjs";
 import {AnswerQuestion, QuestionDataSchema, Quiz} from "../quiz.model";
 import {QuizService} from "../quiz.service";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../../auth/auth.service";
+import {CourseService} from "../../courses/course.service";
+import {CoreService} from "../../core/core.service";
 
 type QuestionProgress = QuestionDataSchema & { answerText?: string; opened?: boolean; finished?: boolean };
 
@@ -38,7 +40,10 @@ export class QuizPlayComponent implements OnInit {
   completed: number;
 
   constructor(private quizService: QuizService,
+              private courseService: CourseService,
+              private coreService: CoreService,
               private userService: AuthService,
+              private router: Router,
               private activatedRoute: ActivatedRoute) {
   }
 
@@ -48,25 +53,35 @@ export class QuizPlayComponent implements OnInit {
 
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
+    this.activatedRoute.paramMap.subscribe(async (paramMap: ParamMap) => {
       if (paramMap.has('quizId')) {
         this.quizId = paramMap.get("quizId");
-        this.quizService.findById(this.quizId).then(quiz => {
-          this.quiz = quiz;
-          this.dataSource.next(quiz.child);
 
-          const myAnswers = quiz.answers?.[this.userService.user._id] || {};
-          for (const [questionId, answer] of Object.entries(myAnswers)) {
-            const question = this.dataSource.value.find(e => e._id === questionId);
-            if (question) {
-              question.opened = true;
-              if (answer) {
-                question.answerText = answer;
-                question.finished = true;
-              }
+        const [quiz, course] = await Promise.all([
+          this.quizService.findById(this.quizId),
+          this.courseService.findById(paramMap.get('id'))
+        ]);
+
+        if (!quiz || !course) {
+          return this.router.navigate(['..'], {relativeTo: this.activatedRoute});
+        }
+
+        this.coreService.setTitleParam('courseName', course.title);
+        this.coreService.setTitleParam('quizName', quiz.title);
+        this.quiz = quiz;
+        this.dataSource.next(quiz.child);
+
+        const myAnswers = quiz.answers?.[this.userService.user._id] || {};
+        for (const [questionId, answer] of Object.entries(myAnswers)) {
+          const question = this.dataSource.value.find(e => e._id === questionId);
+          if (question) {
+            question.opened = true;
+            if (answer) {
+              question.answerText = answer;
+              question.finished = true;
             }
           }
-        });
+        }
       }
     });
     // const quiz = await this.quizService.findById(this.quizId);

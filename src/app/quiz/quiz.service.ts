@@ -32,7 +32,7 @@ export class QuizService {
   }
 
   findById(id: string): Promise<Quiz> {
-    return this.http.get<Quiz>(`http://localhost:3000/api/quiz/${id}`).toPromise() as any;
+    return this.http.get<Quiz>(`http://localhost:3000/api/quiz/${id}`).toPromise().catch(() => null) as any;
   }
 
   delete(id: string): Promise<Quiz> {
