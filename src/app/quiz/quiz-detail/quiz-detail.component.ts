@@ -5,7 +5,7 @@ import {FormGroup, NgForm} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
-import {QuestionDataSchema, Quiz} from "../quiz.model";
+import {QuestionDataSchema, QuestionType, Quiz} from "../quiz.model";
 import {QuizService} from "../quiz.service";
 import {CourseService} from "../../courses/course.service";
 import {CoreService} from "../../core/core.service";
@@ -19,7 +19,13 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
   @ViewChild('addQuestionExpansionPanel') addQuestionExpansionPanel: MatExpansionPanel;
   dataSource = new BehaviorSubject<QuestionDataSchema[]>([]);
   quiz: Partial<Quiz> = {};
+
   form: FormGroup;
+  readonly TypeSelect = QuestionType.select;
+  readonly TypeText = QuestionType.text;
+  questionType = QuestionType.select;
+  currentOptionText = '';
+  currentOptions: string[] = [];
 
   constructor(private quizService: QuizService,
               private courseService: CourseService,
@@ -67,6 +73,11 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
 
   removeQuestion(index: number) {
     this.dataSource.next(this.dataSource.value.filter((__, i) => i !== index));
+  }
+
+  addNewOption() {
+    this.currentOptions.push(this.currentOptionText);
+    this.currentOptionText = '';
   }
 
   async save() {

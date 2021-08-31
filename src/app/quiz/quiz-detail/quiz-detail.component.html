@@ -50,7 +50,16 @@
               #questionTopic="ngModel"
               required>
           </mat-form-field>
-          <mat-form-field appearance="fill">
+
+          <mat-divider style="margin-bottom: 16px"></mat-divider>
+          <mat-button-toggle-group name="questionType" aria-label="Question type" [(ngModel)]="questionType"
+                                   style="margin-bottom: 16px;">
+            <mat-button-toggle [value]="TypeSelect">Select options</mat-button-toggle>
+            <mat-button-toggle [value]="TypeText">Free text</mat-button-toggle>
+          </mat-button-toggle-group>
+
+          <div [ngSwitch]="questionType">
+            <mat-form-field *ngSwitchCase="TypeText" appearance="fill">
             <textarea
               matInput
               rows="3"
@@ -60,7 +69,29 @@
               #questionInput="ngModel"
               required
             ></textarea>
-          </mat-form-field>
+            </mat-form-field>
+            <div *ngSwitchCase="TypeSelect">
+              <div class="options-container" style="display: flex">
+                <mat-form-field appearance="fill">
+                  <input
+                    matInput
+                    name="optionText"
+                    [(ngModel)]="currentOptionText"
+                    type="text"
+                    placeholder="Add new option">
+                </mat-form-field>
+                <button (click)="addNewOption()" mat-stroked-button>
+                  Add option
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+              <div *ngFor="let option of currentOptions; i as index" class="options-item">
+                <div class="radio-icon"><div></div></div>
+                {{option}}
+              </div>
+            </div>
+          </div>
+
         </div>
         <mat-action-row>
           <button mat-button color="primary" type="submit">Add</button>
