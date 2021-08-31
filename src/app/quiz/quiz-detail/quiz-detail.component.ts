@@ -7,6 +7,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import {QuestionDataSchema, Quiz} from "../quiz.model";
 import {QuizService} from "../quiz.service";
+import {CourseService} from "../../courses/course.service";
+import {CoreService} from "../../core/core.service";
 
 @Component({
   selector: 'app-quiz-create',
@@ -20,6 +22,8 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
   form: FormGroup;
 
   constructor(private quizService: QuizService,
+              private courseService: CourseService,
+              private coreService: CoreService,
               private dialog: MatDialog,
               private snackbar: MatSnackBar,
               private router: Router,
@@ -28,9 +32,19 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(async params => {
-      if (params.quizId && params.quizId !== this.quiz._id) {
-        this.quiz = await this.quizService.findById(params.quizId);
+      if (params.quizId && params.quizId !== this.quiz?._id) {
+        const [quiz, course] = await Promise.all([
+          this.quizService.findById(params.quizId).catch(() => null),
+          this.courseService.findById(params.id).catch(() => null),
+        ]);
+        if (!quiz || !course) {
+          return this.router.navigate(['..'], {relativeTo: this.route});
+        }
+
+        this.quiz = quiz;
         this.dataSource.next(this.quiz.child);
+        this.coreService.setTitleParam('courseName', course.title)
+        this.coreService.setTitleParam('quizName', quiz.title);
       }
     });
   }

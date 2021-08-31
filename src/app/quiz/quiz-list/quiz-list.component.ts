@@ -5,6 +5,8 @@ import {Quiz} from "../quiz.model";
 import {filter} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute} from "@angular/router";
+import {CourseService} from "../../courses/course.service";
+import {CoreService} from "../../core/core.service";
 
 
 @Component({
@@ -21,17 +23,21 @@ export class QuizListComponent implements OnInit {
   ];
 
   constructor(private quizService: QuizService,
+              private courseService: CourseService,
+              private coreService: CoreService,
               private snackbar: MatSnackBar,
               private route: ActivatedRoute) {
   }
 
   async ngOnInit(): Promise<void> {
     this.route.params.subscribe(async params => {
-      const quiz = await this.quizService.find({where: {courseId: params.id}});
+      const [quiz, course] = await Promise.all([
+        this.quizService.find({where: {courseId: params.id}}),
+        this.courseService.findById(params.id),
+      ]);
       this.dataSource.next(quiz);
+      this.coreService.setTitleParam('courseName', course.title);
     })
-
-    // this.quizTitle = quiz.map(question => question.child.map(el => el.questionTopic))
   }
 
   async delete(quizId: string): Promise<void> {

@@ -45,7 +45,15 @@
         (click)="drawer?.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <h2>{{coreService.title | uppercase}}</h2>
+      <h2>
+        <ng-container *ngFor="let part of coreService.titles | async; first as isFirst; last as isLast">
+          {{!isFirst ? ' / ' : ''}}
+          <span *ngIf="isLast; else titleLinkTemplate">{{part.title}}</span>
+          <ng-template #titleLinkTemplate>
+            <a [routerLink]="part.url">{{part.title}}</a>
+          </ng-template>
+        </ng-container>
+      </h2>
     </mat-toolbar>
     <div class="app-content">
       <ng-content></ng-content>

@@ -24,19 +24,23 @@ const routes: Routes = [
       {path: 'users', component: UserListDetailsComponent, data: {title: 'Register'}},
       {
         path: 'courses',
-        children: [
-          {path: 'new', component: CourseComponent},
-          {path: '', component: CoursesComponent},
-          {path: ':id', component: QuizListComponent},
-          {path: ':id/new', component: QuizDetailComponent},
-          {path: ':id/:quizId', component: QuizDetailComponent},
-          {path: '**', redirectTo: ''},
-        ],
         data: {title: 'Courses'},
+        children: [
+          {path: 'new', component: CourseComponent, data: {title: 'New'}},
+          {path: '', component: CoursesComponent, data: {title: null}},
+          {
+            path: ':id',
+            data: {title: '{{courseName}}'},
+            children: [
+              {path: '', component: QuizListComponent, data: {title: null}},
+              {path: 'new', component: QuizDetailComponent, data: {title: 'New quiz'}},
+              {path: ':quizId', component: QuizDetailComponent, data: {title: '{{quizName}}'}}
+            ],
+          },
+          {path: '**', redirectTo: '', data: {}},
+        ],
       },
-      // {path: 'quiz', component: QuizDetailComponent},
       {path: 'quiz-play/:quizId', component: QuizPlayComponent},
-      // {path: 'quiz-list', component: QuizListComponent},
 
       {path: 'user-profile', component: UserProfileComponent, data: {title: 'User Profile'}},
       {path: 'change-password', component: ChangePasswordComponent},
