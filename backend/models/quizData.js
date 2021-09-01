@@ -87,6 +87,9 @@ quizDataSchema.virtual('course', {
 
 quizDataSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('Quiz', quizDataSchema);
+module.exports = {
+  model: mongoose.model('Quiz', quizDataSchema),
+  QuestionType,
+};
 
 

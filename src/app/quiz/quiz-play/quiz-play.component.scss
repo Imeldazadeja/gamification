@@ -152,7 +152,12 @@ $sendButtonColor: #5A79B5;
     }
   }
 
-
+  mat-radio-group {
+    mat-radio-button {
+      display: block;
+      margin: 0.4rem 0.5rem;
+    }
+  }
 }
 
 

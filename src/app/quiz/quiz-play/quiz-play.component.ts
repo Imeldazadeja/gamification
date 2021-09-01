@@ -1,15 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {BehaviorSubject} from "rxjs";
-import {AnswerQuestion, QuestionDataSchema, Quiz} from "../quiz.model";
+import {QuestionDataSchema, QuestionType, Quiz} from "../quiz.model";
 import {QuizService} from "../quiz.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {NgForm} from "@angular/forms";
 import {AuthService} from "../../auth/auth.service";
 import {CourseService} from "../../courses/course.service";
 import {CoreService} from "../../core/core.service";
 
-type QuestionProgress = QuestionDataSchema & { answerText?: string; opened?: boolean; finished?: boolean };
+type QuestionProgress = QuestionDataSchema & { answer?: string | number; opened?: boolean; finished?: boolean };
 
 @Component({
   selector: 'app-question-dialog',
@@ -28,16 +27,16 @@ type QuestionProgress = QuestionDataSchema & { answerText?: string; opened?: boo
     ])
   ]
 })
-
 export class QuizPlayComponent implements OnInit {
   dataSource = new BehaviorSubject<Array<QuestionProgress>>([]);
   prevCard = null;
   isProcessing: boolean = false;
   private quizId: string;
   quiz: Partial<Quiz> = {};
-  answersNo: number = 0;
-  totalQuestion: number;
   completed: number;
+
+  readonly TypeSelect = QuestionType.select;
+  readonly TypeText = QuestionType.text;
 
   constructor(private quizService: QuizService,
               private courseService: CourseService,
@@ -50,7 +49,6 @@ export class QuizPlayComponent implements OnInit {
   playGame(card) {
     card.isFlipped = !card.isFlipped;
   }
-
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(async (paramMap: ParamMap) => {
@@ -77,7 +75,7 @@ export class QuizPlayComponent implements OnInit {
           if (question) {
             question.opened = true;
             if (answer) {
-              question.answerText = answer;
+              question.answer = answer;
               question.finished = true;
             }
           }
@@ -96,16 +94,16 @@ export class QuizPlayComponent implements OnInit {
 
   async postAnswer(questionIndex: number): Promise<void> {
     const question = this.dataSource.value[questionIndex];
-    this.totalQuestion = this.dataSource.value.length;
-    const answer = question.answerText?.trim()
-    if (!answer) {
+    const answer = question.type === QuestionType.text ? (question.answer as string)?.trim() : question.answer;
+    if (!answer && answer !== 0) {
       // TODO
     }
 
     await this.quizService.postAnswer({quizId: this.quiz._id, questionId: question._id, answer});
     question.finished = true;
-    this.answersNo ++;
-    this.completed = (this.answersNo / this.totalQuestion) * 100;
+
+    const questionsAnswers = this.dataSource.value.reduce((total, elem) => total + (elem.finished ? 1 : 0), 0);
+    this.completed = (questionsAnswers / this.dataSource.value.length) * 100;
   }
 
   isFocused(element: HTMLElement): boolean {

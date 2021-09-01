@@ -1,6 +1,6 @@
 const express = require('express');
 const {Types: {ObjectId}} = require('mongoose');
-const QuizData = require('../models/quizData');
+const {model: QuizData, QuestionType} = require('../models/quizData');
 const checkAuth = require('../middleware/check-auth');
 
 const {parseFilterFromRequest, executeHandler} = require("../utils");
@@ -44,12 +44,26 @@ router.post('/:id/:questionId/open', executeHandler(async ({request, loggedUser}
 }));
 
 router.post('/:id/:questionId/answer', executeHandler(async ({request, loggedUser}) => {
-  if (!request.body || typeof request.body.answer !== 'string' || !request.body.answer.trim()) {
-    throw new Error('Invalid answer');
+  const quizId = new ObjectId(request.params.id);
+  const quiz = await QuizData.collection.findOne({_id: quizId});
+  const questionId = new ObjectId(request.params.questionId);
+  const question = quiz.child.find(e => e._id.equals(questionId));
+  if (!question) {
+    throw new Error('Question not found');
+  }
+
+  if (question.type === QuestionType.text) {
+    if (!request.body || typeof request.body.answer !== 'string' || !request.body.answer.trim()) {
+      throw new Error('Invalid answer');
+    }
+  } else {
+    if (!request.body || !Number.isInteger(request.body.answer) || request.body.answer < 0 || request.body.answer > question.options.length) {
+      throw new Error('Invalid answer');
+    }
   }
 
   await QuizData.collection.updateOne({
-    _id: new ObjectId(request.params.id),
+    _id: quizId,
     [`answers.${loggedUser._id.toString()}.${request.params.questionId}`]: null,
   }, {
     $set: {

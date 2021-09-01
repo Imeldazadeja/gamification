@@ -44,7 +44,7 @@ export class QuizService {
     return this.http.post<void>(`http://localhost:3000/api/quiz/${args.quizId}/${args.questionId}/open`, {}).toPromise();
   }
 
-  postAnswer(args: { quizId: string; questionId: string; answer: string }): Promise<void> {
+  postAnswer(args: { quizId: string; questionId: string; answer: string | number }): Promise<void> {
     return this.http.post<void>(`http://localhost:3000/api/quiz/${args.quizId}/${args.questionId}/answer`, {answer: args.answer}).toPromise();
   }
 }

@@ -10,7 +10,7 @@ const coursesRoutes = require("./routes/courses");
 const quizRoutes = require("./routes/quiz");
 
 const UserModel = require('./models/user').model;
-const QuizModel = require('./models/quizData');
+const QuizModel = require('./models/quizData').model;
 
 const app = express();
 app.use(cors());

@@ -1,7 +1,3 @@
-export interface AnswerQuestion {
-  answer: string;
-}
-
 export enum QuestionType {
   text = 'T',
   select = 'S'
@@ -14,7 +10,6 @@ export interface QuestionDataSchema {
   question?: string;
   options?: string[];
   correctOptionIndex?: number;
-  answer: AnswerQuestion[];
 }
 
 export interface Quiz {
