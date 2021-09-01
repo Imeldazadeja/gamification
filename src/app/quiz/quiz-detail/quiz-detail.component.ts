@@ -25,6 +25,7 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
   readonly TypeText = QuestionType.text;
   questionType = QuestionType.select;
   currentOptionText = '';
+  correctOptionIndex = 0;
   currentOptions: string[] = [];
 
   constructor(private quizService: QuizService,
@@ -67,6 +68,16 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
     if (form.invalid) return;
     const question = {...form.value};
     form.resetForm();
+    if (question.type === QuestionType.select) {
+      question.options = this.currentOptions;
+      question.correctOptionIndex = this.correctOptionIndex;
+      delete question.optionText;
+    }
+
+    this.questionType = QuestionType.select;
+    this.currentOptions = [];
+    this.currentOptionText = '';
+    this.correctOptionIndex = 0;
     this.dataSource.next([...this.dataSource.value, question]);
     this.snackbar.open('Question added!', null, {duration: 3000});
   }
@@ -78,6 +89,14 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
   addNewOption() {
     this.currentOptions.push(this.currentOptionText);
     this.currentOptionText = '';
+  }
+
+  deleteOption() {
+    this.currentOptions.pop();
+  }
+
+  addCorrectOption(option) {
+    option.select = !option.select;
   }
 
   async save() {

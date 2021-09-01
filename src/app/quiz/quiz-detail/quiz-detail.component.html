@@ -52,7 +52,7 @@
           </mat-form-field>
 
           <mat-divider style="margin-bottom: 16px"></mat-divider>
-          <mat-button-toggle-group name="questionType" aria-label="Question type" [(ngModel)]="questionType"
+          <mat-button-toggle-group name="type" aria-label="Question type" [(ngModel)]="questionType"
                                    style="margin-bottom: 16px;">
             <mat-button-toggle [value]="TypeSelect">Select options</mat-button-toggle>
             <mat-button-toggle [value]="TypeText">Free text</mat-button-toggle>
@@ -60,18 +60,28 @@
 
           <div [ngSwitch]="questionType">
             <mat-form-field *ngSwitchCase="TypeText" appearance="fill">
-            <textarea
-              matInput
-              rows="3"
-              name="question"
-              ngModel
-              placeholder="Question"
-              #questionInput="ngModel"
-              required
-            ></textarea>
+              <textarea
+                matInput
+                rows="3"
+                name="question"
+                ngModel
+                placeholder="Question"
+                required
+              ></textarea>
             </mat-form-field>
             <div *ngSwitchCase="TypeSelect">
-              <div class="options-container" style="display: flex">
+              <div>
+                <mat-form-field appearance="fill">
+                  <input
+                    matInput
+                    name="question"
+                    type="text"
+                    required
+                    ngModel
+                    placeholder="Add question">
+                </mat-form-field>
+              </div>
+              <div class="options-form" style="display: flex">
                 <mat-form-field appearance="fill">
                   <input
                     matInput
@@ -80,14 +90,24 @@
                     type="text"
                     placeholder="Add new option">
                 </mat-form-field>
-                <button (click)="addNewOption()" mat-stroked-button>
-                  Add option
+                <button (click)="addNewOption()" mat-stroked-button type="button">
+                  Add
                   <mat-icon>add</mat-icon>
                 </button>
+                <button (click)="deleteOption()" mat-stroked-button type="button">
+                  Delete
+                  <mat-icon>delete</mat-icon>
+                </button>
               </div>
-              <div *ngFor="let option of currentOptions; i as index" class="options-item">
-                <div class="radio-icon"><div></div></div>
-                {{option}}
+              <div *ngFor="let option of currentOptions; index as optionIndex" class="options-item">
+                <div
+                  class="icon"
+                  matRipple
+                  [class.correct]="correctOptionIndex === optionIndex"
+                  (click)="correctOptionIndex = optionIndex">
+                  <mat-icon>done</mat-icon>
+                </div>
+                <span>{{option}}</span>
               </div>
             </div>
           </div>
@@ -116,12 +136,16 @@
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
       {{question.question}}
+      <div *ngIf="question.type === TypeSelect" class="options-container">
+        <div *ngFor="let option of question.options; index as optionIndex" class="options-item">
+          <div
+            class="icon noselect disabled"
+            [class.correct]="question.correctOptionIndex === optionIndex">
+            <mat-icon>done</mat-icon>
+          </div>
+          <span>{{option}}</span>
+        </div>
+      </div>
     </ng-template>
   </mat-expansion-panel>
-
-  <!-- TODO remove test -->
-  <!--  <mat-expansion-panel hideToggle>-->
-  <!--    <mat-expansion-panel-navigator>Test 2</mat-expansion-panel-navigator>-->
-  <!--    Content-->
-  <!--  </mat-expansion-panel>-->
 </mat-accordion>

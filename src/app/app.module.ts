@@ -36,7 +36,7 @@ import {CoursesComponent} from './courses/courses/courses.component';
 import {CourseComponent} from './courses/course/course.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {MatOptionModule} from "@angular/material/core";
+import {MatOptionModule, MatRippleModule} from "@angular/material/core";
 import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
 import {QuizDetailComponent} from './quiz/quiz-detail/quiz-detail.component';
 import {MatStepperModule} from "@angular/material/stepper";
@@ -79,6 +79,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     MatButtonToggleModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatRippleModule,
     HttpClientModule,
     RouterModule,
     MatProgressSpinnerModule,

@@ -36,6 +36,10 @@ $sendButtonColor: #5A79B5;
   display: flex;
   flex-direction: column;
   background-color: $cardBackgroundColor;
+  margin:4px 4px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align:justify;
 
   padding: 10px;
   border-radius: 8px;

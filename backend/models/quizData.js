@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
+const QuestionType = {selectOption: 'S', text: 'T'};
+
 const answerQuestions = new mongoose.Schema({
   answer: {type: String, required: true}
 });
@@ -8,14 +10,41 @@ const answerQuestions = new mongoose.Schema({
 // type Answer = {[studentId: string]: {[questionId: string]: string}};
 
 const questionDataSchema = new mongoose.Schema({
+  type: {type: String, required: true},
   questionTopic: {type: String, required: true},
   question: {type: String, required: true},
+  options: {type: [String], required: true},
+  correctOptionIndex: {type: Number, required: true},
   answerQuestion: [answerQuestions],
+}, {
+  collection: 'Question',
+  schemaValidator: {
+    $jsonSchema: {
+      required: ['type', 'questionTopic', 'question'],
+      properties: {
+        type: {bsonType: 'string', enum: Object.values(QuestionType)},
+        questionTopic: {bsonType: String},
+        question: {bsonType: 'string'},
+        options: {
+          bsonType: ['null', 'array'],
+          items: {bsonType: 'string'},
+          minItems: 1,
+          maxItems: 10,
+        },
+      },
+    },
+    $or: [
+      {
+        type: QuestionType.selectOption,
+        $and: [
+          {options: {$type: 'array'}},
+          {correctOptionIndex: {$type: 'int'}},
+        ]
+      },
+      {type: QuestionType.text}
+    ]
+  }
 });
-
-// const StudentAnswerSchema = new mongoose.Schema({
-//
-// })
 
 const quizDataSchema = new mongoose.Schema({
   title: {type: String, required: true},
@@ -30,6 +59,7 @@ const quizDataSchema = new mongoose.Schema({
         title: {bsonType: 'string'},
         courseId: {bsonType: 'objectId'},
         child: {bsonType: 'array'},
+        // { [StudentId]: { [QuestionId]: answer} }
         answers: {
           bsonType: 'object',
           patternProperties: {
@@ -37,7 +67,7 @@ const quizDataSchema = new mongoose.Schema({
               bsonType: 'object',
               patternProperties: {
                 "\\w+": {
-                  bsonType: ['null', 'string']
+                  bsonType: ['null', 'string', 'number']
                 }
               }
             }
