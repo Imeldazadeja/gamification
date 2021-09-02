@@ -3,9 +3,6 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const QuestionType = {selectOption: 'S', text: 'T'};
 
-const answerQuestions = new mongoose.Schema({
-  answer: {type: String, required: true}
-});
 
 // type Answer = {[studentId: string]: {[questionId: string]: string}};
 
@@ -14,8 +11,7 @@ const questionDataSchema = new mongoose.Schema({
   questionTopic: {type: String, required: true},
   question: {type: String, required: true},
   options: {type: [String], required: true},
-  correctOptionIndex: {type: Number, required: true},
-  answerQuestion: [answerQuestions],
+  correctOptionIndex: {type: Number},
 }, {
   collection: 'Question',
   schemaValidator: {
@@ -34,6 +30,7 @@ const questionDataSchema = new mongoose.Schema({
       },
     },
     $or: [
+      {type: QuestionType.text},
       {
         type: QuestionType.selectOption,
         $and: [
@@ -41,7 +38,6 @@ const questionDataSchema = new mongoose.Schema({
           {correctOptionIndex: {$type: 'int'}},
         ]
       },
-      {type: QuestionType.text}
     ]
   }
 });

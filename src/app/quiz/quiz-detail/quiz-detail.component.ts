@@ -95,10 +95,6 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
     this.currentOptions.pop();
   }
 
-  addCorrectOption(option) {
-    option.select = !option.select;
-  }
-
   async save() {
     if (this.quiz._id) {
       await this.quizService.update({...this.quiz, child: this.dataSource.value});
