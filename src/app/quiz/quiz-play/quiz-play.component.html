@@ -18,7 +18,7 @@
           <span class="card-question">{{question.question}}</span>
 
           <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button class="send-btn">
-            <mat-icon>send</mat-icon>
+            <mat-icon matTooltip="Submit">send</mat-icon>
           </button>
 
             <ng-container [ngSwitch]="question.type">
@@ -47,22 +47,6 @@
               </div>
             </ng-container>
         </div>
-
-        <!--        <div class="card">-->
-        <!--          <section class="example-section">-->
-        <!--          <span class="card-title">{{question.questionTopic}}</span>-->
-        <!--          <span class="card-question">{{question.question}}</span>-->
-        <!--              <mat-radio-button class="example-margin" value="after">After</mat-radio-button><br>-->
-        <!--              <mat-radio-button class="example-margin" value="before">Before</mat-radio-button><br>-->
-        <!--              <mat-radio-button class="example-margin" value="before">Before</mat-radio-button><br>-->
-        <!--              <mat-radio-button class="example-margin" value="before">Before</mat-radio-button><br>-->
-        <!--              <mat-radio-button class="example-margin" value="before">Before</mat-radio-button><br>-->
-        <!--              <mat-radio-button class="example-margin" value="before">Before</mat-radio-button><br>-->
-        <!--              <mat-radio-button class="example-margin" value="before">Before</mat-radio-button><br>-->
-        <!--              <mat-radio-button class="example-margin" value="before">Before</mat-radio-button><br>-->
-        <!--          </section>-->
-        <!--        </div>-->
-
       </ng-template>
     </div>
   </div>
