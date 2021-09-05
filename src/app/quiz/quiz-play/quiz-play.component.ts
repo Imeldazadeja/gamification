@@ -81,6 +81,8 @@ export class QuizPlayComponent implements OnInit {
             }
           }
         }
+        const questionsAnswers = this.dataSource.value.reduce((total, elem) => total + (elem.finished ? 1 : 0), 0);
+        this.completed = (questionsAnswers / this.dataSource.value.length) * 100;
       }
     });
     // const quiz = await this.quizService.findById(this.quizId);
