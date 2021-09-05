@@ -34,6 +34,7 @@ export class QuizPlayComponent implements OnInit {
   private quizId: string;
   quiz: Partial<Quiz> = {};
   completed: number;
+  isCorrectAnswer: boolean;
 
   readonly TypeSelect = QuestionType.select;
   readonly TypeText = QuestionType.text;
@@ -74,7 +75,7 @@ export class QuizPlayComponent implements OnInit {
           const question = this.dataSource.value.find(e => e._id === questionId);
           if (question) {
             question.opened = true;
-            if (answer) {
+            if (answer.toString()) {
               question.answer = answer;
               question.finished = true;
             }
@@ -101,6 +102,8 @@ export class QuizPlayComponent implements OnInit {
 
     await this.quizService.postAnswer({quizId: this.quiz._id, questionId: question._id, answer});
     question.finished = true;
+
+    this.isCorrectAnswer = question.correctOptionIndex === answer;
 
     const questionsAnswers = this.dataSource.value.reduce((total, elem) => total + (elem.finished ? 1 : 0), 0);
     this.completed = (questionsAnswers / this.dataSource.value.length) * 100;

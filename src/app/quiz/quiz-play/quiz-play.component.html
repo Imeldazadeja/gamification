@@ -18,7 +18,7 @@
           <span class="card-question">{{question.question}}</span>
 
           <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button class="send-btn">
-            <mat-icon matTooltip="Submit">send</mat-icon>
+            <mat-icon [class.correct]="isCorrectAnswer" matTooltip="Submit">send</mat-icon>
           </button>
 
             <ng-container [ngSwitch]="question.type">
@@ -42,7 +42,8 @@
                 <mat-radio-group [(ngModel)]="question.answer" [disabled]="question.finished">
                   <mat-radio-button
                     *ngFor="let option of question.options; index as optionIndex"
-                    [value]="optionIndex">{{option}}</mat-radio-button>
+                    [value]="optionIndex">{{option}}
+                  </mat-radio-button>
                 </mat-radio-group>
               </div>
             </ng-container>

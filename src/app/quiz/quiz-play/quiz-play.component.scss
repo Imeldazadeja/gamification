@@ -64,6 +64,10 @@ $sendButtonColor: #5A79B5;
       color: lightgrey;
       margin-left: 18px;
       margin-top: 18px;
+
+      &.correct {
+        background-color: #8f8;
+      }
     }
 
     &:hover, &:active {
