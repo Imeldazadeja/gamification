@@ -11,14 +11,14 @@ export const UserDescriptions = {
 };
 
 export interface User {
-  _id: string
-  email: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-  type: UserType,
-  faculty?: string,
-  studyProgramme?: string,
-  studyCycle?: string,
-  registrationDate?: Date
+  _id: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  type: UserType;
+  faculty?: string;
+  studyProgramme?: string;
+  studyCycle?: string;
+  registrationDate?: Date;
 }

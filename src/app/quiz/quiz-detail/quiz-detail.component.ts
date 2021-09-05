@@ -87,7 +87,9 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
   }
 
   addNewOption() {
-    this.currentOptions.push(this.currentOptionText);
+    if(this.currentOptionText) {
+      this.currentOptions.push(this.currentOptionText);
+    }
     this.currentOptionText = '';
   }
 

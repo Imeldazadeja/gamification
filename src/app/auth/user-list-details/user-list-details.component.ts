@@ -63,7 +63,7 @@ export class UserListDetailsComponent implements OnInit, OnDestroy {
     const user = await this.authService.delete(userId);
     this.dataSource.next(this.dataSource.value.filter(user => user._id !== userId));
     const index = this.dataSource.value.findIndex(item => item._id === userId);
-    this._snackBar.open(`User ${this.dataSource.value[index].firstName} ${this.dataSource.value[index].lastName} deleted successfully!`, null, {duration: 3000});
+    this._snackBar.open(`User deleted successfully!`, null, {duration: 3000});
   }
 
   ngOnDestroy() {

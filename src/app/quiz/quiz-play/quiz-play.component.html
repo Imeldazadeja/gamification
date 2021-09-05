@@ -20,6 +20,7 @@
           <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button class="send-btn">
             <mat-icon [class.correct]="isCorrectAnswer" matTooltip="Submit">send</mat-icon>
           </button>
+          <mat-icon *ngIf="isCorrectAnswer">done</mat-icon>
 
             <ng-container [ngSwitch]="question.type">
               <span class="card-text" *ngSwitchCase="TypeText">
