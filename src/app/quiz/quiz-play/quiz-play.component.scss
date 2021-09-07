@@ -9,153 +9,186 @@ $sendButtonColor: #5A79B5;
   height: 100%;
   position: relative;
   overflow: hidden;
-}
 
-.progress-container {
-  padding: 10px;
-  background: #cce;
-}
-
-.container {
-  position: absolute;
-  top: 24px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  overflow: scroll;
-  padding: 0 30px;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-.card-wrapper {
-  perspective: 800px;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  background-color: $cardBackgroundColor;
-  margin:4px 4px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  text-align:justify;
-
-  padding: 10px;
-  border-radius: 8px;
-  position: relative;
-  height: 200px;
-  //width: 150px;
-  transform-style: preserve-3d;
-
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  .send-btn {
-    position: absolute;
-    top: 0px;
-    right: 10px;
-    transform: rotate(-45deg);
-
-    mat-icon {
-      position: relative;
-      bottom: 2px;
-      left: 2px;
-      color: lightgrey;
-      margin-left: 18px;
-      margin-top: 18px;
-
-      &.correct {
-        color: limegreen;
-      }
-    }
-
-    &:hover, &:active {
-      mat-icon {
-        color: $sendButtonColor;
-        cursor: pointer;
-      }
-    }
-  }
-
-  &.not-open {
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-
-    background: linear-gradient(
-        45deg,
-        $cardStripeColor 10%,
-        $cardBackgroundColor 10%,
-        $cardBackgroundColor 40%,
-        $cardStripeColor 40%,
-        $cardStripeColor 60%,
-        $cardBackgroundColor 60%,
-        $cardBackgroundColor 90%,
-        $cardStripeColor 90%
-    );
-    background-size: 100px 100px;
-    background-position: 50px 50px;
-  }
-
-  &-front {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: #668;
-  }
-
-  &-title {
-    font-size: 1rem;
-    font-weight: 550;
-    color: dimgray;
-    margin-right: 1.2rem;
-  }
-
-  &-question {
-    font-size: 1rem;
-    font-weight: 400;
-    color: #666688;
+  &.horizontal {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    .container {
+      flex-grow: 1;
+      padding: 20px;
+    }
   }
 
-  &-text {
-    justify-content: center;
-    form {
-      width: 90%;
-      margin-top: 10px;
+  &:not(.horizontal) {
+    .container {
       position: absolute;
+      top: 24px;
       bottom: 0;
-      mat-form-field {
-        width: 100%;
-        textarea {
+      right: 0;
+      left: 0;
+      overflow: scroll;
+      padding: 0 30px;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+  }
+
+  .students-list {
+    width: 200px;
+    background-color: white;
+    border-right: 1px solid lightgrey;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    h2 {
+      align-self: center;
+      margin: 10px 0;
+    }
+  }
+
+  .progress-container {
+    padding: 10px;
+    background: #cce;
+  }
+
+  .card-wrapper {
+    perspective: 800px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background-color: $cardBackgroundColor;
+    margin: 4px 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    height: 200px;
+    //width: 150px;
+    transform-style: preserve-3d;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .send-btn {
+      position: absolute;
+      top: 0px;
+      right: 10px;
+      transform: rotate(-45deg);
+
+      mat-icon {
+        position: relative;
+        bottom: 2px;
+        left: 2px;
+        color: lightgrey;
+        margin-left: 18px;
+        margin-top: 18px;
+
+        &.correct {
+          color: limegreen;
+        }
+      }
+
+      &:hover, &:active {
+        mat-icon {
+          color: $sendButtonColor;
+          cursor: pointer;
         }
       }
     }
-  }
 
-  mat-radio-group {
-    mat-radio-button {
-      display: block;
-      margin: 0.4rem 0.5rem;
+    &.not-open {
+      justify-content: center;
+      align-items: center;
+      &:not(.disabled) {
+        cursor: pointer;
+      }
+
+      background: linear-gradient(
+          45deg,
+          $cardStripeColor 10%,
+          $cardBackgroundColor 10%,
+          $cardBackgroundColor 40%,
+          $cardStripeColor 40%,
+          $cardStripeColor 60%,
+          $cardBackgroundColor 60%,
+          $cardBackgroundColor 90%,
+          $cardStripeColor 90%
+      );
+      background-size: 100px 100px;
+      background-position: 50px 50px;
+    }
+
+    &-front {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #668;
+    }
+
+    &-title {
+      font-size: 1rem;
+      font-weight: 550;
+      color: dimgray;
+      margin-right: 1.2rem;
+    }
+
+    &-question {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #666688;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    &-text {
+      justify-content: center;
+
+      form {
+        width: 90%;
+        margin-top: 10px;
+        position: absolute;
+        bottom: 0;
+
+        mat-form-field {
+          width: 100%;
+
+          textarea {
+          }
+        }
+      }
+    }
+
+    mat-radio-group {
+      mat-radio-button {
+        display: block;
+        margin: 0.4rem 0.5rem;
+      }
     }
   }
+
+  .front {
+    background-color: #d5c9df;
+  }
+
+  div ::-webkit-scrollbar {
+    width: 5px;
+    overflow-y: scroll;
+    background: lightgrey;
+    box-shadow: inset 0 0 4px #707070;
+  }
+
+  div ::-webkit-scrollbar-thumb {
+    background: $sendButtonColor;
+    border-radius: 10px;
+  }
 }
 
-
-.front {
-  background-color: #d5c9df;
-}
-
-div ::-webkit-scrollbar {
-  width: 5px;
-  overflow-y: scroll;
-  background: lightgrey;
-  box-shadow: inset 0 0 4px #707070;
-}
-
-div ::-webkit-scrollbar-thumb {
-  background:  $sendButtonColor;
-  border-radius: 10px;
-}

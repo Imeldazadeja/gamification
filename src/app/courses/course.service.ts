@@ -29,8 +29,8 @@ export class CourseService {
       .toPromise() as any;
   }
 
-  findById(id: string): Promise<Course> {
-    return this.http.get<Course>(`http://localhost:3000/api/courses/${id}`).toPromise().catch(() => null) as any;
+  findById(id: string, filter?: Filter): Promise<Course> {
+    return this.http.get<Course>(`http://localhost:3000/api/courses/${id}`, {params: {filter: filter ? JSON.stringify(filter) : undefined}}).toPromise().catch(() => null) as any;
   }
 
   delete(id: string): Promise<Course> {

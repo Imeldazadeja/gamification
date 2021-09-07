@@ -26,7 +26,7 @@ courseDataSchema.virtual('lecturer', {
   foreignField: '_id',
   justOne: true,
 });
-courseDataSchema.virtual('user', {
+courseDataSchema.virtual('students', {
   ref: 'User',
   localField: 'usersId',
   foreignField: '_id',

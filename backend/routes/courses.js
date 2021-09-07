@@ -31,7 +31,7 @@ router.get("/", executeHandler(async ({request, loggedUser}) => {
 
 router.get('/:id', executeHandler(async ({request}) => {
   const filter = await parseFilterFromRequest(request);
-  return CoursesData.findById(request.params.id).limit(filter.limit).skip(filter.skip);
+  return CoursesData.findById(request.params.id).limit(filter.limit).skip(filter.skip).populate(filter.populate);
 }));
 
 router.put('/:id', executeHandler(async ({request}) => {

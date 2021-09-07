@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {QuizService} from "../quiz.service";
-import {BehaviorSubject, Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {Quiz} from "../quiz.model";
-import {filter} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute} from "@angular/router";
 import {CourseService} from "../../courses/course.service";
 import {CoreService} from "../../core/core.service";
+import {AuthService} from "../../auth/auth.service";
+import {UserType} from "../../auth/auth-data.model";
 
 
 @Component({
@@ -25,6 +26,7 @@ export class QuizListComponent implements OnInit {
   constructor(private quizService: QuizService,
               private courseService: CourseService,
               private coreService: CoreService,
+              private authService: AuthService,
               private snackbar: MatSnackBar,
               private route: ActivatedRoute) {
   }
@@ -44,5 +46,9 @@ export class QuizListComponent implements OnInit {
     const quiz = await this.quizService.delete(quizId);
     this.dataSource.next(this.dataSource.value.filter(item => item._id !== quizId));
     this.snackbar.open('Quiz deleted successfully!', null, {duration: 3000});
+  }
+
+  get canEdit(): boolean {
+    return this.authService.user.type !== UserType.student;
   }
 }
