@@ -75,7 +75,7 @@ export class QuizPlayComponent implements OnInit {
           const question = this.dataSource.value.find(e => e._id === questionId);
           if (question) {
             question.opened = true;
-            if (answer.toString()) {
+            if (answer !== null) {
               question.answer = answer;
               question.finished = true;
             }

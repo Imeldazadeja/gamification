@@ -49,6 +49,7 @@ import {ChangePasswordComponent} from "./auth/change-password/change-password.co
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { HomeComponent } from './home/home.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { QuizReviewComponent } from './quiz/quiz-review/quiz-review.component';
 
 // @ts-ignore
 @NgModule({
@@ -67,6 +68,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     UserProfileComponent,
     ChangePasswordComponent,
     HomeComponent,
+    QuizReviewComponent,
   ],
   imports: [
     BrowserModule,

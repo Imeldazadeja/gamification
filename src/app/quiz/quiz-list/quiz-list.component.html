@@ -24,6 +24,10 @@
               <mat-icon>delete</mat-icon>
               Delete
             </button>
+            <button mat-menu-item [routerLink]="['./review', element._id]">
+              <mat-icon>preview</mat-icon>
+              Review
+            </button>
           </mat-menu>
         </button>
         <button mat-icon-button [routerLink]="['./play', element._id]" matTooltip="Play quiz">

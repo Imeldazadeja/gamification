@@ -1,0 +1,19 @@
+.mat-elevation-z4 {
+  width: 90%;
+  margin: 30px auto;
+}
+
+:host {
+  table {
+    .actions {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      mat-icon {
+        cursor: pointer;
+      }
+    }
+  }
+}
