@@ -14,7 +14,6 @@ import {CoreComponent} from "./core/core.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 import {HomeComponent} from "./home/home.component";
-import {QuizReviewComponent} from "./quiz/quiz-review/quiz-review.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -37,7 +36,6 @@ const routes: Routes = [
               {path: 'new', component: QuizDetailComponent, data: {title: 'New quiz'}},
               {path: ':quizId', component: QuizDetailComponent, data: {title: '{{quizName}}'}},
               {path: 'play/:quizId', component: QuizPlayComponent, data: {title: '{{quizName}}'}},
-              {path: 'review/:quizId', component: QuizReviewComponent, data: {title: '{{quizName}}'}},
             ],
           },
           {path: '**', redirectTo: ''},

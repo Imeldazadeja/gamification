@@ -4,7 +4,7 @@
 
 <ng-template #studentsListTemplate>
   <div class="students-list">
-    <h2>Students</h2>
+    <h2>Students List</h2>
     <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)">
       <mat-list-option *ngFor="let student of course?.students; index as i" [value]="student">
         {{student.firstName}} {{student.lastName}}
@@ -14,7 +14,7 @@
         <mat-icon *ngIf="i === 1" style="color: orange">
           priority_high
         </mat-icon>
-        <mat-icon *ngIf="i === 1">
+        <mat-icon class="more-horiz" *ngIf="i === 1">
           more_horiz
         </mat-icon>
       </mat-list-option>

@@ -36,7 +36,7 @@ $sendButtonColor: #5A79B5;
   }
 
   .students-list {
-    width: 200px;
+    width: 280px;
     background-color: white;
     border-right: 1px solid lightgrey;
     display: flex;
@@ -47,6 +47,23 @@ $sendButtonColor: #5A79B5;
     h2 {
       align-self: center;
       margin: 10px 0;
+    }
+
+    mat-selection-list {
+      display: inline;
+    }
+    mat-list-option {
+      display: inline-block;
+      width: 100%;
+      height: 40px;
+    }
+    mat-icon {
+      display: contents;
+      margin: 0 10px;
+    }
+
+    .more-horiz {
+      opacity: initial;
     }
   }
 
