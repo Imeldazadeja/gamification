@@ -99,7 +99,7 @@ export class CourseComponent implements OnInit {
       this.authService.find({where: {type: UserType.lecturer}}),
     ]);
     this.allStudents = allStudents;
-    // this.allLecturers = allLecturers;
+    this.allLecturers = allLecturers;
     this.studentCtrl.setValue(null);
     this.lecturerCtrl.setValue(null);
 
