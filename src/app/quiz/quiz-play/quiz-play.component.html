@@ -7,16 +7,19 @@
     <h2>Students List</h2>
     <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)">
       <mat-list-option *ngFor="let student of course?.students; index as i" [value]="student">
-        {{student.firstName}} {{student.lastName}}
-        <mat-icon *ngIf="i === 0" style="color: green">
-          done
-        </mat-icon>
-        <mat-icon *ngIf="i === 1" style="color: orange">
-          priority_high
-        </mat-icon>
-        <mat-icon class="more-horiz" *ngIf="i === 1">
-          more_horiz
-        </mat-icon>
+        <div class="student-item">
+          <div style="flex-grow: 1">{{student.firstName}} {{student.lastName}}</div>
+          <mat-icon (click)="onReview(i)" [class.review-quiz]="i">
+            done
+          </mat-icon>
+        </div>
+
+        <!--        <mat-icon *ngIf="i === 1" style="color: orange">-->
+        <!--          priority_high-->
+        <!--        </mat-icon>-->
+        <!--        <mat-icon class="more-horiz" *ngIf="i === 1">-->
+        <!--          more_horiz-->
+        <!--        </mat-icon>-->
       </mat-list-option>
     </mat-selection-list>
   </div>
@@ -28,7 +31,8 @@
       *ngFor="let question of dataSource | async; index as i"
       (click)="playGame(question)"
       class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div *ngIf="!question.opened; else openCardTemplate" class="card not-open" [class.disabled]="!isStudent" (click)="openQuestion(i)">
+      <div *ngIf="!question.opened; else openCardTemplate" class="card not-open" [class.disabled]="!isStudent"
+           (click)="openQuestion(i)">
         <span class="card-front">{{question.questionTopic}}</span>
       </div>
 
@@ -37,7 +41,8 @@
           <span class="card-title">{{question.questionTopic}}</span>
           <span class="card-question">{{question.question}}</span>
 
-          <button *ngIf="isStudent" (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button class="send-btn">
+          <button *ngIf="isStudent" (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button
+                  class="send-btn">
             <mat-icon [class.correct]="isCorrectAnswer" matTooltip="Submit">send</mat-icon>
           </button>
 

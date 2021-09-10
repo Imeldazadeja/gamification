@@ -159,6 +159,10 @@ export class QuizPlayComponent implements OnInit {
     return document.activeElement === element;
   }
 
+  onReview(i) {
+    i.select = !i.select;
+  }
+
   onSelectStudent(change: MatSelectionListChange): void {
     if (!change.options.length) return;
     console.log('student',change.options[0].value);
