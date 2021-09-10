@@ -38,7 +38,7 @@ export class CourseService {
   }
 
   update(data: Partial<Course>): Promise<Course> {
-    return this.http.put<Course>('http://localhost:3000/api/courses', data).toPromise() as any
+    return this.http.put<Course>(`http://localhost:3000/api/courses/${data._id}`, data).toPromise() as any
   }
 
   create(data: Omit<Course, '_id'>): Promise<Course> {

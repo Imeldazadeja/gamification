@@ -5,5 +5,7 @@ export interface Course {
   title: string;
   courseCycle: string;
   usersId: string[];
-  students?: Array<Partial<User>>;
+  lecturerId: string;
+  students?: Array<Pick<User, '_id'> & Partial<User>>;
+  lecturer?: Pick<User, '_id'> & Partial<User>;
 }

@@ -27,6 +27,7 @@ const routes: Routes = [
         data: {title: 'Courses'},
         children: [
           {path: 'new', component: CourseComponent, data: {title: 'New'}},
+          {path: 'edit/:courseId', component: CourseComponent, data: {title: '{{courseName}}'}},
           {path: '', component: CoursesComponent, data: {title: null}},
           {
             path: ':id',
