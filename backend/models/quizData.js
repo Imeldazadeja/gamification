@@ -44,6 +44,9 @@ const questionDataSchema = new mongoose.Schema({
 
 const quizDataSchema = new mongoose.Schema({
   title: {type: String, required: true},
+  quizDate: {type: Date, required: true},
+  startTime: {type: String},
+  duration: {type: Number},
   child: [questionDataSchema],
   courseId: {type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true},
 }, {
@@ -55,6 +58,8 @@ const quizDataSchema = new mongoose.Schema({
         title: {bsonType: 'string'},
         courseId: {bsonType: 'objectId'},
         child: {bsonType: 'array'},
+        startTime: {bsonType: 'date'},
+        duration: {bsonType: 'int'},
         // { [StudentId]: { [QuestionId]: answer} }
         answers: {
           bsonType: 'object',

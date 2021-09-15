@@ -33,6 +33,18 @@ mat-card {
   }
 }
 
+.time-inputs {
+
+
+  mat-form-field:first-child {
+    padding-right: 10px;
+  }
+
+  .ngx-material-timepicker-toggle svg{
+    height: 16px !important;
+  }
+}
+
 mat-expansion-panel {
   mat-form-field {
     width: 100%;

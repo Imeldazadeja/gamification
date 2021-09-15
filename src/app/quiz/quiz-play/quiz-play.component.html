@@ -4,24 +4,30 @@
 
 <ng-template #studentsListTemplate>
   <div class="students-list">
-    <h2>Students List</h2>
-    <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)">
-      <mat-list-option *ngFor="let student of course?.students; index as i" [value]="student">
-        <div class="student-item">
-          <div style="flex-grow: 1">{{student.firstName}} {{student.lastName}}</div>
-          <mat-icon (click)="onReview(i)" [class.review-quiz]="i">
-            done
-          </mat-icon>
-        </div>
 
-        <!--        <mat-icon *ngIf="i === 1" style="color: orange">-->
-        <!--          priority_high-->
-        <!--        </mat-icon>-->
-        <!--        <mat-icon class="more-horiz" *ngIf="i === 1">-->
-        <!--          more_horiz-->
-        <!--        </mat-icon>-->
-      </mat-list-option>
-    </mat-selection-list>
+    <ng-container *ngIf="isQuizStarted; else startQuizTemplate">
+      <h2>Students List</h2>
+      <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)">
+        <mat-list-option *ngFor="let student of course?.students; index as i" [value]="student">
+          <div class="student-item">
+            <div style="flex-grow: 1">{{student.firstName}} {{student.lastName}}</div>
+            <mat-icon (click)="onReview(i)" [class.review-quiz]="i">
+              done
+            </mat-icon>
+          </div>
+
+          <!--        <mat-icon *ngIf="i === 1" style="color: orange">-->
+          <!--          priority_high-->
+          <!--        </mat-icon>-->
+          <!--        <mat-icon class="more-horiz" *ngIf="i === 1">-->
+          <!--          more_horiz-->
+          <!--        </mat-icon>-->
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+    <ng-template #startQuizTemplate>
+      <button (click)="openStartQuizDialog()" style="margin: 10px;" mat-raised-button color="primary">Start quiz</button>
+    </ng-template>
   </div>
 </ng-template>
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const {Types: {ObjectId}} = require('mongoose');
 const {model: QuizData, QuestionType} = require('../models/quizData');
+const {UserType} = require('../models/user');
 const checkAuth = require('../middleware/check-auth');
 
 const {parseFilterFromRequest, executeHandler} = require("../utils");
@@ -32,6 +33,35 @@ router.put('/:id', executeHandler(async ({request}) => {
   return QuizData.updateOne({_id: request.params.id}, quiz).limit(filter.limit).skip(filter.skip);
 }));
 
+//#region admin& lecturer routes
+
+router.post('/:id/start', executeHandler(async ({request, loggedUser}) => {
+  if (![UserType.admin, UserType.lecturer].includes(loggedUser.type)) {
+    const err = new Error('Unauthorized');
+    err.statusCode = 401;
+    throw err;
+  }
+
+  const startTime = new Date(request.body.startTime);
+  const duration = request.body.duration;
+  if (isNaN(startTime.getTime()) || isNaN(duration)) {
+    const err = new Error('Invalid start or duration');
+    err.statusCode = 400;
+    throw err;
+  }
+
+  await QuizData.collection.updateOne({
+    _id: new ObjectId(request.params.id),
+    [`answers.${loggedUser._id.toString()}.${request.params.questionId}`]: {$not: {$type: 'string'}}
+  }, {
+    $set: {startTime, duration},
+    $unset: {answers: ''}
+  });
+}));
+
+//#endregion
+
+//#region student routes
 router.post('/:id/:questionId/open', executeHandler(async ({request, loggedUser}) => {
   await QuizData.collection.updateOne({
     _id: new ObjectId(request.params.id),
@@ -71,6 +101,7 @@ router.post('/:id/:questionId/answer', executeHandler(async ({request, loggedUse
     }
   });
 }));
+//#endregion
 
 module.exports = router;
 

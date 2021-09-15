@@ -32,3 +32,61 @@ tr[mat-row] {
   /* Non-prefixed version, currently
                                    supported by Chrome, Edge, Opera and Firefox */
 }
+
+ngx-material-timepicker-container {
+  position: relative;
+  z-index: 1000;
+
+  input {
+    font-size: 50px !important;
+  }
+
+  ngx-material-timepicker-content {
+    header {
+      padding-bottom: 10px !important;
+      padding-top: 10px !important;
+    }
+
+    .timepicker__body {
+      padding: 15px 0 10px 0 !important;
+    }
+
+    .timepicker__actions {
+      padding-top: 0 !important;
+    }
+
+    div.smallerOne {
+      width: 275px !important;
+
+      .timepicker__body {
+        padding: 0 !important;
+
+        div {
+          background: transparent !important;
+        }
+      }
+
+      .timepicker__actions {
+        padding-right: 0 !important;
+      }
+    }
+  }
+}
+
+mat-form-field.time-picker-field {
+  .mat-form-field-infix {
+    display: flex;
+    padding: 0;
+  }
+}
+
+ngx-material-timepicker-toggle {
+  button {
+    width: 25px;
+
+    svg {
+      fill: #757575;
+    }
+  }
+}
+

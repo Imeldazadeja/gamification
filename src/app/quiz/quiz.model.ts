@@ -15,6 +15,9 @@ export interface QuestionDataSchema {
 export interface Quiz {
   _id: string;
   title: string;
+  quizDate: Date;
+  startTime?: string;
+  duration?: number;
   child: QuestionDataSchema[];
   courseId: string;
   answers?: { [studentId: string]: { [questionId: string]: null | string } };

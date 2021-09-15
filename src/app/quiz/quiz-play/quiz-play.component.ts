@@ -10,6 +10,8 @@ import {CoreService} from "../../core/core.service";
 import {UserType} from "../../auth/auth-data.model";
 import {Course} from "../../courses/course.model";
 import {MatSelectionList, MatSelectionListChange} from "@angular/material/list";
+import {MatDialog} from "@angular/material/dialog";
+import {StartQuizDialogComponent} from "./start-quiz-dialog/start-quiz-dialog.component";
 
 type QuestionProgress = QuestionDataSchema & { answer?: string | number; opened?: boolean; finished?: boolean };
 
@@ -80,12 +82,17 @@ export class QuizPlayComponent implements OnInit {
   readonly TypeSelect = QuestionType.select;
   readonly TypeText = QuestionType.text;
 
+  get isQuizStarted(): boolean {
+    return !!this.quiz.startTime;
+  }
+
   constructor(private quizService: QuizService,
               private courseService: CourseService,
               private coreService: CoreService,
               private userService: AuthService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private dialog: MatDialog) {
   }
 
   playGame(card) {
@@ -165,7 +172,24 @@ export class QuizPlayComponent implements OnInit {
 
   onSelectStudent(change: MatSelectionListChange): void {
     if (!change.options.length) return;
-    console.log('student',change.options[0].value);
+    console.log('student', change.options[0].value);
     this.dataSource.next(getQuestionsByStudent(this.quiz as Quiz, change.options[0].value._id));
+  }
+
+  async openStartQuizDialog(): Promise<void> {
+    const result = await this.dialog.open(StartQuizDialogComponent, {
+      width: '450px',
+      height: '330px'
+    }).afterClosed().toPromise();
+    if (!result) return;
+
+    const {start, end}: {start: Date; end: Date} = result;
+    const MINUTES_PER_MILLIS = 1000 * 60;
+    const durationMinutes = Math.floor((end.getTime() - start.getTime()) / MINUTES_PER_MILLIS);
+
+    await this.quizService.start(this.quiz._id, start, durationMinutes);
+    this.quiz.startTime = start.toISOString();
+    this.quiz.duration = durationMinutes;
+    // TODO popup
   }
 }

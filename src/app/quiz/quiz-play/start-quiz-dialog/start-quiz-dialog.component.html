@@ -1,0 +1,59 @@
+<form fxLayout="column" fxLayoutAlign="start stretch" style="height: 100%" (ngSubmit)="submit()">
+  <div fxFlex="100" fxLayout="column" fxLayoutAlign="start stretch">
+    <mat-form-field>
+      <mat-label>Choose date</mat-label>
+      <input
+        matInput
+        #dateInput="ngModel"
+        [matDatepicker]="datePicker"
+        [(ngModel)]="startDate"
+        (ngModelChange)="validateDate()"
+        name="quizDate"
+        required>
+      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+      <mat-error *ngIf="dateInput.hasError('wrongDate')">Date can't be in the past</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="time-picker-field">
+      <mat-label>Start time</mat-label>
+      <input matInput
+             [ngxTimepicker]="startTimePicker"
+             [(ngModel)]="startTime"
+             name="startTime"
+             [format]="24"
+             required
+             readonly
+             (ngModelChange)="validateTime()">
+      <ngx-material-timepicker-toggle [for]="startTimePicker"></ngx-material-timepicker-toggle>
+      <ngx-material-timepicker #startTimePicker
+                               [appendToInput]="true"
+                               [timepickerClass]="'smallerOne'"
+                               [disableAnimation]="true">
+      </ngx-material-timepicker>
+    </mat-form-field>
+
+    <mat-form-field class="time-picker-field">
+      <mat-label>End time</mat-label>
+      <input matInput
+             #endTimeInput="ngModel"
+             [ngxTimepicker]="endTimePicker"
+             [(ngModel)]="endTime"
+             name="endTime"
+             [format]="24"
+             required
+             readonly
+             (ngModelChange)="validateTime()">
+      <ngx-material-timepicker-toggle [for]="endTimePicker"></ngx-material-timepicker-toggle>
+      <ngx-material-timepicker #endTimePicker
+                               [appendToInput]="true"
+                               [timepickerClass]="'smallerOne'"
+                               [disableAnimation]="true">
+      </ngx-material-timepicker>
+      <mat-error *ngIf="endTimeInput.hasError('endTimeHigher')">End time must higher</mat-error>
+    </mat-form-field>
+
+    <div style="flex-grow: 1"></div>
+    <button type="submit" mat-raised-button color="primary">Start quiz</button>
+  </div>
+</form>

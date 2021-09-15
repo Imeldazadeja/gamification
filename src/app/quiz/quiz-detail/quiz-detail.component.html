@@ -5,7 +5,7 @@
       <button mat-mini-fab style="background-color: #6b6dc7">
         <mat-icon
           matTooltip="Save quiz"
-          (click)="save()"
+          (click)="save(quizForm)"
           class="save-icon">
           save
         </mat-icon>
@@ -13,7 +13,7 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form>
+    <form #quizForm="ngForm" class="time-inputs">
       <mat-form-field>
         <mat-label>Quiz title</mat-label>
         <input

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatExpansionPanel} from "@angular/material/expansion";
 import {MatDialog} from "@angular/material/dialog";
 import {FormGroup, NgForm} from "@angular/forms";
@@ -27,6 +27,11 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
   currentOptionText = '';
   correctOptionIndex = 0;
   currentOptions: string[] = [];
+
+  quizDate = new Date();
+  startTime: any;
+  endTime: any;
+  @ViewChild('quizForm') quizForm?: NgForm;
 
   constructor(private quizService: QuizService,
               private courseService: CourseService,
@@ -64,6 +69,30 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
     // });
   }
 
+  validateDate() {
+    if (!this.quizForm) return;
+    if (!this.quizDate) return;
+
+    if (this.quizDate.getTime() < Date.now() ) {
+      this.quizForm.control.get('appointmentDate')?.setErrors({wrongDate: true});
+    }
+  }
+
+  validateTime() {
+    if (!this.quizForm) return;
+    if (!this.startTime || !this.endTime) return;
+    const startTime = this.startTime.split(':');
+    const endTime = this.endTime.split(':');
+    const startTimeDate = new Date(0, 0 , 0 , startTime[0], startTime[1]);
+    const endTimeDate =  new Date(0, 0 , 0 , endTime[0], endTime[1]);
+
+    if (startTimeDate.getTime() >= endTimeDate.getTime()) {
+      this.quizForm.control.get('endTime')?.setErrors({endTimeHigher: true})
+    } else {
+      this.quizForm.control.get('endTime')?.setErrors(null);
+    }
+  }
+
   addQuestion(form: NgForm) {
     if (form.invalid) return;
     const question = {...form.value};
@@ -97,12 +126,13 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
     this.currentOptions.pop();
   }
 
-  async save() {
+  async save(form: NgForm) {
     if (this.quiz._id) {
       await this.quizService.update({...this.quiz, child: this.dataSource.value});
     } else {
       const quiz = await this.quizService.create({
         title: this.quiz.title,
+        quizDate: form.value.quizDate,
         child: this.dataSource.value,
         courseId: this.route.snapshot.params.id,
       });

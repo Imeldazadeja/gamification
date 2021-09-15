@@ -40,6 +40,13 @@ export class QuizService {
       .delete<Quiz>(`http://localhost:3000/api/quiz/${id}`).toPromise() as any;
   }
 
+  start(id: string, startTime: Date, duration: number): Promise<void> {
+    return this.http.post<void>(`http://localhost:3000/api/quiz/${id}/start`, {
+      startTime,
+      duration
+    }).toPromise();
+  }
+
   openQuestion(args: { quizId: string; questionId: string }): Promise<void> {
     return this.http.post<void>(`http://localhost:3000/api/quiz/${args.quizId}/${args.questionId}/open`, {}).toPromise();
   }

@@ -36,7 +36,7 @@ import {CoursesComponent} from './courses/courses/courses.component';
 import {CourseComponent} from './courses/course/course.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {MatOptionModule, MatRippleModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule, MatRippleModule} from "@angular/material/core";
 import {AppTooltipModule} from "./_core/tooltip/tooltip.module";
 import {QuizDetailComponent} from './quiz/quiz-detail/quiz-detail.component';
 import {MatStepperModule} from "@angular/material/stepper";
@@ -49,6 +49,8 @@ import {ChangePasswordComponent} from "./auth/change-password/change-password.co
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import { HomeComponent } from './home/home.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
+import {StartQuizDialogComponent} from "./quiz/quiz-play/start-quiz-dialog/start-quiz-dialog.component";
 
 // @ts-ignore
 @NgModule({
@@ -62,6 +64,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     CourseComponent,
     QuizDetailComponent,
     QuizPlayComponent,
+    StartQuizDialogComponent,
     QuizListComponent,
     CoreComponent,
     UserProfileComponent,
@@ -107,7 +110,11 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     AppTooltipModule,
     MatStepperModule,
     MatGridListModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMaterialTimepickerModule,
+
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
