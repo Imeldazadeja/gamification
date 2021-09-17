@@ -26,7 +26,8 @@
       </mat-selection-list>
     </ng-container>
     <ng-template #startQuizTemplate>
-      <button (click)="openStartQuizDialog()" style="margin: 10px;" mat-raised-button color="primary">Start quiz</button>
+      <button (click)="openStartQuizDialog()" style="margin: 10px;" mat-raised-button color="primary">Start quiz
+      </button>
     </ng-template>
   </div>
 </ng-template>
@@ -40,11 +41,16 @@
       <div *ngIf="!question.opened; else openCardTemplate" class="card not-open" [class.disabled]="!isStudent"
            (click)="openQuestion(i)">
         <span class="card-front">{{question.questionTopic}}</span>
+        <span class="card-points">({{question.points}} pts)</span>
       </div>
 
       <ng-template #openCardTemplate>
         <div class="card" [class.disabled]="!isStudent" tabindex="-1">
-          <span class="card-title">{{question.questionTopic}}</span>
+          <span class="card-title">{{question.questionTopic}}
+            <span style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
+              ({{question.points}} pts)
+            </span>
+          </span>
           <span class="card-question">{{question.question}}</span>
 
           <button *ngIf="isStudent" (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button
@@ -53,9 +59,9 @@
           </button>
 
           <ng-container [ngSwitch]="question.type">
-              <span class="card-text" *ngSwitchCase="TypeText">
-                <form>
-                  <mat-form-field appearance="fill">
+            <div class="card-text" *ngSwitchCase="TypeText">
+              <form>
+                <mat-form-field appearance="fill">
                   <mat-label>Answer</mat-label>
                   <textarea
                     matInput
@@ -66,9 +72,9 @@
                     [matTextareaAutosize]="true"
                     [disabled]="question.finished || !isStudent"
                   ></textarea>
-                  </mat-form-field>
-                </form>
-              </span>
+                </mat-form-field>
+              </form>
+            </div>
             <div *ngSwitchCase="TypeSelect">
               <mat-radio-group [(ngModel)]="question.answer" [disabled]="question.finished || !isStudent">
                 <mat-radio-button

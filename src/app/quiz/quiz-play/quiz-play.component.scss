@@ -166,6 +166,12 @@ $sendButtonColor: #5A79B5;
       color: #668;
     }
 
+    &-points {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+    }
+
     &-title {
       font-size: 1rem;
       font-weight: 550;
