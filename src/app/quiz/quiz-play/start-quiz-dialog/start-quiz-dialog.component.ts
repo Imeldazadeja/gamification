@@ -1,5 +1,6 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {MatDialogRef} from "@angular/material/dialog";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-start-quiz-dialog',
@@ -7,8 +8,9 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class StartQuizDialogComponent implements OnInit {
   startDate: Date;
-  startTime: string;
-  endTime: string;
+  startTime: any;
+  endTime: any;
+  @ViewChild('startQuizForm') startQuizForm?: NgForm;
 
   constructor(private dialogRef: MatDialogRef<StartQuizDialogComponent>) {
   }
@@ -29,10 +31,28 @@ export class StartQuizDialogComponent implements OnInit {
   }
 
   validateDate(): void {
+    if (!this.startQuizForm) return;
+    if (!this.startDate) return;
+
+    if (this.startDate.getTime() < Date.now() ) {
+      this.startQuizForm.control.get('startDate')?.setErrors({wrongDate: true});
+    }
     // TODO
   }
 
   validateTime(): void {
+    if (!this.startQuizForm) return;
+    if (!this.startTime || !this.endTime) return;
+    const startTime = this.startTime.split(':');
+    const endTime = this.endTime.split(':');
+    const startTimeDate = new Date(0, 0 , 0 , startTime[0], startTime[1]);
+    const endTimeDate =  new Date(0, 0 , 0 , endTime[0], endTime[1]);
+
+    if (startTimeDate.getTime() >= endTimeDate.getTime()) {
+      this.startQuizForm.control.get('endTime')?.setErrors({endTimeHigher: true})
+    } else {
+      this.startQuizForm.control.get('endTime')?.setErrors(null);
+    }
     // TODO
   }
 

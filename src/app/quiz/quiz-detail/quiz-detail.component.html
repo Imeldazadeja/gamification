@@ -40,16 +40,29 @@
     <ng-template matExpansionPanelContent>
       <form #createQuestion="ngForm" (ngSubmit)="addQuestion(createQuestion)">
         <div mat-dialog-content>
-          <mat-form-field appearance="fill">
-            <input
-              matInput
-              name="questionTopic"
-              ngModel
-              type="text"
-              placeholder="Question topic"
-              #questionTopic="ngModel"
-              required>
-          </mat-form-field>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field fxFlex="100" appearance="fill">
+              <mat-label>Question topic</mat-label>
+              <input
+                matInput
+                name="questionTopic"
+                ngModel
+                type="text"
+                required>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100px" appearance="fill" style="margin-left: 20px;">
+              <mat-label>Points</mat-label>
+              <input
+                matInput
+                name="points"
+                [(ngModel)]="questionPoints"
+                type="number"
+                min="0"
+                required
+              >
+            </mat-form-field>
+          </div>
 
           <mat-divider style="margin-bottom: 16px"></mat-divider>
           <mat-button-toggle-group name="type" aria-label="Question type" [(ngModel)]="questionType"
@@ -124,9 +137,10 @@
     <mat-expansion-panel-header>
       <mat-panel-title>
         <span class="counter">#{{i + 1}}</span>
-        {{question.questionTopic}}
+        <span class="title">{{question.questionTopic}}</span>
+        ({{question.points}} pts)
       </mat-panel-title>
-      <mat-panel-description style="justify-content: flex-end">
+      <mat-panel-description style="justify-content: flex-end; flex-grow: 0; margin-left: 100px;">
         <!--        <div style="display: flex; flex-direction: column; justify-content: center">-->
         <!--          <mat-icon>arrow_drop_up</mat-icon>-->
         <!--          <mat-icon>arrow_drop_down</mat-icon>-->

@@ -1,4 +1,4 @@
-<form fxLayout="column" fxLayoutAlign="start stretch" style="height: 100%" (ngSubmit)="submit()">
+<form fxLayout="column" #startQuizForm="ngForm" fxLayoutAlign="start stretch" style="height: 100%" (ngSubmit)="submit()">
   <div fxFlex="100" fxLayout="column" fxLayoutAlign="start stretch">
     <mat-form-field>
       <mat-label>Choose date</mat-label>

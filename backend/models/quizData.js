@@ -9,6 +9,7 @@ const QuestionType = {selectOption: 'S', text: 'T'};
 const questionDataSchema = new mongoose.Schema({
   type: {type: String, required: true},
   questionTopic: {type: String, required: true},
+  points: {type: Number, required: true},
   question: {type: String, required: true},
   options: {type: [String], required: true},
   correctOptionIndex: {type: Number},
@@ -44,7 +45,6 @@ const questionDataSchema = new mongoose.Schema({
 
 const quizDataSchema = new mongoose.Schema({
   title: {type: String, required: true},
-  quizDate: {type: Date, required: true},
   startTime: {type: String},
   duration: {type: Number},
   child: [questionDataSchema],

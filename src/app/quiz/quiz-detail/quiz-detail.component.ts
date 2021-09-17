@@ -24,13 +24,13 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
   readonly TypeSelect = QuestionType.select;
   readonly TypeText = QuestionType.text;
   questionType = QuestionType.select;
+  questionPoints = 1;
   currentOptionText = '';
   correctOptionIndex = 0;
   currentOptions: string[] = [];
 
   quizDate = new Date();
   startTime: any;
-  endTime: any;
   @ViewChild('quizForm') quizForm?: NgForm;
 
   constructor(private quizService: QuizService,
@@ -69,30 +69,6 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
     // });
   }
 
-  validateDate() {
-    if (!this.quizForm) return;
-    if (!this.quizDate) return;
-
-    if (this.quizDate.getTime() < Date.now() ) {
-      this.quizForm.control.get('appointmentDate')?.setErrors({wrongDate: true});
-    }
-  }
-
-  validateTime() {
-    if (!this.quizForm) return;
-    if (!this.startTime || !this.endTime) return;
-    const startTime = this.startTime.split(':');
-    const endTime = this.endTime.split(':');
-    const startTimeDate = new Date(0, 0 , 0 , startTime[0], startTime[1]);
-    const endTimeDate =  new Date(0, 0 , 0 , endTime[0], endTime[1]);
-
-    if (startTimeDate.getTime() >= endTimeDate.getTime()) {
-      this.quizForm.control.get('endTime')?.setErrors({endTimeHigher: true})
-    } else {
-      this.quizForm.control.get('endTime')?.setErrors(null);
-    }
-  }
-
   addQuestion(form: NgForm) {
     if (form.invalid) return;
     const question = {...form.value};
@@ -107,6 +83,7 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
     this.currentOptions = [];
     this.currentOptionText = '';
     this.correctOptionIndex = 0;
+    this.questionPoints = 1;
     this.dataSource.next([...this.dataSource.value, question]);
     this.snackbar.open('Question added!', null, {duration: 3000});
   }

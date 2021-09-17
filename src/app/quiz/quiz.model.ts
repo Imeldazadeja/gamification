@@ -6,6 +6,7 @@ export enum QuestionType {
 export interface QuestionDataSchema {
   _id: string;
   questionTopic: string;
+  points: number;
   type: QuestionType;
   question?: string;
   options?: string[];
