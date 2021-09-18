@@ -10,7 +10,7 @@ const router = express.Router();
 const routerUnauthenticated = express.Router();
 
 router.use(routerUnauthenticated);
-router.use('/', checkAuth);
+router.use('/', checkAuth());
 
 router.get('/current', executeHandler(({loggedUser}) => {
   return loggedUser;

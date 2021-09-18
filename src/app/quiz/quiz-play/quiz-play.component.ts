@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostBinding, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {BehaviorSubject} from "rxjs";
 import {QuestionDataSchema, QuestionType, Quiz} from "../quiz.model";
@@ -78,6 +78,7 @@ export class QuizPlayComponent implements OnInit {
 
   @HostBinding('class.horizontal') horizontalContainer = !this.isStudent;
   @ViewChild('studentsList', {static: false}) studentsList: MatSelectionList;
+  @ViewChild('stopQuizDialogTemplate') private _stopQuizDialogTemplate: TemplateRef<any>;
 
   readonly TypeSelect = QuestionType.select;
   readonly TypeText = QuestionType.text;
@@ -184,12 +185,18 @@ export class QuizPlayComponent implements OnInit {
     if (!result) return;
 
     const {start, end}: {start: Date; end: Date} = result;
-    const MINUTES_PER_MILLIS = 1000 * 60;
-    const durationMinutes = Math.floor((end.getTime() - start.getTime()) / MINUTES_PER_MILLIS);
-
-    await this.quizService.start(this.quiz._id, start, durationMinutes);
+    await this.quizService.start(this.quiz._id, start, end);
     this.quiz.startTime = start.toISOString();
-    this.quiz.duration = durationMinutes;
+    this.quiz.endTime = end.toISOString();
     // TODO popup
+  }
+
+  async stopQuiz(): Promise<void> {
+    const confirm = await this.dialog.open(this._stopQuizDialogTemplate, {}).afterClosed().toPromise();
+    if (!confirm) return;
+
+    await this.quizService.stop(this.quiz._id);
+    delete this.quiz.startTime;
+    delete this.quiz.endTime;
   }
 }

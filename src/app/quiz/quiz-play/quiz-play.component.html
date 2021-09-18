@@ -4,10 +4,9 @@
 
 <ng-template #studentsListTemplate>
   <div class="students-list">
-
-    <ng-container *ngIf="isQuizStarted; else startQuizTemplate">
+    <div *ngIf="isQuizStarted; else startQuizTemplate" fxLayout="column" fxLayoutAlign="start stretch">
       <h2>Students List</h2>
-      <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)">
+      <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)" fxFlex="100">
         <mat-list-option *ngFor="let student of course?.students; index as i" [value]="student">
           <div class="student-item">
             <div style="flex-grow: 1">{{student.firstName}} {{student.lastName}}</div>
@@ -24,7 +23,15 @@
           <!--        </mat-icon>-->
         </mat-list-option>
       </mat-selection-list>
-    </ng-container>
+      <button mat-button color="warn" style="margin: 10px;"(click)="stopQuiz()">End quiz</button>
+      <ng-template #stopQuizDialogTemplate>
+        Are you sure you want to end this quiz?
+        <mat-dialog-actions align="end">
+          <button mat-button mat-dialog-close>Cancel</button>
+          <button mat-button [mat-dialog-close]="true" cdkFocusInitial>End quiz</button>
+        </mat-dialog-actions>
+      </ng-template>
+    </div>
     <ng-template #startQuizTemplate>
       <button (click)="openStartQuizDialog()" style="margin: 10px;" mat-raised-button color="primary">Start quiz
       </button>

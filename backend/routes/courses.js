@@ -4,7 +4,7 @@ const checkAuth = require("../middleware/check-auth");
 const CoursesData = require("../models/courseData");
 const {UserType} = require('../models/user');
 
-const router = express.Router().use(checkAuth);
+const router = express.Router().use(checkAuth());
 
 router.post('/', executeHandler(async ({request}) => {
   return await CoursesData.create(request.body);

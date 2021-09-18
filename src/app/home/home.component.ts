@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth/auth.service";
-import {User} from "../auth/auth-data.model";
+import {User, UserType} from "../auth/auth-data.model";
+import {QuizService} from "../quiz/quiz.service";
+import {Quiz} from "../quiz/quiz.model";
 
 @Component({
   selector: 'app-home',
@@ -8,9 +10,15 @@ import {User} from "../auth/auth-data.model";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  runningQuizes: Quiz[] = [];
+
+  get isStudent(): boolean {
+    return this.authService.user.type === UserType.student;
+  }
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private quizService: QuizService,
   ) {
     this.getUserData();
   }
@@ -19,6 +27,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserData();
+    if (this.isStudent) {
+      this.quizService.getRunningQuizes().then(quizes => {
+        this.runningQuizes = quizes;
+      });
+    }
   }
 
   getUserData() {

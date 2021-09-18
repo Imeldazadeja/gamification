@@ -23,35 +23,45 @@ export class QuizService {
       ).toPromise() as any
   }
 
-  create(data: Partial<Quiz>): Promise<Quiz> {
-    return this.http.post<Quiz>('http://localhost:3000/api/quiz', data).toPromise() as any;
-  }
-
-  update(data: Partial<Quiz>): Promise<Quiz> {
-    return this.http.put<Quiz>(`http://localhost:3000/api/quiz/${data._id}`, data).toPromise() as any;
-  }
-
   findById(id: string): Promise<Quiz> {
     return this.http.get<Quiz>(`http://localhost:3000/api/quiz/${id}`).toPromise().catch(() => null) as any;
   }
 
-  delete(id: string): Promise<Quiz> {
-    return this.http
-      .delete<Quiz>(`http://localhost:3000/api/quiz/${id}`).toPromise() as any;
+  create(data: Partial<Quiz>): Promise<Quiz> {
+    return this.http.post<Quiz>('http://localhost:3000/api/quiz/admin', data).toPromise() as any;
   }
 
-  start(id: string, startTime: Date, duration: number): Promise<void> {
-    return this.http.post<void>(`http://localhost:3000/api/quiz/${id}/start`, {
+  update(data: Partial<Quiz>): Promise<Quiz> {
+    return this.http.put<Quiz>(`http://localhost:3000/api/quiz/admin/${data._id}`, data).toPromise() as any;
+  }
+
+  delete(id: string): Promise<Quiz> {
+    return this.http
+      .delete<Quiz>(`http://localhost:3000/api/quiz/admin/${id}`).toPromise() as any;
+  }
+
+  start(id: string, startTime: Date, endTime: Date): Promise<void> {
+    return this.http.post<void>(`http://localhost:3000/api/quiz/admin/${id}/start`, {
       startTime,
-      duration
+      endTime
     }).toPromise();
   }
 
+  stop(id: string): Promise<void> {
+    return this.http.post<void>(`http://localhost:3000/api/quiz/admin/${id}/stop`, {}).toPromise();
+  }
+
+  //#region student routes
   openQuestion(args: { quizId: string; questionId: string }): Promise<void> {
-    return this.http.post<void>(`http://localhost:3000/api/quiz/${args.quizId}/${args.questionId}/open`, {}).toPromise();
+    return this.http.post<void>(`http://localhost:3000/api/quiz/student/${args.quizId}/${args.questionId}/open`, {}).toPromise();
   }
 
   postAnswer(args: { quizId: string; questionId: string; answer: string | number }): Promise<void> {
-    return this.http.post<void>(`http://localhost:3000/api/quiz/${args.quizId}/${args.questionId}/answer`, {answer: args.answer}).toPromise();
+    return this.http.post<void>(`http://localhost:3000/api/quiz/student/${args.quizId}/${args.questionId}/answer`, {answer: args.answer}).toPromise();
   }
+
+  getRunningQuizes(): Promise<Array<Quiz>> {
+    return this.http.get<Array<Quiz>>(`http://localhost:3000/api/quiz/student/running-quizes`).toPromise();
+  }
+  //#endregion
 }

@@ -77,6 +77,7 @@ function executeHandler(handlerFn) {
                 response.status(204).send();
             }
         } catch (error) {
+            console.error('Unhandled error:', error);
             if (error.statusCode) {
                 response.status(error.statusCode).send(error);
             } else {

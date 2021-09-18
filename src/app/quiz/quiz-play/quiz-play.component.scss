@@ -35,6 +35,7 @@ $sendButtonColor: #5A79B5;
     }
   }
 
+  // TODO better name
   .students-list {
     width: 280px;
     background-color: white;
@@ -43,6 +44,10 @@ $sendButtonColor: #5A79B5;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
+
+    & > div {
+      height: 100%;
+    }
 
     h2 {
       align-self: center;

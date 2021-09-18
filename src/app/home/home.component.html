@@ -3,3 +3,16 @@
     Welcome to Creative Learning, {{user.firstName}} {{user.lastName}}
   </div>
 </div>
+<div *ngIf="isStudent">
+  TODO
+  <ng-container *ngFor="let quiz of runningQuizes">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{quiz.title}}</mat-card-title>
+        <mat-card-subtitle>{{quiz.startTime | date: 'HH:mm'}} - {{quiz.endTime | date: 'HH:mm'}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</div>
