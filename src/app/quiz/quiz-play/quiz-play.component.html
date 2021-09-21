@@ -23,7 +23,7 @@
           <!--        </mat-icon>-->
         </mat-list-option>
       </mat-selection-list>
-      <button mat-button color="warn" style="margin: 10px;"(click)="stopQuiz()">End quiz</button>
+      <button mat-button color="warn" style="margin: 10px;" (click)="stopQuiz()">End quiz</button>
       <ng-template #stopQuizDialogTemplate>
         Are you sure you want to end this quiz?
         <mat-dialog-actions align="end">
@@ -40,7 +40,7 @@
 </ng-template>
 
 <div class="container">
-  <div class="row gx-3 gy-3">
+  <div class="row gx-3 gy-3" [class.disabled]="!isDisableQuiz(quiz._id)">
     <div
       *ngFor="let question of dataSource | async; index as i"
       (click)="playGame(question)"

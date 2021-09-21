@@ -5,7 +5,8 @@
   display: inline;
   justify-content: center;
   flex-wrap: wrap;
-  position: absolute;
+  font-size: 1.5rem;
+  //position: absolute;
   margin: 0 0 0 0;
 
   color: whitesmoke;
@@ -16,9 +17,25 @@
   &-message {
     margin-top: 1rem;
     font-size: 1.5rem;
+    justify-content: center;
     font-family: sans-serif;
     vertical-align: center;
     //position: absolute;
     text-align: center;
   }
 }
+.available-quiz {
+  margin: 20px;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+mat-card {
+  margin: 20px;
+  display: flex;
+  font-family: sans-serif;
+  justify-content: flex-start;
+  background-color: #d5c9df;
+}
+

@@ -22,6 +22,12 @@ export class QuizListComponent implements OnInit {
     'quizTitle',
     'actions',
   ];
+  isRunningQuiz: boolean;
+  runningQuizes: Quiz[] = [];
+
+  get isStudent(): boolean {
+    return this.authService.user.type === UserType.student;
+  }
 
   constructor(private quizService: QuizService,
               private courseService: CourseService,
@@ -40,6 +46,17 @@ export class QuizListComponent implements OnInit {
       this.dataSource.next(quiz);
       this.coreService.setTitleParam('courseName', course.title);
     })
+    if (this.isStudent) {
+      this.quizService.getRunningQuizes().then(quizzes => {
+        this.runningQuizes = quizzes;
+      });
+    }
+  }
+
+  isDisableQuiz(quizId): boolean {
+    return this.isStudent?
+      this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
+      : true
   }
 
   async delete(quizId: string): Promise<void> {

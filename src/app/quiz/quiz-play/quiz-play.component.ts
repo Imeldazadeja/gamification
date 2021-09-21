@@ -83,6 +83,9 @@ export class QuizPlayComponent implements OnInit {
   readonly TypeSelect = QuestionType.select;
   readonly TypeText = QuestionType.text;
 
+  isRunningQuiz: boolean;
+  runningQuizes: Quiz[] = [];
+
   get isQuizStarted(): boolean {
     return !!this.quiz.startTime;
   }
@@ -135,6 +138,11 @@ export class QuizPlayComponent implements OnInit {
         });
       }
     });
+    if (this.isStudent) {
+      this.quizService.getRunningQuizes().then(quizzes => {
+        this.runningQuizes = quizzes;
+      });
+    }
   }
 
   async openQuestion(questionIndex: number): Promise<void> {
@@ -169,6 +177,12 @@ export class QuizPlayComponent implements OnInit {
 
   onReview(i) {
     i.select = !i.select;
+  }
+
+  isDisableQuiz(quizId): boolean {
+    return this.isStudent?
+      this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
+      : true
   }
 
   onSelectStudent(change: MatSelectionListChange): void {

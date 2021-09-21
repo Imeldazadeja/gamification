@@ -59,6 +59,12 @@ adminLecturerRouter.post('/:id/start', executeHandler(async ({request, loggedUse
     throw err;
   }
 
+  if(startTime.getTime() < new Date() || endTime.getTime() < new Date()) {
+    const err = new Error('Cannot be in the past');
+    err.statusCode = 400;
+    throw err;
+  }
+
   await QuizData.collection.updateOne({
     _id: new ObjectId(request.params.id),
   }, {

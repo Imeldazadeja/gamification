@@ -32,6 +32,10 @@ $sendButtonColor: #5A79B5;
       padding: 0 30px;
       overflow-x: hidden;
       padding-top: 20px;
+
+      .disabled {
+        pointer-events: none;
+      }
     }
   }
 
