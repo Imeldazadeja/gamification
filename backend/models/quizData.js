@@ -74,6 +74,19 @@ const quizDataSchema = new mongoose.Schema({
             }
           },
         },
+        points: {
+          bsonType: 'object',
+          patternProperties: {
+            "\\w+": {
+              bsonType: 'object',
+              patternProperties: {
+                "\\w+": {
+                  bsonType: 'number'
+                }
+              }
+            }
+          },
+        }
       },
     },
     $or: [

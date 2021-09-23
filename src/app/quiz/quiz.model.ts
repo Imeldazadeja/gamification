@@ -22,5 +22,7 @@ export interface Quiz {
   child: QuestionDataSchema[];
   courseId: string;
   answers?: { [studentId: string]: { [questionId: string]: null | string } };
+  points?: { [studentId: string]: { [questionId: string]: null | number } };
+  // points?: { [studentId: string]: {[quizId: string]: null | number} };
   // [{id: 2, type: 'T'}, ...], answers: {'2': 1}
 }

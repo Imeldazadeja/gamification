@@ -13,6 +13,7 @@ export class QuizService {
   constructor(private http: HttpClient) {
   }
 
+  //#region admin & lecturer routes
   find(filter?: Filter): Promise<Quiz[]> {
     return this.http.get<Quiz[]>('http://localhost:3000/api/quiz', {params: {filter: filter ? JSON.stringify(filter) : undefined}})
       .pipe(
@@ -51,6 +52,11 @@ export class QuizService {
     return this.http.post<void>(`http://localhost:3000/api/quiz/admin/${id}/stop`, {}).toPromise();
   }
 
+  postScore(args: { quizId: string; studentId: string; questionId: string; points: number }): Promise<void> {
+    return this.http.post<void>(`http://localhost:3000/api/quiz/admin/${args.quizId}/evaluate/${args.studentId}/${args.questionId}`, {points: args.points}).toPromise();
+  }
+  //#endregion
+
   //#region student routes
   openQuestion(args: { quizId: string; questionId: string }): Promise<void> {
     return this.http.post<void>(`http://localhost:3000/api/quiz/student/${args.quizId}/${args.questionId}/open`, {}).toPromise();
@@ -63,5 +69,6 @@ export class QuizService {
   getRunningQuizes(): Promise<Array<Quiz>> {
     return this.http.get<Array<Quiz>>(`http://localhost:3000/api/quiz/student/running-quizes`).toPromise();
   }
+
   //#endregion
 }

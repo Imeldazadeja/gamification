@@ -6,13 +6,32 @@
   <div class="students-list">
     <div *ngIf="isQuizStarted; else startQuizTemplate" fxLayout="column" fxLayoutAlign="start stretch">
       <h2>Students List</h2>
-      <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)" fxFlex="100">
+      <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)" fxFlex="80">
         <mat-list-option *ngFor="let student of course?.students; index as i" [value]="student">
           <div class="student-item">
-            <div style="flex-grow: 1">{{student.firstName}} {{student.lastName}}</div>
-            <mat-icon (click)="onReview(i)" [class.review-quiz]="i">
-              done
-            </mat-icon>
+            <div style="flex-grow: 1">
+              {{student.firstName}} {{student.lastName}}
+              <mat-icon (click)="onReview(i)" [class.review-quiz]="i">
+                check_circle
+              </mat-icon>
+            </div>
+            <mat-icon *ngIf="isCompletingQuiz(quiz._id)">history</mat-icon>
+<!--            <div>-->
+<!--              <form class="score-form" #savePoints="ngForm" (ngSubmit)="postScore(savePoints)">-->
+<!--                <mat-form-field>-->
+<!--                  <mat-label>Points</mat-label>-->
+<!--                  <input-->
+<!--                    matInput-->
+<!--                    name="scoreInput"-->
+<!--                    type="number"-->
+<!--                    ngModel-->
+<!--                    required>-->
+<!--                </mat-form-field>-->
+<!--                <button mat-icon-button type="submit">-->
+<!--                  <mat-icon color="primary">send</mat-icon>-->
+<!--                </button>-->
+<!--              </form>-->
+<!--            </div>-->
           </div>
 
           <!--        <mat-icon *ngIf="i === 1" style="color: orange">-->
@@ -40,59 +59,121 @@
 </ng-template>
 
 <div class="container">
-  <div class="row gx-3 gy-3" [class.disabled]="!isDisableQuiz(quiz._id)">
-    <div
-      *ngFor="let question of dataSource | async; index as i"
-      (click)="playGame(question)"
-      class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div *ngIf="!question.opened; else openCardTemplate" class="card not-open" [class.disabled]="!isStudent"
-           (click)="openQuestion(i)">
-        <span class="card-front">{{question.questionTopic}}</span>
-        <span class="card-points">({{question.points}} pts)</span>
-      </div>
+  <ng-container *ngTemplateOutlet="isStudent ? studentView : adminView"></ng-container>
+  <ng-template #studentView>
+    <div class="row gx-3 gy-3" [class.disabled]="!isDisableQuiz(quiz._id)">
+      <div
+        *ngFor="let question of dataSource | async; index as i"
+        (click)="playGame(question)"
+        class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div *ngIf="!question.opened; else openCardTemplate"
+             class="card not-open"
+             (click)="openQuestion(i)">
+          <span class="card-front">{{question.questionTopic}}</span>
+          <span class="card-points">({{question.points}} pts)</span>
+        </div>
 
-      <ng-template #openCardTemplate>
-        <div class="card" [class.disabled]="!isStudent" tabindex="-1">
+        <ng-template #openCardTemplate>
+          <div class="card" tabindex="-1">
           <span class="card-title">{{question.questionTopic}}
             <span style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
               ({{question.points}} pts)
             </span>
           </span>
-          <span class="card-question">{{question.question}}</span>
+            <span class="card-question">{{question.question}}</span>
 
-          <button *ngIf="isStudent" (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button
-                  class="send-btn">
-            <mat-icon [class.correct]="isCorrectAnswer" matTooltip="Submit">send</mat-icon>
-          </button>
+            <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button
+                    class="send-btn">
+              <mat-icon [class.correct]="isCorrectAnswer" matTooltip="Submit">send</mat-icon>
+            </button>
 
-          <ng-container [ngSwitch]="question.type">
-            <div class="card-text" *ngSwitchCase="TypeText">
-              <form>
-                <mat-form-field appearance="fill">
-                  <mat-label>Answer</mat-label>
-                  <textarea
-                    matInput
-                    [(ngModel)]="question.answer"
-                    [name]="'answerQuestion' + i"
-                    required
-                    [matAutosizeMinRows]="3"
-                    [matTextareaAutosize]="true"
-                    [disabled]="question.finished || !isStudent"
-                  ></textarea>
-                </mat-form-field>
-              </form>
-            </div>
-            <div *ngSwitchCase="TypeSelect">
-              <mat-radio-group [(ngModel)]="question.answer" [disabled]="question.finished || !isStudent">
-                <mat-radio-button
-                  *ngFor="let option of question.options; index as optionIndex"
-                  [value]="optionIndex">{{option}}
-                </mat-radio-button>
-              </mat-radio-group>
-            </div>
-          </ng-container>
-        </div>
-      </ng-template>
+            <ng-container [ngSwitch]="question.type">
+              <div class="card-text" *ngSwitchCase="TypeText">
+                <form>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Answer</mat-label>
+                    <textarea
+                      matInput
+                      [(ngModel)]="question.answer"
+                      [name]="'answerQuestion' + i"
+                      required
+                      [matAutosizeMinRows]="3"
+                      [matTextareaAutosize]="true"
+                      [disabled]="question.finished || !isStudent"
+                    ></textarea>
+                  </mat-form-field>
+                </form>
+              </div>
+              <div *ngSwitchCase="TypeSelect">
+                <mat-radio-group [(ngModel)]="question.answer" [disabled]="question.finished || !isStudent">
+                  <mat-radio-button
+                    *ngFor="let option of question.options; index as optionIndex"
+                    [value]="optionIndex">{{option}}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </ng-container>
+          </div>
+        </ng-template>
+      </div>
     </div>
-  </div>
+  </ng-template>
+  <ng-template #adminView>
+    <div class="row gx-3 gy-3" [class.disabled]="!isDisableQuiz(quiz._id)">
+      <div
+        *ngFor="let question of dataSource | async; index as i"
+        class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div *ngIf="!question.opened; else openCardTemplate" class="card not-open disabled">
+          <span class="card-front">{{question.questionTopic}}</span>
+          <span class="card-points">({{question.points}} pts)</span>
+        </div>
+
+        <ng-template #openCardTemplate>
+          <div class="card disabled" tabindex="-1">
+          <span class="card-title">{{question.questionTopic}}
+            <span style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
+              ({{question.points}} pts)
+            </span>
+          </span>
+            <span class="card-question">{{question.question}}</span>
+
+            <button
+              *ngIf="questionNeedsAction(question)"
+              (click)="openEvaluateQuestion(question)"
+              mat-icon-button
+              class="send-btn">
+              <mat-icon style="transform: rotate(45deg)" matTooltip="Evaluate">edit</mat-icon>
+            </button>
+
+            <ng-container [ngSwitch]="question.type">
+              <div class="card-text" *ngSwitchCase="TypeText">
+                <form>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Answer</mat-label>
+                    <textarea
+                      matInput
+                      [ngModel]="question.answer"
+                      [name]="'answerQuestion' + i"
+                      required
+                      [matAutosizeMinRows]="3"
+                      [matTextareaAutosize]="true"
+                      disabled
+                    ></textarea>
+                  </mat-form-field>
+                </form>
+              </div>
+              <div *ngSwitchCase="TypeSelect">
+                <mat-radio-group [ngModel]="question.answer" disabled>
+                  <mat-radio-button
+                    *ngFor="let option of question.options; index as optionIndex"
+                    [value]="optionIndex">{{option}}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </ng-container>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </ng-template>
 </div>

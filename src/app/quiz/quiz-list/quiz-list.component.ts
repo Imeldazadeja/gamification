@@ -54,9 +54,10 @@ export class QuizListComponent implements OnInit {
   }
 
   isDisableQuiz(quizId): boolean {
-    return this.isStudent?
-      this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
-      : true
+    return //TODO uncomment code below
+    // return this.isStudent?
+    //   this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
+    //   : true
   }
 
   async delete(quizId: string): Promise<void> {

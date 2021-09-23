@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: 100%;
+}
+
+.content-container {
+  flex-grow: 1;
+}
+
+.actions-container {
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    mat-form-field {
+      position: relative;
+      top: 10px
+    }
+  }
+
+
+}

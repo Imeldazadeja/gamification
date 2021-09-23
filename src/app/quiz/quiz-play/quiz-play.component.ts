@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostBinding, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, HostBinding, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {BehaviorSubject} from "rxjs";
 import {QuestionDataSchema, QuestionType, Quiz} from "../quiz.model";
@@ -7,16 +7,23 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {AuthService} from "../../auth/auth.service";
 import {CourseService} from "../../courses/course.service";
 import {CoreService} from "../../core/core.service";
-import {UserType} from "../../auth/auth-data.model";
+import {User, UserType} from "../../auth/auth-data.model";
 import {Course} from "../../courses/course.model";
 import {MatSelectionList, MatSelectionListChange} from "@angular/material/list";
 import {MatDialog} from "@angular/material/dialog";
 import {StartQuizDialogComponent} from "./start-quiz-dialog/start-quiz-dialog.component";
+import {EvaluateQuestionDialogComponent} from "./evaluate-question-dialog/evaluate-question-dialog.component";
 
-type QuestionProgress = QuestionDataSchema & { answer?: string | number; opened?: boolean; finished?: boolean };
+type QuestionProgress = QuestionDataSchema & {
+  answer?: string | number;
+  opened?: boolean;
+  finished?: boolean;
+  result?: number;
+};
 
 function getQuestionsByStudent(quiz: Quiz, studentId: string): QuestionProgress[] {
   const studentAnswers = quiz.answers?.[studentId] || {};
+  const results = quiz.points?.[studentId] || {};
 
   return quiz.child.map(question => {
     const _question = {...question} as QuestionProgress;
@@ -30,21 +37,12 @@ function getQuestionsByStudent(quiz: Quiz, studentId: string): QuestionProgress[
       }
     }
 
+    if (Object.prototype.hasOwnProperty.call(results, question._id)) {
+      _question.result = results[question._id];
+    }
+
     return _question;
   })
-
-  // return Object.entries(studentAnswers).map(([questionId, answer]) => {
-  //   const question = {...quiz.child.find(e => e._id === questionId)} as QuestionProgress;
-  //   if (question) {
-  //     question.opened = true;
-  //     if (answer !== null) {
-  //       question.answer = answer;
-  //       question.finished = true;
-  //     }
-  //   }
-  //
-  //   return question;
-  // });
 }
 
 @Component({
@@ -65,26 +63,29 @@ function getQuestionsByStudent(quiz: Quiz, studentId: string): QuestionProgress[
   ]
 })
 export class QuizPlayComponent implements OnInit {
+  readonly TypeSelect = QuestionType.select;
+  readonly TypeText = QuestionType.text;
+  readonly isStudent = this.userService.user.type === UserType.student;
+  readonly isLecturer = this.userService.user.type === UserType.lecturer;
+
+  private quizId: string;
+
   quiz: Partial<Quiz> = {};
   course?: Course;
   dataSource = new BehaviorSubject<Array<QuestionProgress>>([]);
   prevCard = null;
   isProcessing: boolean = false;
-  private quizId: string;
+  selectedStudent?: User;
 
   completed: number;
   isCorrectAnswer: boolean;
-  readonly isStudent = this.userService.user.type === UserType.student;
+  isRunningQuiz: boolean;
+  runningQuizes: Quiz[] = [];
 
   @HostBinding('class.horizontal') horizontalContainer = !this.isStudent;
   @ViewChild('studentsList', {static: false}) studentsList: MatSelectionList;
   @ViewChild('stopQuizDialogTemplate') private _stopQuizDialogTemplate: TemplateRef<any>;
 
-  readonly TypeSelect = QuestionType.select;
-  readonly TypeText = QuestionType.text;
-
-  isRunningQuiz: boolean;
-  runningQuizes: Quiz[] = [];
 
   get isQuizStarted(): boolean {
     return !!this.quiz.startTime;
@@ -171,6 +172,12 @@ export class QuizPlayComponent implements OnInit {
     this.completed = (questionsAnswers / this.dataSource.value.length) * 100;
   }
 
+  // async postScore(form: NgForm): Promise<void> {
+  //   if(form.invalid) return;
+  //   const points = {...form.value};
+  //   await this.quizService.postScore({quizId: this.quiz._id, points});
+  // }
+
   isFocused(element: HTMLElement): boolean {
     return document.activeElement === element;
   }
@@ -180,7 +187,14 @@ export class QuizPlayComponent implements OnInit {
   }
 
   isDisableQuiz(quizId): boolean {
-    return this.isStudent?
+    return true; // TODO remove
+    // return this.isStudent?
+    //   this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
+    //   : true
+  }
+
+  isCompletingQuiz(quizId): boolean {
+    return this.isLecturer ?
       this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
       : true
   }
@@ -188,7 +202,28 @@ export class QuizPlayComponent implements OnInit {
   onSelectStudent(change: MatSelectionListChange): void {
     if (!change.options.length) return;
     console.log('student', change.options[0].value);
+    this.selectedStudent = change.options[0].value;
     this.dataSource.next(getQuestionsByStudent(this.quiz as Quiz, change.options[0].value._id));
+  }
+
+  questionNeedsAction(question: QuestionProgress): boolean {
+    return question.type === QuestionType.text ? question.finished && !Number.isInteger(question.result) : false;
+  }
+
+  async openEvaluateQuestion(question: QuestionProgress): Promise<void> {
+    const result: number = await this.dialog.open(EvaluateQuestionDialogComponent, {
+      width: '450px',
+      height: '330px',
+      data: question,
+    }).afterClosed().toPromise();
+    if (!Number.isInteger(result)) return;
+
+    await this.quizService.postScore({
+      quizId: this.quiz._id,
+      questionId: question._id,
+      studentId: this.selectedStudent._id,
+      points: result,
+    });
   }
 
   async openStartQuizDialog(): Promise<void> {
@@ -198,7 +233,7 @@ export class QuizPlayComponent implements OnInit {
     }).afterClosed().toPromise();
     if (!result) return;
 
-    const {start, end}: {start: Date; end: Date} = result;
+    const {start, end}: { start: Date; end: Date } = result;
     await this.quizService.start(this.quiz._id, start, end);
     this.quiz.startTime = start.toISOString();
     this.quiz.endTime = end.toISOString();

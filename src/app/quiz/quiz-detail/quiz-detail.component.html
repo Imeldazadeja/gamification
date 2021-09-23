@@ -85,23 +85,23 @@
             <div *ngSwitchCase="TypeSelect">
               <div>
                 <mat-form-field appearance="fill">
+                  <mat-label>Add question</mat-label>
                   <input
                     matInput
                     name="question"
                     type="text"
                     required
-                    ngModel
-                    placeholder="Add question">
+                    ngModel>
                 </mat-form-field>
               </div>
               <div class="options-form" style="display: flex">
                 <mat-form-field appearance="fill">
+                  <mat-label>Add new option</mat-label>
                   <input
                     matInput
                     name="optionText"
                     [(ngModel)]="currentOptionText"
-                    type="text"
-                    placeholder="Add new option">
+                    type="text">
                 </mat-form-field>
                 <button (click)="addNewOption()" mat-stroked-button type="button">
                   Add

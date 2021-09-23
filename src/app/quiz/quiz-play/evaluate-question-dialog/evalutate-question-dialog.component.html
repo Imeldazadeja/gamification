@@ -1,0 +1,17 @@
+<div class="content-container">
+  <h3 style="margin-bottom: 5px">{{question.questionTopic}}</h3>
+  <p style="color: #444; font-size: 13px; margin-bottom: 5px;">{{question.question}}</p>
+  <mat-divider style="margin-bottom: 20px"></mat-divider>
+  <p>
+    {{question['answer']}}
+  </p>
+</div>
+<div class="actions-container">
+  <form (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Result (max. {{question.points}})</mat-label>
+      <input matInput name="result" [(ngModel)]="resultPoints" min="0" [max]="question.points" type="number" required/>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Evaluate</button>
+  </form>
+</div>

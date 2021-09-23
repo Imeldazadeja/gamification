@@ -82,6 +82,20 @@ adminLecturerRouter.post('/:id/stop', executeHandler(async ({request, loggedUser
   });
 }));
 
+adminLecturerRouter.post('/:id/evaluate/:studentId/:questionId', executeHandler(async ({request, loggedUser}) => {
+  const quizId = new ObjectId(request.params.id);
+  const studentId = request.params.studentId;
+  const questionId = request.params.questionId;
+
+  await QuizData.collection.updateOne({
+    _id: quizId
+  }, {
+    $set: {
+      [`points.${studentId}.${questionId}`]: request.body.points
+    }
+  });
+}));
+
 //#endregion
 
 //#region student routes

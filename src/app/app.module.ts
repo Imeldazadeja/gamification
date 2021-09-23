@@ -47,10 +47,11 @@ import {CoreComponent} from './core/core.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import { HomeComponent } from './home/home.component';
+import {HomeComponent} from './home/home.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {StartQuizDialogComponent} from "./quiz/quiz-play/start-quiz-dialog/start-quiz-dialog.component";
+import {EvaluateQuestionDialogComponent} from "./quiz/quiz-play/evaluate-question-dialog/evaluate-question-dialog.component";
 
 // @ts-ignore
 @NgModule({
@@ -65,6 +66,7 @@ import {StartQuizDialogComponent} from "./quiz/quiz-play/start-quiz-dialog/start
     QuizDetailComponent,
     QuizPlayComponent,
     StartQuizDialogComponent,
+    EvaluateQuestionDialogComponent,
     QuizListComponent,
     CoreComponent,
     UserProfileComponent,
