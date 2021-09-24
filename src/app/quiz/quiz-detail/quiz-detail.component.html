@@ -14,16 +14,28 @@
   </mat-card-header>
   <mat-card-content>
     <form #quizForm="ngForm" class="time-inputs">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Quiz title</mat-label>
         <input
           matInput
           name="quizTitle"
           type="text"
           [(ngModel)]="quiz.title"
-          #quizTitle="ngModel"
           placeholder="Quiz title"
           required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <!-- TODO explain what this means with a tooltip? -->
+        <mat-label># of questions to be answered</mat-label>
+        <input
+          matInput
+          name="quizTitle"
+          type="number"
+          [(ngModel)]="quiz.numQuestions"
+          min="1"
+          [max]="dataSource.value.length"
+          required>
+        <span matSuffix>of {{dataSource.value.length}} questions</span>
       </mat-form-field>
     </form>
   </mat-card-content>

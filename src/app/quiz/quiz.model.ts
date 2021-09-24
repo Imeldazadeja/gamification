@@ -16,7 +16,7 @@ export interface QuestionDataSchema {
 export interface Quiz {
   _id: string;
   title: string;
-  quizDate: Date;
+  numQuestions: number;
   startTime?: string;
   endTime?: string;
   child: QuestionDataSchema[];

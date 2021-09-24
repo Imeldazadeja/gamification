@@ -109,7 +109,6 @@ export class QuizDetailComponent implements AfterViewInit, OnInit {
     } else {
       const quiz = await this.quizService.create({
         title: this.quiz.title,
-        quizDate: form.value.quizDate,
         child: this.dataSource.value,
         courseId: this.route.snapshot.params.id,
       });

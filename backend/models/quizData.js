@@ -45,6 +45,7 @@ const questionDataSchema = new mongoose.Schema({
 
 const quizDataSchema = new mongoose.Schema({
   title: {type: String, required: true},
+  numQuestions: {type: Number, required: true},
   startTime: {type: Date},
   endTime: {type: Date},
   child: [questionDataSchema],
@@ -57,6 +58,7 @@ const quizDataSchema = new mongoose.Schema({
       properties: {
         title: {bsonType: 'string'},
         courseId: {bsonType: 'objectId'},
+        numQuestions: {bsonType: 'int'},
         child: {bsonType: 'array'},
         startTime: {bsonType: 'date'},
         endTime: {bsonType: 'date'},
@@ -89,12 +91,17 @@ const quizDataSchema = new mongoose.Schema({
         }
       },
     },
-    $or: [
-      {startTime: {$exists: false}, endTime: {$exists: false}},
+    $and: [
       {
-        startTime: {$exists: true}, endTime: {$exists: true},
-        $expr: {$gt: ['$endTime', '$startTime']}
-      }
+        $or: [
+          {startTime: {$exists: false}, endTime: {$exists: false}},
+          {
+            startTime: {$exists: true}, endTime: {$exists: true},
+            $expr: {$gt: ['$endTime', '$startTime']}
+          }
+        ],
+      },
+      // TODO child.length >= numQuestions && numQuestions >= 1
     ],
   },
 });
