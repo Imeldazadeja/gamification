@@ -206,6 +206,10 @@ export class QuizPlayComponent implements OnInit {
     this.dataSource.next(getQuestionsByStudent(this.quiz as Quiz, change.options[0].value._id));
   }
 
+  numberOfQuestionsCompleted(studentId: string): number {
+    return Object.values(this.quiz.answers[studentId] || {}).filter(item => item !== null).length;
+  }
+
   questionNeedsAction(question: QuestionProgress): boolean {
     return question.type === QuestionType.text ? question.finished && !Number.isInteger(question.result) : false;
   }

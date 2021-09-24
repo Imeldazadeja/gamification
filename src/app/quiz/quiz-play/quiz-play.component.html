@@ -9,29 +9,14 @@
       <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)" fxFlex="80">
         <mat-list-option *ngFor="let student of course?.students; index as i" [value]="student">
           <div class="student-item">
-            <div style="flex-grow: 1">
-              {{student.firstName}} {{student.lastName}}
-              <mat-icon (click)="onReview(i)" [class.review-quiz]="i">
-                check_circle
-              </mat-icon>
+            <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start">
+              <span>{{student.firstName}} {{student.lastName}}</span>
+              <span style="font-size: 13px">answered {{numberOfQuestionsCompleted(student._id)}} / {{quiz.numQuestions}}</span>
             </div>
+            <mat-icon (click)="onReview(i)" [class.review-quiz]="i">
+              check_circle
+            </mat-icon>
             <mat-icon *ngIf="isCompletingQuiz(quiz._id)">history</mat-icon>
-<!--            <div>-->
-<!--              <form class="score-form" #savePoints="ngForm" (ngSubmit)="postScore(savePoints)">-->
-<!--                <mat-form-field>-->
-<!--                  <mat-label>Points</mat-label>-->
-<!--                  <input-->
-<!--                    matInput-->
-<!--                    name="scoreInput"-->
-<!--                    type="number"-->
-<!--                    ngModel-->
-<!--                    required>-->
-<!--                </mat-form-field>-->
-<!--                <button mat-icon-button type="submit">-->
-<!--                  <mat-icon color="primary">send</mat-icon>-->
-<!--                </button>-->
-<!--              </form>-->
-<!--            </div>-->
           </div>
 
           <!--        <mat-icon *ngIf="i === 1" style="color: orange">-->
@@ -80,7 +65,19 @@
               ({{question.points}} pts)
             </span>
           </span>
-            <span class="card-question">{{question.question}}</span>
+            <!--            <span class="card-question">{{question.question}}</span>-->
+            <div>
+              <mat-form-field class="card-question" appearance="outline" fxFlex>
+                  <textarea
+                    matInput
+                    name="question"
+                    [disabled]="isStudent"
+                    cdkTextareaAutosize
+                    ngModel
+                    [ngModel]="question.question">
+                  </textarea>
+              </mat-form-field>
+            </div>
 
             <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button
                     class="send-btn">
@@ -97,7 +94,8 @@
                       [(ngModel)]="question.answer"
                       [name]="'answerQuestion' + i"
                       required
-                      [matAutosizeMinRows]="3"
+                      [matAutosizeMinRows]="2"
+                      [matAutosizeMaxRows]="3"
                       [matTextareaAutosize]="true"
                       [disabled]="question.finished || !isStudent"
                     ></textarea>
@@ -118,6 +116,7 @@
       </div>
     </div>
   </ng-template>
+
   <ng-template #adminView>
     <div class="row gx-3 gy-3" [class.disabled]="!isDisableQuiz(quiz._id)">
       <div

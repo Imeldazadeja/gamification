@@ -54,7 +54,7 @@ export class QuizListComponent implements OnInit {
   }
 
   isDisableQuiz(quizId): boolean {
-    return //TODO uncomment code below
+    return true//TODO uncomment code below
     // return this.isStudent?
     //   this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
     //   : true
