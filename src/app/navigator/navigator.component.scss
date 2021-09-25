@@ -10,7 +10,8 @@ mat-sidenav-container {
     .top-toolbar {
       background-color: #3e4346;
       padding: 20px 0;
-      margin-bottom: 2rem;
+      margin-left: 10px;
+      margin-bottom: 32px;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -37,7 +38,7 @@ mat-sidenav-container {
       font-weight: 500;
 
       mat-icon {
-        margin-left: -8px;
+        margin-left: 10px;
         margin-right: 10px;
       }
     }
