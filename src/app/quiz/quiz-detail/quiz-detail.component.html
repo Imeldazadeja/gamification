@@ -21,7 +21,6 @@
           name="quizTitle"
           type="text"
           [(ngModel)]="quiz.title"
-          placeholder="Quiz title"
           required>
       </mat-form-field>
       <mat-form-field appearance="fill">
@@ -29,7 +28,7 @@
         <mat-label># of questions to be answered</mat-label>
         <input
           matInput
-          name="quizTitle"
+          name="quizNo.Question"
           type="number"
           [(ngModel)]="quiz.numQuestions"
           min="1"
@@ -85,12 +84,12 @@
 
           <div [ngSwitch]="questionType">
             <mat-form-field *ngSwitchCase="TypeText" appearance="fill">
+              <mat-label>Question</mat-label>
               <textarea
                 matInput
                 rows="3"
                 name="question"
                 ngModel
-                placeholder="Question"
                 required
               ></textarea>
             </mat-form-field>
@@ -98,12 +97,14 @@
               <div>
                 <mat-form-field appearance="fill">
                   <mat-label>Add question</mat-label>
-                  <input
+                  <textarea
                     matInput
                     name="question"
+                    rows="3"
                     type="text"
                     required
                     ngModel>
+                  </textarea>
                 </mat-form-field>
               </div>
               <div class="options-form" style="display: flex">

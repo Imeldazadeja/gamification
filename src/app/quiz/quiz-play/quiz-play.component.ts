@@ -166,10 +166,16 @@ export class QuizPlayComponent implements OnInit {
     await this.quizService.postAnswer({quizId: this.quiz._id, questionId: question._id, answer});
     question.finished = true;
 
-    this.isCorrectAnswer = question.correctOptionIndex === answer;
 
     const questionsAnswers = this.dataSource.value.reduce((total, elem) => total + (elem.finished ? 1 : 0), 0);
     this.completed = (questionsAnswers / this.dataSource.value.length) * 100;
+  }
+
+  correctAnswer(questionIndex: number): boolean {
+    const question = this.dataSource.value[questionIndex];
+    if(question.type === QuestionType.select && question.answer !== null) {
+      return question.correctOptionIndex === question.answer;
+    }
   }
 
   // async postScore(form: NgForm): Promise<void> {

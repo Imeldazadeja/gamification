@@ -150,10 +150,6 @@ $sendButtonColor: #5A79B5;
         color: lightgrey;
         margin-left: 18px;
         margin-top: 18px;
-
-        &.correct {
-          color: limegreen;
-        }
       }
 
       &:hover, &:active {
@@ -161,6 +157,18 @@ $sendButtonColor: #5A79B5;
           color: $sendButtonColor;
           cursor: pointer;
         }
+      }
+    }
+    .icon-answer {
+      position: absolute;
+      top: 8px;
+      right: 50px;
+      &-correct {
+        color: limegreen;
+      }
+      &-incorrect {
+        color: red;
+        font-size: 26px;
       }
     }
 

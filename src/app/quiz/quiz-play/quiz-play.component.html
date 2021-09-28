@@ -79,10 +79,13 @@
                   </textarea>
               </mat-form-field>
             </div>
-
+            <div class="icon-answer">
+              <mat-icon matTooltip="Correct answer" class="icon-answer-correct" *ngIf="correctAnswer(i) && question.type === TypeSelect">check_circle</mat-icon>
+              <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect" *ngIf="!correctAnswer(i) && question.type === TypeSelect">gpp_bad</mat-icon>
+            </div>
             <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button
                     class="send-btn">
-              <mat-icon [class.correct]="isCorrectAnswer" matTooltip="Submit">send</mat-icon>
+              <mat-icon matTooltip="Submit">send</mat-icon>
             </button>
 
             <ng-container [ngSwitch]="question.type">
