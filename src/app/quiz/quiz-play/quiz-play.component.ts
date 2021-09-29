@@ -173,7 +173,7 @@ export class QuizPlayComponent implements OnInit {
 
   correctAnswer(questionIndex: number): boolean {
     const question = this.dataSource.value[questionIndex];
-    if(question.type === QuestionType.select && question.answer !== null) {
+    if(question.type === QuestionType.select && question.answer !== undefined && question.finished) {
       return question.correctOptionIndex === question.answer;
     }
   }
