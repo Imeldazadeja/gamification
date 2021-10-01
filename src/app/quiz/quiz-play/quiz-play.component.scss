@@ -134,20 +134,39 @@ $sendButtonColor: #5A79B5;
     display: flex;
     flex-direction: column;
     background-color: $cardBackgroundColor;
-    margin: 4px 4px;
+    margin: 20px 4px;
     overflow-x: hidden;
     overflow-y: auto;
     //text-align: center;
 
     padding: 20px;
-    border-radius: 8px;
+    //border-radius: 8px;
+    border-radius: 0;
     position: relative;
-    height: 200px;
+    height: 230px;
     //width: 150px;
     transform-style: preserve-3d;
 
     justify-content: flex-start;
     align-items: flex-start;
+
+    .icon-answer mat-icon {
+      display: none;
+    }
+
+    &.correct {
+      border-color: #080;
+      .icon-answer .icon-answer-correct {
+        display: block;
+      }
+    }
+
+    &.incorrect {
+      border-color: red;
+      .icon-answer .icon-answer-incorrect {
+        display: block;
+      }
+    }
 
     .send-btn {
       position: absolute;
@@ -276,8 +295,9 @@ $sendButtonColor: #5A79B5;
   }
 
   div ::-webkit-scrollbar-thumb {
-    background: $sendButtonColor;
-    border-radius: 10px;
+    //background: $sendButtonColor;
+    background: #999;
+    //border-radius: 10px;
   }
 }
 

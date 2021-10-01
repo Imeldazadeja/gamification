@@ -173,10 +173,10 @@ export class QuizPlayComponent implements OnInit {
     this.completed = (questionsAnswers / this.quiz.numQuestions) * 100;
   }
 
-  correctAnswer(questionIndex: number): boolean {
-    const question = this.dataSource.value[questionIndex];
-    if(question.type === QuestionType.select && question.answer !== undefined && question.finished) {
-      return question.correctOptionIndex === question.answer;
+
+  getQuestionClassList(question: QuestionProgress): {correct?: boolean; incorrect?: boolean} {
+    if (question.type === QuestionType.select && question.answer !== undefined && question.finished) {
+      return question.correctOptionIndex === question.answer ? {correct: true} : {incorrect: true};
     }
   }
 
@@ -215,7 +215,7 @@ export class QuizPlayComponent implements OnInit {
   }
 
   numberOfQuestionsCompleted(studentId: string): number {
-    return Object.values(this.quiz.answers[studentId] || {}).filter(item => item !== null).length;
+    return Object.values(this.quiz.answers?.[studentId] || {}).filter(item => item !== null).length;
   }
 
   questionNeedsAction(question: QuestionProgress): boolean {

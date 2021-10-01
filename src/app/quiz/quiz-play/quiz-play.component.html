@@ -1,6 +1,6 @@
 <div *ngIf="isStudent" class="message-noQuestions" xmlns="http://www.w3.org/1999/html">
-  <div># of question to open: {{quiz.numQuestions}}</div>
-  <div>You complete {{completed}} % of quiz</div>
+  <div># of questions to open: {{quiz.numQuestions}}</div>
+<!--  <div>You complete {{completed}} % of quiz</div>-->
 </div>
 <div *ngIf="isStudent; else studentsListTemplate" class="progress-container">
   <mat-progress-bar mode="determinate" [value]="completed"></mat-progress-bar>
@@ -63,7 +63,7 @@
         </div>
 
         <ng-template #openCardTemplate>
-          <div class="card" tabindex="-1">
+          <div class="card" tabindex="-1" [ngClass]="getQuestionClassList(question)">
           <span class="card-title">{{question.questionTopic}}
             <span style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
               ({{question.points}} pts)
@@ -83,8 +83,8 @@
               </mat-form-field>
             </div>
             <div class="icon-answer">
-              <mat-icon matTooltip="Correct answer" class="icon-answer-correct" *ngIf="correctAnswer(i)">check_circle</mat-icon>
-              <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect" *ngIf="!correctAnswer(i) && question.type === TypeSelect && question.answer !== undefined && question.finished">gpp_bad</mat-icon>
+              <mat-icon matTooltip="Correct answer" class="icon-answer-correct">check_circle</mat-icon>
+              <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect">gpp_bad</mat-icon>
             </div>
             <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button
                     class="send-btn">

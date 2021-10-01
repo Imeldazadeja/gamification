@@ -78,7 +78,7 @@ adminLecturerRouter.post('/:id/stop', executeHandler(async ({request, loggedUser
   await QuizData.collection.updateOne({
     _id: new ObjectId(request.params.id),
   }, {
-    $unset: {startTime: '', endTime: ''}
+    $unset: {startTime: '', endTime: '', answers: '', points: ''}
   });
 }));
 

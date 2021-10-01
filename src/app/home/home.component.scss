@@ -25,8 +25,9 @@
   }
 }
 .available-quiz {
+  font-family: "Source Sans Pro", sans-serif;
   margin: 20px;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   display: flex;
   justify-content: center;
 }
@@ -36,6 +37,19 @@ mat-card {
   display: flex;
   font-family: sans-serif;
   justify-content: flex-start;
-  background-color: #d5c9df;
+  color: whitesmoke;
+  font-weight: 500;
+  background: linear-gradient(rgba(134,145,183,.8),rgba(134,145,183,.8));
+
+  mat-card-header {
+    mat-card-title {
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 1.4rem;
+    }
+    mat-card-subtitle {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+  }
 }
 
