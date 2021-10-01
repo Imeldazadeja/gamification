@@ -17,7 +17,7 @@ mat-sidenav-container {
       background-repeat: no-repeat;
 
       .app-name {
-        margin-left: 5px;
+        margin-left: 10px;
         font-size: 20px;
         color: white;
       }
@@ -36,6 +36,10 @@ mat-sidenav-container {
       color: whitesmoke;
       font-family: "Source Sans Pro", sans-serif;
       font-weight: 500;
+
+      span {
+        margin-left: 10px;
+      }
 
       mat-icon {
         margin-left: 10px;

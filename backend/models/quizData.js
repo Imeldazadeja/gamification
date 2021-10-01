@@ -25,7 +25,7 @@ const questionDataSchema = new mongoose.Schema({
         options: {
           bsonType: ['null', 'array'],
           items: {bsonType: 'string'},
-          minItems: 1,
+          minItems: 2,
           maxItems: 10,
         },
       },
@@ -101,6 +101,12 @@ const quizDataSchema = new mongoose.Schema({
           }
         ],
       },
+      {
+        $and: [
+          {$expr: {$gte: [{$size: '$child'}, '$numQuestions']}},
+          {numQuestions: {$gt: 0}},
+        ]
+      }
       // TODO child.length >= numQuestions && numQuestions >= 1
     ],
   },

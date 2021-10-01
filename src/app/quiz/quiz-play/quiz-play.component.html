@@ -1,4 +1,7 @@
-<!--<div *ngIf="isStudent">Complete in progress... answered {{numberOfQuestionsCompleted(student._id)}} / {{quiz.numQuestions}}</div>-->
+<div *ngIf="isStudent" class="message-noQuestions" xmlns="http://www.w3.org/1999/html">
+  <div># of question to open: {{quiz.numQuestions}}</div>
+  <div>You complete {{completed}} % of quiz</div>
+</div>
 <div *ngIf="isStudent; else studentsListTemplate" class="progress-container">
   <mat-progress-bar mode="determinate" [value]="completed"></mat-progress-bar>
 </div>

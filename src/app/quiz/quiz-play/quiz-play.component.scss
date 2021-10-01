@@ -114,6 +114,18 @@ $sendButtonColor: #5A79B5;
     background: #cce;
   }
 
+  .message-noQuestions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 4px;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+    background-color: #cce;
+    font-weight: 600;
+    margin: 0;
+  }
+
   .card-wrapper {
     perspective: 800px;
   }

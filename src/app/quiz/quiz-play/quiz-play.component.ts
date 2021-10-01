@@ -126,7 +126,7 @@ export class QuizPlayComponent implements OnInit {
         if (this.isStudent) {
           this.dataSource.next(getQuestionsByStudent(quiz, this.userService.user._id));
           const questionsAnswers = this.dataSource.value.reduce((total, elem) => total + (elem.finished ? 1 : 0), 0);
-          this.completed = (questionsAnswers / this.dataSource.value.length) * 100;
+          this.completed = (questionsAnswers / this.quiz.numQuestions) * 100;
         }
 
         this.studentsList?.options.changes.subscribe(options => {
@@ -148,10 +148,12 @@ export class QuizPlayComponent implements OnInit {
 
   async openQuestion(questionIndex: number): Promise<void> {
     if (!this.isStudent) return;
-
-    const question = this.dataSource.value[questionIndex];
-    await this.quizService.openQuestion({quizId: this.quiz._id, questionId: question._id});
-    question.opened = true;
+    const questionsOpened = this.dataSource.value.reduce((total, elem) => total + (elem.opened ? 1 : 0), 0);
+    if(questionsOpened < this.quiz.numQuestions) {
+      const question = this.dataSource.value[questionIndex];
+      await this.quizService.openQuestion({quizId: this.quiz._id, questionId: question._id});
+      question.opened = true;
+    }
   }
 
   async postAnswer(questionIndex: number): Promise<void> {
@@ -168,7 +170,7 @@ export class QuizPlayComponent implements OnInit {
 
 
     const questionsAnswers = this.dataSource.value.reduce((total, elem) => total + (elem.finished ? 1 : 0), 0);
-    this.completed = (questionsAnswers / this.dataSource.value.length) * 100;
+    this.completed = (questionsAnswers / this.quiz.numQuestions) * 100;
   }
 
   correctAnswer(questionIndex: number): boolean {

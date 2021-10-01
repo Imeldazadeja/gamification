@@ -11,19 +11,19 @@
     <mat-nav-list *ngIf="authService.user">
       <a mat-list-item routerLink="/">
         <mat-icon>home</mat-icon>
-        Home
+        <span>Home</span>
       </a>
       <a mat-list-item routerLink="/users" *ngIf="!isStudent">
         <mat-icon>person_add</mat-icon>
-        Register
+        <span>Register</span>
       </a>
       <a mat-list-item routerLink="/courses">
         <mat-icon>groups</mat-icon>
-        Courses
+        <span>Courses</span>
       </a>
       <a mat-list-item routerLink="/user-profile">
         <mat-icon>person_outline</mat-icon>
-        User Profile
+        <span>User Profile</span>
       </a>
     </mat-nav-list>
     <div class="footer-logout">
@@ -31,7 +31,7 @@
         <mat-divider class="divider"></mat-divider>
         <mat-icon class="logout-icon">logout</mat-icon>
         <a style="position: fixed; margin:3px; font-size: 18px; font-weight: 500">
-          logout
+          <span>logout</span>
         </a>
       </div>
     </div>
