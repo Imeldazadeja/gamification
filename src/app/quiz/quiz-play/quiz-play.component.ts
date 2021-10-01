@@ -259,5 +259,6 @@ export class QuizPlayComponent implements OnInit {
     await this.quizService.stop(this.quiz._id);
     delete this.quiz.startTime;
     delete this.quiz.endTime;
+    this.dataSource.next([]);
   }
 }

@@ -125,6 +125,10 @@
   </ng-template>
 
   <ng-template #adminView>
+    <div *ngIf="!quiz.startTime" class="empty-state max-height">
+      <span class="title">Nothing to see here :(</span>
+      <span class="text">Press "Start quiz" button to begin</span>
+    </div>
     <div class="row gx-3 gy-3" [class.disabled]="!isDisableQuiz(quiz._id)">
       <div
         *ngFor="let question of dataSource | async; index as i"

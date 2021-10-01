@@ -17,10 +17,15 @@ export class StartQuizDialogComponent implements OnInit {
 
   ngOnInit() {
     this.startDate = new Date();
-    const currentHour = this.startDate.getHours();
-    const currentTime = this.startDate.getMinutes();
+    let currentHour = this.startDate.getHours();
+    let currentTime = this.startDate.getMinutes();
 
-    const roundedMinutes = Math.ceil(currentTime / 15) * 15;
+    let roundedMinutes = Math.ceil(currentTime / 15) * 15;
+    if (roundedMinutes >= 60) {
+      roundedMinutes = 0;
+      currentHour++;
+    }
+
     this.startTime = `${currentHour}:${roundedMinutes}`;
     this.endTime = `${currentHour + 1}:${roundedMinutes}`;
     // 14:27 -> 14:30
@@ -47,6 +52,10 @@ export class StartQuizDialogComponent implements OnInit {
     const endTime = this.endTime.split(':');
     const startTimeDate = new Date(0, 0 , 0 , startTime[0], startTime[1]);
     const endTimeDate =  new Date(0, 0 , 0 , endTime[0], endTime[1]);
+
+    // TODO check case when time is 19:00, gives validation error
+    // startTimeDate.setSeconds(0);
+    // startTimeDate.setMilliseconds(0);
 
     if (startTimeDate.getTime() >= endTimeDate.getTime()) {
       this.startQuizForm.control.get('endTime')?.setErrors({endTimeHigher: true})
