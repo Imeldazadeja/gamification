@@ -159,11 +159,28 @@ $sendButtonColor: #5A79B5;
       .icon-answer .icon-answer-correct {
         display: block;
       }
+
+      .card-points {
+        color: #080;
+      }
     }
 
     &.incorrect {
       border-color: red;
+      .card-points {
+        color: red;
+      }
       .icon-answer .icon-answer-incorrect {
+        display: block;
+      }
+    }
+
+    &.partial {
+      border-color: orange;
+      .card-points {
+        color: orange;
+      }
+      .icon-answer .icon-answer-partial {
         display: block;
       }
     }
@@ -202,6 +219,10 @@ $sendButtonColor: #5A79B5;
         color: red;
         font-size: 26px;
       }
+      &-partial {
+        color: orange;
+        font-size: 26px;
+      }
     }
 
     &.not-open {
@@ -210,6 +231,12 @@ $sendButtonColor: #5A79B5;
 
       &:not(.disabled) {
         cursor: pointer;
+      }
+
+      & .card-points {
+        position: absolute;
+        top: 8px;
+        right: 16px;
       }
 
       background: linear-gradient(
@@ -233,11 +260,6 @@ $sendButtonColor: #5A79B5;
       color: #668;
     }
 
-    &-points {
-      position: absolute;
-      top: 8px;
-      right: 16px;
-    }
 
     &-title {
       font-size: 1rem;

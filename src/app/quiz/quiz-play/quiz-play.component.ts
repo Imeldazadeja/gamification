@@ -174,9 +174,25 @@ export class QuizPlayComponent implements OnInit {
   }
 
 
-  getQuestionClassList(question: QuestionProgress): {correct?: boolean; incorrect?: boolean} {
-    if (question.type === QuestionType.select && question.answer !== undefined && question.finished) {
-      return question.correctOptionIndex === question.answer ? {correct: true} : {incorrect: true};
+  getQuestionClassList(question: QuestionProgress): {correct?: boolean; incorrect?: boolean; partial?: boolean} {
+    // if (question.type === QuestionType.select && question.answer !== undefined && question.finished) {
+    //   return question.correctOptionIndex === question.answer ? {correct: true} : {incorrect: true};
+    // }
+
+    const studentId = this.isStudent ? this.userService.user._id : this.selectedStudent?._id;
+
+    // const totalPoints = this.quiz.child.find(question => questionId === question._id).points;
+    const totalPoints = question.points;
+    const currentPoints = this.quiz.points?.[studentId]?.[question._id]; // {'1': 0, '3': 2}
+
+    if (Number.isFinite(currentPoints)) {
+      if (totalPoints === currentPoints) {
+        return {correct: true};
+      } else {
+        return currentPoints === 0 ? {incorrect: true} : {partial: true};
+      }
+    } else {
+      return {};
     }
   }
 
@@ -221,6 +237,39 @@ export class QuizPlayComponent implements OnInit {
   questionNeedsAction(question: QuestionProgress): boolean {
     return question.type === QuestionType.text ? question.finished && !Number.isInteger(question.result) : false;
   }
+
+  displayEvaluateQuestionPoints(questionId: string): string {
+    const studentId = this.isStudent ? this.userService.user._id : this.selectedStudent?._id;
+
+    const totalPoints = this.quiz.child.find(question => questionId === question._id).points;
+    const currentPoints = this.quiz.points?.[studentId]?.[questionId]; // {'1': 0, '3': 2}
+
+    if (Number.isFinite(currentPoints)) {
+      if (totalPoints === currentPoints) {
+        return totalPoints.toString();
+      } else {
+        return `${currentPoints} / ${totalPoints}`;
+      }
+    } else {
+      return totalPoints ? totalPoints.toString() : '';
+    }
+
+    // total points (Quiz.child[questionId])
+    // points student (Quiz.points[studentId][questionId])
+    // `${pointsStudent} / ${total points}`
+
+
+
+    // for(const [key, value] of Object.entries(quizPoints)) {
+    //   return value;
+    // }
+    return '';
+  }
+
+  /**
+   * points: {studentId: {questionId: value}}
+   * @param question
+   */
 
   async openEvaluateQuestion(question: QuestionProgress): Promise<void> {
     const result: number = await this.dialog.open(EvaluateQuestionDialogComponent, {

@@ -1,4 +1,4 @@
-<div *ngIf="isStudent" class="message-noQuestions" xmlns="http://www.w3.org/1999/html">
+<div *ngIf="isStudent" class="message-noQuestions">
   <div># of questions to open: {{quiz.numQuestions}}</div>
 <!--  <div>You complete {{completed}} % of quiz</div>-->
 </div>
@@ -64,11 +64,11 @@
 
         <ng-template #openCardTemplate>
           <div class="card" tabindex="-1" [ngClass]="getQuestionClassList(question)">
-          <span class="card-title">{{question.questionTopic}}
-            <span style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
-              ({{question.points}} pts)
+            <span class="card-title">{{question.questionTopic}}
+              <span class="card-points" style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
+              ({{displayEvaluateQuestionPoints(question._id)}} pts)
             </span>
-          </span>
+            </span>
             <!--            <span class="card-question">{{question.question}}</span>-->
             <div>
               <mat-form-field class="card-question" appearance="outline" fxFlex>
@@ -85,9 +85,13 @@
             <div class="icon-answer">
               <mat-icon matTooltip="Correct answer" class="icon-answer-correct">check_circle</mat-icon>
               <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect">gpp_bad</mat-icon>
+              <mat-icon matTooltip="Incorrect answer" class="icon-answer-partial">gpp_bad</mat-icon>
             </div>
-            <button (click)="postAnswer(i)" [disabled]="question.finished" mat-icon-button
-                    class="send-btn">
+            <button
+              (click)="postAnswer(i)"
+              *ngIf="!question.finished"
+              mat-icon-button
+              class="send-btn">
               <mat-icon matTooltip="Submit">send</mat-icon>
             </button>
 
@@ -139,13 +143,18 @@
         </div>
 
         <ng-template #openCardTemplate>
-          <div class="card disabled" tabindex="-1">
+          <div class="card disabled" tabindex="-1" [ngClass]="getQuestionClassList(question)">
           <span class="card-title">{{question.questionTopic}}
-            <span style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
-              ({{question.points}} pts)
+            <span class="card-points" style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
+              ({{displayEvaluateQuestionPoints(question._id)}} pts)
             </span>
           </span>
             <span class="card-question">{{question.question}}</span>
+            <div class="icon-answer">
+              <mat-icon matTooltip="Correct answer" class="icon-answer-correct">check_circle</mat-icon>
+              <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect">gpp_bad</mat-icon>
+              <mat-icon matTooltip="Incorrect answer" class="icon-answer-partial">gpp_bad</mat-icon>
+            </div>
 
             <button
               *ngIf="questionNeedsAction(question)"
