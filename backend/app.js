@@ -24,7 +24,8 @@ app.use("/api/quiz", quizRoutes);
 
 async function initDb() {
   const mongooseConnector = await mongoose.connect(
-    'mongodb+srv://m001-student:imelda19@sandbox.doso9.mongodb.net/gamificationDatabase',
+    // 'mongodb+srv://m001-student:imelda19@sandbox.doso9.mongodb.net/gamificationDatabase',
+    'mongodb://localhost/gamificationDatabase',
     {useNewUrlParser: true});
   const db = mongooseConnector.connection.db;
 
