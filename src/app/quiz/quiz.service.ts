@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Quiz} from "./quiz.model";
+import {QuestionDataSchema, Quiz} from "./quiz.model";
 import {filter, tap} from "rxjs/operators";
 import {Filter} from "../utils";
 import {Subject} from "rxjs";
@@ -55,11 +55,12 @@ export class QuizService {
   postScore(args: { quizId: string; studentId: string; questionId: string; points: number }): Promise<void> {
     return this.http.post<void>(`http://localhost:3000/api/quiz/admin/${args.quizId}/evaluate/${args.studentId}/${args.questionId}`, {points: args.points}).toPromise();
   }
+
   //#endregion
 
   //#region student routes
-  openQuestion(args: { quizId: string; questionId: string }): Promise<void> {
-    return this.http.post<void>(`http://localhost:3000/api/quiz/student/${args.quizId}/${args.questionId}/open`, {}).toPromise();
+  openQuestion(args: { quizId: string; questionId: string }): Promise<Partial<QuestionDataSchema>> {
+    return this.http.post<void>(`http://localhost:3000/api/quiz/student/${args.quizId}/${args.questionId}/open`, {}).toPromise() as any;
   }
 
   postAnswer(args: { quizId: string; questionId: string; answer: string | number }): Promise<void> {

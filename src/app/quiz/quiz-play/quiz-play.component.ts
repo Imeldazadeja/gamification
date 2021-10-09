@@ -162,7 +162,10 @@ export class QuizPlayComponent implements OnInit {
     const questionsOpened = this.dataSource.value.reduce((total, elem) => total + (elem.opened ? 1 : 0), 0);
     if (questionsOpened < this.quiz.numQuestions) {
       const question = this.dataSource.value[questionIndex];
-      await this.quizService.openQuestion({quizId: this.quiz._id, questionId: question._id});
+      const {question: questionText, options} = await this.quizService.openQuestion({quizId: this.quiz._id, questionId: question._id});
+
+      question.question = questionText;
+      question.options = options;
       question.opened = true;
     }
   }
@@ -173,7 +176,7 @@ export class QuizPlayComponent implements OnInit {
     const question = this.dataSource.value[questionIndex];
     const answer = question.type === QuestionType.text ? (question.answer as string)?.trim() : question.answer;
     if (!answer && answer !== 0) {
-      // TODO
+      // TODO frontend validation
     }
 
     await this.quizService.postAnswer({quizId: this.quiz._id, questionId: question._id, answer});

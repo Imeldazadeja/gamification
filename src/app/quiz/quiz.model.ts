@@ -7,9 +7,9 @@ export interface QuestionDataSchema {
   _id: string;
   questionTopic: string;
   points: number;
-  type: QuestionType;
-  question?: string;
+  type: QuestionType;  question?: string;
   options?: string[];
+
   correctOptionIndex?: number;
 }
 

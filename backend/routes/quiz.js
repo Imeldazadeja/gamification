@@ -119,6 +119,11 @@ studentRouter.post('/:id/:questionId/open', executeHandler(async ({request, logg
       [`answers.${loggedUser._id.toString()}.${request.params.questionId}`]: request.body.answer
     }
   });
+  const quiz = await QuizData.collection.findOne({_id: new ObjectId(request.params.id)});
+  const question = quiz.child.find(q => q._id.toString() === request.params.questionId);
+  if (question) {
+    return question;
+  }
 }));
 
 studentRouter.post('/:id/:questionId/answer', executeHandler(async ({request, loggedUser}) => {
@@ -152,20 +157,41 @@ studentRouter.post('/:id/:questionId/answer', executeHandler(async ({request, lo
 //#endregion
 
 allUsersRouter.get("/", executeHandler(async ({request, loggedUser}) => {
-  // const isStudent = loggedUser.type === UserType.student;
-  // if (isStudent) {
-  //   // TODO
-  //   // active courses in which is participating, today courses
-  // } else {
+  const isStudent = loggedUser.type === UserType.student;
   const filter = parseFilterFromRequest(request);
-  return QuizData.find(filter.where).limit(filter.limit).skip(filter.skip);
-  // }
+  const data = (await QuizData.find(filter.where).limit(filter.limit).skip(filter.skip)).map(e => e.toJSON());
+
+  if (isStudent) {
+    for (const element of data) {
+      cleanQuizData(element, loggedUser._id);
+    }
+  }
+  return data;
 }));
 
-allUsersRouter.get('/:id', executeHandler(async ({request}) => {
+allUsersRouter.get('/:id', executeHandler(async ({request, loggedUser}) => {
+  const isStudent = loggedUser.type === UserType.student;
   const filter = await parseFilterFromRequest(request);
-  return QuizData.findById(request.params.id).limit(filter.limit).skip(filter.skip);
+  let element = await QuizData.findById(request.params.id).limit(filter.limit).skip(filter.skip);
+  if (element) element = element.toJSON()
+
+  if (isStudent && element) {
+    cleanQuizData(element, loggedUser._id);
+  }
+  return element;
 }));
+
+function cleanQuizData(quiz, studentId) {
+  const studentAnswers = (quiz.answers || {})[studentId] || {};
+  const openedQuestionIds = Object.keys(studentAnswers).map(e => e.toString());
+  quiz.answers = {[studentId]: studentAnswers};
+  for(const question of quiz.child){
+    if (!openedQuestionIds.includes(question._id.toString())) {
+      delete question.question;
+      delete question.options;
+    }
+  }
+}
 
 module.exports = router;
 
