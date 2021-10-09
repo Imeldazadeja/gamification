@@ -64,36 +64,26 @@
 
         <ng-template #openCardTemplate>
           <div class="card" tabindex="-1" [ngClass]="getQuestionClassList(question)">
-            <span class="card-title">{{question.questionTopic}}
+            <div class="card-heading">
+              <span class="card-title">{{question.questionTopic}}</span>
               <span class="card-points" style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
-              ({{displayEvaluateQuestionPoints(question._id)}} pts)
-            </span>
-            </span>
-            <!--            <span class="card-question">{{question.question}}</span>-->
-            <div>
-              <mat-form-field class="card-question" appearance="outline" fxFlex>
-                  <textarea
-                    matInput
-                    name="question"
-                    [disabled]="isStudent"
-                    cdkTextareaAutosize
-                    ngModel
-                    [ngModel]="question.question">
-                  </textarea>
-              </mat-form-field>
+                ({{displayEvaluateQuestionPoints(question._id)}} pts)
+              </span>
+              <div class="icon-answer">
+                <mat-icon matTooltip="Correct answer" class="icon-answer-correct">check_circle</mat-icon>
+                <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect">gpp_bad</mat-icon>
+                <mat-icon matTooltip="Incorrect answer" class="icon-answer-partial">gpp_bad</mat-icon>
+              </div>
+              <button
+                (click)="postAnswer(i)"
+                *ngIf="!question.finished"
+                mat-icon-button
+                class="send-btn">
+                <mat-icon style="transform: rotate(-49deg)" matTooltip="Submit">send</mat-icon>
+              </button>
             </div>
-            <div class="icon-answer">
-              <mat-icon matTooltip="Correct answer" class="icon-answer-correct">check_circle</mat-icon>
-              <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect">gpp_bad</mat-icon>
-              <mat-icon matTooltip="Incorrect answer" class="icon-answer-partial">gpp_bad</mat-icon>
-            </div>
-            <button
-              (click)="postAnswer(i)"
-              *ngIf="!question.finished"
-              mat-icon-button
-              class="send-btn">
-              <mat-icon matTooltip="Submit">send</mat-icon>
-            </button>
+            <span class="card-question">{{question.question}}</span>
+            <mat-divider></mat-divider>
 
             <ng-container [ngSwitch]="question.type">
               <div class="card-text" *ngSwitchCase="TypeText">
@@ -144,26 +134,26 @@
 
         <ng-template #openCardTemplate>
           <div class="card disabled" tabindex="-1" [ngClass]="getQuestionClassList(question)">
-          <span class="card-title">{{question.questionTopic}}
-            <span class="card-points" style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
-              ({{displayEvaluateQuestionPoints(question._id)}} pts)
-            </span>
-          </span>
-            <span class="card-question">{{question.question}}</span>
-            <div class="icon-answer">
-              <mat-icon matTooltip="Correct answer" class="icon-answer-correct">check_circle</mat-icon>
-              <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect">gpp_bad</mat-icon>
-              <mat-icon matTooltip="Incorrect answer" class="icon-answer-partial">gpp_bad</mat-icon>
+            <div class="card-heading">
+              <span class="card-title">{{question.questionTopic}}</span>
+              <span class="card-points" style="font-size: 0.8rem; margin-left: 8px; position: relative; bottom: 1px;">
+                ({{displayEvaluateQuestionPoints(question._id)}} pts)
+              </span>
+              <div class="icon-answer">
+                <mat-icon matTooltip="Correct answer" class="icon-answer-correct">check_circle</mat-icon>
+                <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect">gpp_bad</mat-icon>
+                <mat-icon matTooltip="Incorrect answer" class="icon-answer-partial">gpp_bad</mat-icon>
+              </div>
+              <button
+                *ngIf="questionNeedsAction(question)"
+                (click)="openEvaluateQuestion(question)"
+                mat-icon-button
+                class="send-btn">
+                <mat-icon matTooltip="Evaluate">edit</mat-icon>
+              </button>
             </div>
-
-            <button
-              *ngIf="questionNeedsAction(question)"
-              (click)="openEvaluateQuestion(question)"
-              mat-icon-button
-              class="send-btn">
-              <mat-icon style="transform: rotate(45deg)" matTooltip="Evaluate">edit</mat-icon>
-            </button>
-
+            <span class="card-question">{{question.question}}</span>
+            <mat-divider></mat-divider>
             <ng-container [ngSwitch]="question.type">
               <div class="card-text" *ngSwitchCase="TypeText">
                 <form>

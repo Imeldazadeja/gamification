@@ -93,9 +93,11 @@ $sendButtonColor: #5A79B5;
           mat-form-field {
             width: 70%;
           }
+
           button {
             display: flex;
             justify-content: flex-end;
+
             mat-icon {
               transform: rotate(-45deg);
             }
@@ -137,9 +139,8 @@ $sendButtonColor: #5A79B5;
     margin: 20px 4px;
     overflow-x: hidden;
     overflow-y: auto;
-    //text-align: center;
 
-    padding: 20px;
+    padding: 15px;
     //border-radius: 8px;
     border-radius: 0;
     position: relative;
@@ -150,12 +151,82 @@ $sendButtonColor: #5A79B5;
     justify-content: flex-start;
     align-items: flex-start;
 
-    .icon-answer mat-icon {
-      display: none;
+    &-heading {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 8px;
+      white-space: nowrap;
+
+      .card-title {
+        flex-grow: 1;
+        font-size: 1rem;
+        font-weight: 550;
+        color: dimgray;
+        margin-bottom: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .icon-answer mat-icon {
+        display: none;
+      }
+
+      .icon-answer {
+        position: relative;
+        bottom: 2px;
+        margin-left: 3px;
+
+        &-correct {
+          color: limegreen;
+        }
+
+        &-incorrect {
+          color: red;
+          font-size: 26px;
+        }
+
+        &-partial {
+          color: orange;
+          font-size: 26px;
+        }
+      }
+
+      .send-btn {
+        position: relative;
+        bottom: 1px;
+        left: 7px;
+        line-height: 24px;
+        width: unset;
+        height: unset;
+        //position: absolute;
+        //top: 0px;
+        //right: 10px;
+
+
+        mat-icon {
+          //position: relative;
+          //bottom: 2px;
+          //left: 2px;
+          color: lightgrey;
+          //margin-left: 18px;
+          //margin-top: 18px;
+        }
+
+        &:hover, &:active {
+          mat-icon {
+            color: $sendButtonColor;
+            cursor: pointer;
+          }
+        }
+      }
     }
 
     &.correct {
       border-color: #080;
+
       .icon-answer .icon-answer-correct {
         display: block;
       }
@@ -167,9 +238,11 @@ $sendButtonColor: #5A79B5;
 
     &.incorrect {
       border-color: red;
+
       .card-points {
         color: red;
       }
+
       .icon-answer .icon-answer-incorrect {
         display: block;
       }
@@ -177,51 +250,13 @@ $sendButtonColor: #5A79B5;
 
     &.partial {
       border-color: orange;
+
       .card-points {
         color: orange;
       }
+
       .icon-answer .icon-answer-partial {
         display: block;
-      }
-    }
-
-    .send-btn {
-      position: absolute;
-      top: 0px;
-      right: 10px;
-      transform: rotate(-45deg);
-
-      mat-icon {
-        position: relative;
-        bottom: 2px;
-        left: 2px;
-        color: lightgrey;
-        margin-left: 18px;
-        margin-top: 18px;
-      }
-
-      &:hover, &:active {
-        mat-icon {
-          color: $sendButtonColor;
-          cursor: pointer;
-        }
-      }
-    }
-    .icon-answer {
-      position: absolute;
-      top: 8px;
-      right: 50px;
-      margin: 8px;
-      &-correct {
-        color: limegreen;
-      }
-      &-incorrect {
-        color: red;
-        font-size: 26px;
-      }
-      &-partial {
-        color: orange;
-        font-size: 26px;
       }
     }
 
@@ -260,16 +295,9 @@ $sendButtonColor: #5A79B5;
       color: #668;
     }
 
-
-    &-title {
-      font-size: 1rem;
-      font-weight: 550;
-      color: dimgray;
-      margin-right: 1.2rem;
-    }
-
     &-question {
-      font-size: 1rem;
+      font-size: 13px;
+      line-height: 16px;
       font-weight: 400;
       color: #666688;
       display: flex;
@@ -279,6 +307,8 @@ $sendButtonColor: #5A79B5;
     }
 
     &-text {
+      flex-grow: 1;
+      width: 100%;
       display: flex;
       justify-content: center;
 
@@ -295,6 +325,11 @@ $sendButtonColor: #5A79B5;
           }
         }
       }
+    }
+
+    mat-divider {
+      width: 100%;
+      margin-top: 4px;
     }
 
     mat-radio-group {
