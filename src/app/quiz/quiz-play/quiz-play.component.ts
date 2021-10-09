@@ -1,6 +1,6 @@
 import {Component, HostBinding, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, interval} from "rxjs";
 import {QuestionDataSchema, QuestionType, Quiz} from "../quiz.model";
 import {QuizService} from "../quiz.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
@@ -86,7 +86,9 @@ export class QuizPlayComponent implements OnInit {
   @ViewChild('studentsList', {static: false}) studentsList: MatSelectionList;
   @ViewChild('stopQuizDialogTemplate') private _stopQuizDialogTemplate: TemplateRef<any>;
 
+  isQuizRunning$ = new BehaviorSubject(true);
 
+  // TODO remove, use isQuizRunning
   get isQuizStarted(): boolean {
     return !!this.quiz.startTime;
   }
@@ -98,6 +100,15 @@ export class QuizPlayComponent implements OnInit {
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private dialog: MatDialog) {
+    interval(60 * 1000).subscribe(() => {
+      if (!this.quiz.startTime) {
+        this.isQuizRunning$.next(false);
+      } else {
+        const now = Date.now();
+        const withinRange = new Date(this.quiz.startTime).getTime() < now && new Date(this.quiz.endTime).getTime() > now;
+        this.isQuizRunning$.next(withinRange);
+      }
+    });
   }
 
   playGame(card) {
@@ -149,7 +160,7 @@ export class QuizPlayComponent implements OnInit {
   async openQuestion(questionIndex: number): Promise<void> {
     if (!this.isStudent) return;
     const questionsOpened = this.dataSource.value.reduce((total, elem) => total + (elem.opened ? 1 : 0), 0);
-    if(questionsOpened < this.quiz.numQuestions) {
+    if (questionsOpened < this.quiz.numQuestions) {
       const question = this.dataSource.value[questionIndex];
       await this.quizService.openQuestion({quizId: this.quiz._id, questionId: question._id});
       question.opened = true;
@@ -173,15 +184,8 @@ export class QuizPlayComponent implements OnInit {
     this.completed = (questionsAnswers / this.quiz.numQuestions) * 100;
   }
 
-
-  getQuestionClassList(question: QuestionProgress): {correct?: boolean; incorrect?: boolean; partial?: boolean} {
-    // if (question.type === QuestionType.select && question.answer !== undefined && question.finished) {
-    //   return question.correctOptionIndex === question.answer ? {correct: true} : {incorrect: true};
-    // }
-
+  getQuestionClassList(question: QuestionProgress): { correct?: boolean; incorrect?: boolean; partial?: boolean } {
     const studentId = this.isStudent ? this.userService.user._id : this.selectedStudent?._id;
-
-    // const totalPoints = this.quiz.child.find(question => questionId === question._id).points;
     const totalPoints = question.points;
     const currentPoints = this.quiz.points?.[studentId]?.[question._id]; // {'1': 0, '3': 2}
 
@@ -195,12 +199,6 @@ export class QuizPlayComponent implements OnInit {
       return {};
     }
   }
-
-  // async postScore(form: NgForm): Promise<void> {
-  //   if(form.invalid) return;
-  //   const points = {...form.value};
-  //   await this.quizService.postScore({quizId: this.quiz._id, points});
-  // }
 
   isFocused(element: HTMLElement): boolean {
     return document.activeElement === element;
@@ -238,6 +236,15 @@ export class QuizPlayComponent implements OnInit {
     return question.type === QuestionType.text ? question.finished && !Number.isInteger(question.result) : false;
   }
 
+  getStudentIconStateClasslist(studentId: string): { [key: string]: boolean } {
+    const numQuestionsAnswered = Object.values(this.quiz.answers?.[studentId] || {}).filter(e => e ||  e === 0).length;
+    if (numQuestionsAnswered >= this.quiz.numQuestions) {
+      return {evaluated: true};
+    } else {
+      return this.isQuizRunning$.value ? {'in-progress': true} : {finished: true};
+    }
+  }
+
   displayEvaluateQuestionPoints(questionId: string): string {
     const studentId = this.isStudent ? this.userService.user._id : this.selectedStudent?._id;
 
@@ -253,23 +260,7 @@ export class QuizPlayComponent implements OnInit {
     } else {
       return totalPoints ? totalPoints.toString() : '';
     }
-
-    // total points (Quiz.child[questionId])
-    // points student (Quiz.points[studentId][questionId])
-    // `${pointsStudent} / ${total points}`
-
-
-
-    // for(const [key, value] of Object.entries(quizPoints)) {
-    //   return value;
-    // }
-    return '';
   }
-
-  /**
-   * points: {studentId: {questionId: value}}
-   * @param question
-   */
 
   async openEvaluateQuestion(question: QuestionProgress): Promise<void> {
     const result: number = await this.dialog.open(EvaluateQuestionDialogComponent, {

@@ -74,16 +74,22 @@ $sendButtonColor: #5A79B5;
         margin-right: -10px;
 
         mat-icon {
-          display: flex;
-          justify-content: flex-end;
-          //margin: 0 10px;
-          color: lightgrey;
-          font-size: 22px;
-          font-weight: 600;
+          display: none;
+        }
 
-          &.review-quiz {
-            color: limegreen;
-          }
+        &.in-progress mat-icon.in-progress {
+          display: block;
+          color: lightgrey;
+        }
+
+        &.finished mat-icon.finished {
+          display: block;
+          color: lightgrey;
+        }
+
+        &.evaluated mat-icon.evaluated {
+          display: block;
+          color: limegreen;
         }
 
         .score-form {

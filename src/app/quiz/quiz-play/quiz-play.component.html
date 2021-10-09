@@ -12,23 +12,15 @@
       <h2>Students List</h2>
       <mat-selection-list #studentsList [multiple]="false" (selectionChange)="onSelectStudent($event)" fxFlex="80">
         <mat-list-option *ngFor="let student of course?.students; index as i" [value]="student">
-          <div class="student-item">
+          <div class="student-item" [ngClass]="getStudentIconStateClasslist(student._id)">
             <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start">
               <span>{{student.firstName}} {{student.lastName}}</span>
               <span style="font-size: 13px">answered {{numberOfQuestionsCompleted(student._id)}} / {{quiz.numQuestions}}</span>
             </div>
-            <mat-icon (click)="onReview(i)" [class.review-quiz]="i">
-              check_circle
-            </mat-icon>
-            <mat-icon *ngIf="isCompletingQuiz(quiz._id)">history</mat-icon>
+            <mat-icon class="in-progress">history</mat-icon>
+            <mat-icon class="finished">check_circle</mat-icon>
+            <mat-icon class="evaluated">check_circle</mat-icon>
           </div>
-
-          <!--        <mat-icon *ngIf="i === 1" style="color: orange">-->
-          <!--          priority_high-->
-          <!--        </mat-icon>-->
-          <!--        <mat-icon class="more-horiz" *ngIf="i === 1">-->
-          <!--          more_horiz-->
-          <!--        </mat-icon>-->
         </mat-list-option>
       </mat-selection-list>
       <button mat-button color="warn" style="margin: 10px;" (click)="stopQuiz()">End quiz</button>
