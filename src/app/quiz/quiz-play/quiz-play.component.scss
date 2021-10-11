@@ -119,17 +119,18 @@ $sendButtonColor: #5A79B5;
 
   .progress-container {
     padding: 10px;
-    background: #cce;
+    background: #ccd;
   }
 
   .message-noQuestions {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
-    padding: 4px;
+    padding: 0 15px;
+    padding-top: 10px;
     font-size: 1.2rem;
     font-family: sans-serif;
-    background-color: #cce;
+    background-color: #ccd;
     font-weight: 600;
     margin: 0;
   }

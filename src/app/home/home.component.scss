@@ -9,9 +9,9 @@
   //position: absolute;
   margin: 0 0 0 0;
 
-  color: whitesmoke;
+  color: #26466D;
   padding: 20px;
-  background: linear-gradient(rgba(134,145,183,.8),rgba(134,145,183,.8));
+  background: #ccd;
   vertical-align: center;
 
   &-message {
@@ -33,13 +33,13 @@
 }
 
 mat-card {
-  margin: 20px;
+  margin: 30px;
   display: flex;
   font-family: sans-serif;
   justify-content: flex-start;
-  color: whitesmoke;
+  color: #26466D;
   font-weight: 500;
-  background: linear-gradient(rgba(134,145,183,.8),rgba(134,145,183,.8));
+  background: #ccd;
 
   mat-card-header {
     mat-card-title {

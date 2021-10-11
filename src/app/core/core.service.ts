@@ -11,10 +11,9 @@ export class CoreService {
   private _title = '';
   private _nonCompiledTitles = new BehaviorSubject<Array<{ title: string; url: string }>>([]);
   private _titleParams: { [key: string]: string } = {};
-  private _titles = new BehaviorSubject<Array<{ title: string; url: string }>>([]);
-  // titles = this._titles.asObservable();
+
   titles = this._nonCompiledTitles.pipe(map(nonCompiledTitles => {
-    // ['Courses', 'Course {{courseName}}']
+    // Example: ['Courses', 'Course {{courseName}}']
     const patternRegex = new RegExp('\{\{(\\w+)\}\}');
     return nonCompiledTitles.map(segment => {
       const title = segment.title.split(new RegExp('(\{\{\w+\}\})')).map(patternOrStatic => {
@@ -32,10 +31,6 @@ export class CoreService {
   }));
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    // this.activatedRoute.url.subscribe(url => {
-    //   url[0].
-    // })
-    // this.activatedRoute.
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
     ).subscribe(async () => {
@@ -47,20 +42,11 @@ export class CoreService {
       addSegments(this.activatedRoute.snapshot);
       const segmentsWithTitle = segments.filter(e => e.data?.title);
 
-      // this._titles.next(segmentsWithTitle.map(e => ({
-      //   title: e.data.title,
-      //   url: e.pathFromRoot.filter(e => e.url.length).map(e => e.url.join('/')).join('/')
-      // })));
       this._nonCompiledTitles.next(segmentsWithTitle.map(e => ({
         title: e.data.title,
         url: e.pathFromRoot.filter(e => e.url.length).map(e => e.url.join('/')).join('/')
       })));
-      console.log('here');
 
-      // const rt = this.getChild(this.activatedRoute);
-      // rt.data.subscribe((data: any) => {
-      //   this.coreService.title = data?.title;
-      // });
     });
   }
 

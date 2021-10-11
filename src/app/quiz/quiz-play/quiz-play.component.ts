@@ -45,6 +45,11 @@ function getQuestionsByStudent(quiz: Quiz, studentId: string): QuestionProgress[
   })
 }
 
+function getRemainingTimeText(endTime: string | Date): string {
+  const minutesRemaining = Math.floor((new Date(endTime).getTime() - Date.now()) / 60000);
+  return minutesRemaining < 0 ? 'Quiz finished' : `Ending in ${minutesRemaining} minutes`;
+}
+
 @Component({
   selector: 'app-question-dialog',
   templateUrl: './quiz-play.component.html',
@@ -87,6 +92,7 @@ export class QuizPlayComponent implements OnInit {
   @ViewChild('stopQuizDialogTemplate') private _stopQuizDialogTemplate: TemplateRef<any>;
 
   isQuizRunning$ = new BehaviorSubject(true);
+  timeRemainingText$ = new BehaviorSubject('');
 
   // TODO remove, use isQuizRunning
   get isQuizStarted(): boolean {
@@ -100,13 +106,19 @@ export class QuizPlayComponent implements OnInit {
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private dialog: MatDialog) {
-    interval(60 * 1000).subscribe(() => {
+    interval(1000 * 60).subscribe(() => {
       if (!this.quiz.startTime) {
         this.isQuizRunning$.next(false);
+        this.timeRemainingText$.next('');
       } else {
         const now = Date.now();
         const withinRange = new Date(this.quiz.startTime).getTime() < now && new Date(this.quiz.endTime).getTime() > now;
         this.isQuizRunning$.next(withinRange);
+        if (withinRange) {
+          this.timeRemainingText$.next(getRemainingTimeText(this.quiz.endTime));
+        } else {
+          this.timeRemainingText$.next('');
+        }
       }
     });
   }
@@ -133,6 +145,7 @@ export class QuizPlayComponent implements OnInit {
         this.coreService.setTitleParam('quizName', quiz.title);
         this.quiz = quiz;
         this.course = course;
+        this.timeRemainingText$.next(getRemainingTimeText(this.quiz.endTime));
 
         if (this.isStudent) {
           this.dataSource.next(getQuestionsByStudent(quiz, this.userService.user._id));
@@ -226,7 +239,6 @@ export class QuizPlayComponent implements OnInit {
 
   onSelectStudent(change: MatSelectionListChange): void {
     if (!change.options.length) return;
-    console.log('student', change.options[0].value);
     this.selectedStudent = change.options[0].value;
     this.dataSource.next(getQuestionsByStudent(this.quiz as Quiz, change.options[0].value._id));
   }
@@ -240,8 +252,8 @@ export class QuizPlayComponent implements OnInit {
   }
 
   getStudentIconStateClasslist(studentId: string): { [key: string]: boolean } {
-    const numQuestionsAnswered = Object.values(this.quiz.answers?.[studentId] || {}).filter(e => e ||  e === 0).length;
-    if (numQuestionsAnswered >= this.quiz.numQuestions) {
+    const numQuestionsEvaluated = Object.values(this.quiz.points?.[studentId] || {}).filter(e => e ||  e === 0).length;
+    if (numQuestionsEvaluated >= this.quiz.numQuestions) {
       return {evaluated: true};
     } else {
       return this.isQuizRunning$.value ? {'in-progress': true} : {finished: true};

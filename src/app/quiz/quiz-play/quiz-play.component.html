@@ -1,6 +1,6 @@
 <div *ngIf="isStudent" class="message-noQuestions">
-  <div># of questions to open: {{quiz.numQuestions}}</div>
-<!--  <div>You complete {{completed}} % of quiz</div>-->
+  <span style="display: inline-block; margin: 0;">Cards to open: {{quiz.numQuestions}} 🙂</span>
+  <span style="display: inline-block; margin-left: 150px;">⏳ {{ this.timeRemainingText$ | async }}</span>
 </div>
 <div *ngIf="isStudent; else studentsListTemplate" class="progress-container">
   <mat-progress-bar mode="determinate" [value]="completed"></mat-progress-bar>
@@ -64,7 +64,7 @@
               <div class="icon-answer">
                 <mat-icon matTooltip="Correct answer" class="icon-answer-correct">check_circle</mat-icon>
                 <mat-icon matTooltip="Incorrect answer" class="icon-answer-incorrect">gpp_bad</mat-icon>
-                <mat-icon matTooltip="Incorrect answer" class="icon-answer-partial">gpp_bad</mat-icon>
+                <mat-icon matTooltip="Partial correct" class="icon-answer-partial">gpp_bad</mat-icon>
               </div>
               <button
                 (click)="postAnswer(i)"
