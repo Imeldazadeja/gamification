@@ -234,10 +234,9 @@ export class QuizPlayComponent implements OnInit {
   }
 
   isDisableQuiz(quizId): boolean {
-    return true; // TODO remove
-    // return this.isStudent?
-    //   this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
-    //   : true
+    return this.isStudent?
+      this.isRunningQuiz = this.runningQuizes.some(item => item._id === quizId)
+      : true
   }
 
   isCompletingQuiz(quizId): boolean {
