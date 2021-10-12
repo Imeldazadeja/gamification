@@ -121,6 +121,15 @@ export class QuizPlayComponent implements OnInit {
         }
       }
     });
+    interval(1000).subscribe(() => {
+      if (!this.quiz.startTime) {
+        this.isQuizRunning$.next(false);
+      } else {
+        const now = Date.now();
+        const withinRange = new Date(this.quiz.startTime).getTime() < now && new Date(this.quiz.endTime).getTime() > now;
+        this.isQuizRunning$.next(withinRange);
+      }
+    });
   }
 
   playGame(card) {
