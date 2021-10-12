@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {AuthService} from "../auth/auth.service";
-import {UserType} from "../auth/auth-data.model";
+import {User, UserType} from "../auth/auth-data.model";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {Router} from "@angular/router";
@@ -15,7 +15,7 @@ import {CoreService} from "../core/core.service";
 export class NavigatorComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
   userIsAuthenticated = false;
-
+  user!: User;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -31,11 +31,16 @@ export class NavigatorComponent implements OnInit, OnDestroy {
     ) {
   }
 
+  getUserData() {
+    this.user = {...this.authService.user!};
+  }
+
   get isStudent(): boolean {
     return this.authService.user?.type === UserType.student;
   }
 
   ngOnInit(): void {
+    this.getUserData();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()

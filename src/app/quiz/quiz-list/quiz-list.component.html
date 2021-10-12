@@ -3,7 +3,7 @@
     <th mat-header-cell *matHeaderCellDef>Quiz title</th>
     <td mat-cell *matCellDef="let element">
       {{element.title}}
-      <span *ngIf="element.startTime && element.endTime" class="timer-class">{{element.startTime | date: 'dd/MM/yyyy,  HH:mm'}} - {{element.endTime | date: 'HH:mm'}}</span>
+      <span *ngIf="element.startTime && element.endTime" class="timer-class">{{element.startTime | date: 'dd/MM,  HH:mm'}} - {{element.endTime | date: 'HH:mm'}}</span>
     </td>
   </ng-container>
 
@@ -30,7 +30,6 @@
           </mat-menu>
         </button>
         <button [disabled]="!isDisableQuiz(element._id)" mat-icon-button [routerLink]="['./play', element._id]" matTooltip="Play quiz">
-          <mat-icon class="timer-icon" *ngIf="isStudent">query_builder</mat-icon>
           <mat-icon>chevron_right</mat-icon>
         </button>
       </div>
