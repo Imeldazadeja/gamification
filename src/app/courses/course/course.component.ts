@@ -83,9 +83,10 @@ export class CourseComponent implements OnInit {
 
     if (this.course._id) {
       await this.courseService.update({...upsertObj, _id: this.course._id});
+      await this.router.navigate(['/courses']);
     } else {
       await this.courseService.create(upsertObj);
-      this.router.navigate(['/courses']);
+      await this.router.navigate(['/courses']);
     }
     // [{id: 1}, {id: 2}, {id: 3}] {id: 3}
     // console.log(form);
