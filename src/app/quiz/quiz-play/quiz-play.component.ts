@@ -210,6 +210,9 @@ export class QuizPlayComponent implements OnInit {
   }
 
   getQuestionClassList(question: QuestionProgress): { correct?: boolean; incorrect?: boolean; partial?: boolean } {
+    if (question.type === QuestionType.select && question.answer !== undefined && question.finished) {
+      return question.correctOptionIndex === question.answer ? {correct: true} : {incorrect: true};
+    }
     const studentId = this.isStudent ? this.userService.user._id : this.selectedStudent?._id;
     const totalPoints = question.points;
     const currentPoints = this.quiz.points?.[studentId]?.[question._id]; // {'1': 0, '3': 2}
